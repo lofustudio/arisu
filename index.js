@@ -15,18 +15,11 @@ const client = new Client({
 const db = require('quick.db');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { Player } = require('discord-player');
-const downloader = require('@discord-player/downloader').Downloader;
 
 client.config = require('./config/bot');
 client.config.roles = require('./config/roles');
 client.config.channels = require('./config/channels');
 client.config.theme = require('./config/theme');
-client.player = new Player(client, {
-	enableLive: true,
-});
-client.player.use('YOUTUBE_DL', downloader);
-client.filters = client.config.filters;
 client.commands = new Collection();
 
 // Databases
@@ -51,12 +44,6 @@ for (const file of events) {
 		client.on(event.name, (...args) => event.execute(...args, client));
 	}
 }
-
-// for (const file of player) {
-//     console.log(`Loading discord-player event ${file}`);
-//     const event = require(`./player/${file}`);
-//     client.player.on(file.split(".")[0], event.bind(null, client));
-// };
 
 fs.readdirSync('./commands').forEach(dirs => {
 	const commands = fs.readdirSync(`./commands/${dirs}`).filter(files => files.endsWith('.js'));

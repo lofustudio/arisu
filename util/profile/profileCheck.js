@@ -1,30 +1,27 @@
 module.exports = (interaction) => {
-    const client = interaction.client;
+	// ############## store params #####################
+	const client = interaction.client;
 
-    // profile
-    const nick = client.profileDB.has(`profile_${interaction.member.id}.nick`);
-    const xp = client.profileDB.has(`profile_${interaction.member.id}.xp`);
+	// profile
+	const warns = client.profileDB.has(`${interaction.member.id}.warns`);
 
-    // roles
-    const notVerify = client.profileDB.has(`roles_${interaction.member.id}.notVerified`);
-    const member = client.profileDB.has(`roles_${interaction.member.id}.member`);
+	// roles
+	const notVerify = client.roleDB.has(`${interaction.member.id}.notVerified`);
+	const member = client.roleDB.has(`${interaction.member.id}.member`);
 
-    // profile
-    if (nick === false) {
-        client.profileDB.set(`profile_${interaction.member.id}.nick`, 'None');
-    }
-    
-    if (xp === false) {
-        client.profileDB.set(`profile_${interaction.member.id}.xp`, 0);
-    }
+	// ################# check params #####################
 
+	// profile
+	if (warns === false) {
+		client.profileDB.set(`${interaction.member.id}.warns`, 0);
+	}
 
-    // roles
-    if (notVerify === false) {
-        client.profileDB.set(`roles_${interaction.member.id}.notVerified`, false);
-    }
+	// roles
+	if (notVerify === false) {
+		client.roleDB.set(`${interaction.member.id}.notVerified`, false);
+	}
 
-    if (member === false) {
-        client.profileDB.set(`roles_${interaction.member.id}.member`, false);
-    }
-} 
+	if (member === false) {
+		client.roleDB.set(`${interaction.member.id}.member`, false);
+	}
+};

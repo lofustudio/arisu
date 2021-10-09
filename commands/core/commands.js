@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	name: 'commands',
-	description: 'what the fuck are you doing?!',
+	description: 'Displays a list of commands.',
 	category: 'Core',
 	options: [
 		{

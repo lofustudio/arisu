@@ -18,12 +18,14 @@ module.exports = {
 
 		const core = interaction.client.commands.filter(x => x.category == 'Core').map((x) => '`' + x.name + '`').join(', ');
 		const mod = interaction.client.commands.filter(x => x.category == 'Moderation').map((x) => '`' + x.name + '`').join(', ');
+                const admin = interaction.client.commands.filter(x => x.category == 'Admin').map((x) => '`' + x.name + '`').join(', ');
 
 		const displayCommands = new MessageEmbed()
 			.setColor(interaction.client.config.embed.color)
-			.setFooter('to find more info on a specific command, please use !commands [command]')
-			.addField('bot', core, false)
-			.addField('moderation', mod, false);
+			.setFooter('To find more info on a specific command, please use !commands [command]')
+			.addField('Bot', core, false)
+			.addField('Moderation', mod, false)
+                        .addField('Admin', admin, false);
 
 		if (!commandToSearch) {
 			await interaction.reply({ embeds: [displayCommands] });
@@ -34,9 +36,9 @@ module.exports = {
 			const searchEmbed = new MessageEmbed()
 				.setColor(interaction.client.config.embed.color)
 				.setFooter(interaction.client.config.embed.footer)
-				.addField('name', command.name, true)
-				.addField('description', command.description, true)
-				.addField('category', command.category, true);
+				.addField('Name', command.name, true)
+				.addField('Description', command.description, true)
+				.addField('Category', command.category, true);
 			await interaction.reply({ embeds: [searchEmbed] });
 		}
 	},

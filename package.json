@@ -1,25 +1,34 @@
 {
-  "name": "cookie",
-  "main": "index.js",
-  "author": "tyger796",
+  "name": "cookie-bot",
   "version": "1.0.0",
-  "repository": "",
-  "description": "",
+  "description": "a private discord bot for tyger's valley 🌸",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node index.js"
+    "test": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts",
+    "build": "rimraf ./build && tsc && echo Compiled successfully!"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tygerxqt/cookie.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tygerxqt/cookie/issues"
+  },
+  "homepage": "https://github.com/tygerxqt/cookie#readme",
+  "devDependencies": {
+    "@types/ms": "^0.7.31",
+    "@types/node": "^16.11.12",
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@discordjs/builders": "^0.5.0",
-    "@discordjs/rest": "^0.1.0-canary.0",
-    "chalk": "^4.1.2",
-    "discord-api-types": "^0.23.1",
-    "discord.js": "^13.1.0",
+    "chalk": "^5.0.0",
+    "discord.js": "^13.3.1",
     "ms": "^2.1.3",
-    "node-fetch": "^2.6.1",
-    "nodemon": "^2.0.13",
-    "npm": "^7.20.6",
-    "quick.db": "^7.1.3",
-    "ws": "^7.4.6"
+    "quick.db": "^7.1.3"
   }
 }

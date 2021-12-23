@@ -2,3 +2,5 @@
 /config
 json.sqlite
 src/config.json
+/build
+package-lock.json

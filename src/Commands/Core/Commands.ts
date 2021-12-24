@@ -16,7 +16,7 @@ export const command: Command = {
                 .setColor('#ffd1dc')
                 .setAuthor('Commands')
                 .addField("Core", core, false)
-                // .addField("Moderation", moderation, false)
+                .addField("Moderation", moderation, false)
                 .setFooter(`To find more info on a specific command, use ${client.config.prefix}commands [command]`)
             
             message.channel.send({ embeds: [embed] }, );

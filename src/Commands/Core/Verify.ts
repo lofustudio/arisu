@@ -13,7 +13,13 @@ export const command: Command = {
         const notVerifiedRole = message.guild.roles.cache.get('840362645085356052');
         const hasMemberRole = client.userDB.get(`${message.author.id}.roles.member`);
 
-        if (hasMemberRole === true) return message.channel.send('You\'re already a member!');
+        if (hasMemberRole === true) {
+            const res = await message.channel.send('Error: You\'re already a member!');
+            return setTimeout(() => {
+                res.delete();
+                message.delete();
+            }, 3000);
+        }
 
         try {
             client.userDB.set(`${message.author.id}.roles.member`, true);
@@ -23,7 +29,7 @@ export const command: Command = {
             message.member.roles.add(memberRole);
         } catch (err) {
             message.guild.members.cache.get('889270418786119681').send('Verification process failed! Error: ```\n' + err + '\n```');
-            return ErrorEmbed(message, 'Verification process failed. A log has been sent to the moderators. Please try again later.');
+            return ErrorEmbed(message, 'Verification process failed. A log has been sent to the staff team. Please try again later.');
         }
     }
 }

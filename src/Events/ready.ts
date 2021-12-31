@@ -7,7 +7,7 @@ export const event: Event = {
     run: async (client) => {
         console.log(`${client.user.tag} is online!`);
         console.log(`Prefix: ${client.config.prefix}`);
-        client.user.setActivity(`${client.config.prefix}help`, { type: 'WATCHING' });
+        client.user.setActivity(`Doki Doki Literature Club`, { type: 'PLAYING' });
 
         muteSync(client);
         tempBanSync(client);

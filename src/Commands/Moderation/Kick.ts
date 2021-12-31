@@ -1,5 +1,5 @@
 import { MessageEmbed, Permissions } from "discord.js";
-import SuccessEmbed from "../../Embeds/SuccessEmbed";
+import ErrorEmbed from "../../Embeds/ErrorEmbed";
 import { Command } from "../../Interfaces/Command";
 
 export const command: Command = {
@@ -11,20 +11,54 @@ export const command: Command = {
     run: async (client, message, args) => {
         if (!message.member.permissions.has(Permissions.FLAGS.KICK_MEMBERS || Permissions.FLAGS.ADMINISTRATOR)) return message.channel.send('Error! You don\'t have the correct permissions to use this command.');
 
-        const member = message.mentions.members.first() || message.guild.members.cache.get(args[0].toString());
-        console.log(member);
-        let reason = args.slice(1).join(' ') || 'No reason provided';
-        if (!member) return message.channel.send('Error! You need to specify a user to kick.');
-        if (!member.kickable) return message.channel.send('Error! I don\'t have the correct permissions to kick this user.');
+        if (args[0].includes('<@')) {
+            const member = message.mentions.members.first();
+            const reason = args.slice(1).join(' ') || 'No reason provided';
+            if (!member) return message.channel.send('I could\'t find that member.');
+            if (!member.kickable) return message.channel.send('I am not able to kick users that have higher privileges than me.');
 
-        try {
-            await member.kick(reason);
-            const res = new MessageEmbed()
-                .setDescription(`Successfully kicked \`${member.user.tag}\``);
-            message.channel.send({ embeds: [res] });
-        } catch (err) {
-            console.error(err);
-            message.channel.send('Error! An error occured while trying to kick this user.');
+            try {
+                await member.kick(reason);
+            } catch (err) {
+                console.log(err);
+                ErrorEmbed(message, 'Failed to kick that member. The error has been logged. Please try again later.');
+            }
+
+            let res = `Successfully kicked \`${member.user.tag}\``;
+            if (reason != 'No reason provided') {
+                res += ` with reason: \`${reason}\``;
+            }
+
+            const embed = new MessageEmbed()
+                .setDescription(res)
+                .setColor('#f3aca0');
+            
+            message.channel.send({ embeds: [embed] });
+        } else {
+            const reg = new RegExp('^[0-9]*$');
+            if (reg.test(args[0]) === false) return message.channel.send('Please provide a valid ID.');
+            const reason = args.slice(1).join(' ') || 'No reason provided';
+
+            await message.guild.members.fetch(args[0]).then(async (member) => {
+                if (!member.kickable) return message.channel.send('I am unable to kick a member with higher privileges than me.');
+
+                try {
+                    member.kick(reason);
+                } catch (err) {
+                    console.log(err);
+                    ErrorEmbed(message, 'Failed to kick that member. The error has been logged. Please try again later.');
+                }
+
+                let res = `Successfully kicked \`${member.user.tag}\``;
+                if (reason != 'No reason provided') {
+                    res += ` with reason: \`${reason}\``;
+                }
+
+                const embed = new MessageEmbed()
+                    .setDescription(res)
+                    .setColor('#f3aca0');
+                message.channel.send({ embeds: [embed] });
+            });
         }
     }
 }

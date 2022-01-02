@@ -5,7 +5,7 @@ export const command: Command = {
     name: "commands",
     description: "Lists all commands",
     category: "Core",
-    aliases: ["cmds"],
+    aliases: ["help", "cmds"],
     visable: true,
     run: async (client, message, args) => {
         if (!args[0]) {

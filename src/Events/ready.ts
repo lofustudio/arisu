@@ -1,6 +1,6 @@
 import { Event } from '../Interfaces/Event';
-import muteSync from '../Syncs/muteSync';
-import tempBanSync from '../Syncs/tempBanSync';
+import muteSync from '../Util/muteSync';
+import tempBanSync from '../Util/tempBanSync';
 
 export const event: Event = {
     name: 'ready',

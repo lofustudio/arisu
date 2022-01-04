@@ -17,7 +17,7 @@ export const command: Command = {
             const member = message.mentions.members.first();
             const reason = args.slice(1).join(' ') || 'No reason provided';
 
-            if (!member) return message.channel.send('This member isn\'t in the server. Please try banning them with their user ID instead.');
+            if (!member) return message.channel.send('I couldn\'t find that member. Please try banning them with their user ID instead.');
             if (!member.bannable) return message.channel.send('I am not able to ban users that have higher privileges than me.');
             try {
                 await member.ban({ reason: reason });

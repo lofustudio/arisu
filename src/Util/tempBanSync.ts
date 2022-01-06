@@ -53,7 +53,7 @@ export default async function tempBanSync(client: Client) {
                         guild.channels.fetch('840296305502322709').then((channel: TextChannel) => {
                             if (channel != null) {
                                 const embed = new MessageEmbed()
-                                    .setTitle('Unmute')
+                                    .setTitle('Unban')
                                     .addField('User', member.tag + ' (ID: ' + member.id + ')')
                                     .addField('After', ms(obj.expiresAt - obj.bannedAt, {
                                         long: true,

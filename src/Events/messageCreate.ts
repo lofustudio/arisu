@@ -1,7 +1,7 @@
 import { Event } from "../Interfaces/Event";
 import { Command } from "../Interfaces/Command";
 import { Message } from "discord.js";
-import ProfileCheck from "../Util/ProfileCheck";
+import ProfileSync from "../Util/ProfileSync";
 
 export const event: Event = {
     name: 'messageCreate',
@@ -12,7 +12,7 @@ export const event: Event = {
         const cmd = args.shift().toLowerCase();
 
         if (!cmd) return;
-        ProfileCheck(client, message.member);
+        ProfileSync(client, message.member);
         const command = client.commands.get(cmd) || client.aliases.get(cmd);
         if (command) (command as Command).run(client, message, args);
     }

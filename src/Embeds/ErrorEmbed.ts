@@ -4,7 +4,7 @@ function ErrorEmbed(message: Message, value: string) {
     const embed = new MessageEmbed()
         .setColor("#BF616A")
         .setTitle("❌ Something went wrong!")
-        .setDescription(value)
+        .setDescription(value);
 
     message.channel.send({ embeds: [embed]});
 }

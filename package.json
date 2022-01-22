@@ -4,7 +4,7 @@
   "description": "a private discord bot for tyger's valley 🌸",
   "main": "build/index.js",
   "scripts": {
-    "test": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts",
     "build": "rimraf ./build && tsc && echo Compiled successfully!"
   },
   "repository": {

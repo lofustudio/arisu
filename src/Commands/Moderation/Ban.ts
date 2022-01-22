@@ -45,8 +45,7 @@ export const command: Command = {
                 try {
                     member.ban({ reason: reason });
                 } catch (err) {
-                    console.log(err);
-                    ErrorEmbed(message, 'Failed to ban that member. The error has been logged. Please try again later.');
+                    ErrorEmbed(message, 'Failed to ban that member. The error has been logged. Please try again later.', err);
                 }
 
                 let res = `Successfully banned \`${member.user.tag}\``;

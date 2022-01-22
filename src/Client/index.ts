@@ -15,7 +15,6 @@ class ExtendedClient extends Client {
 
     public userDB: table = new table('roles');
     public serverDB: table = new table('server');
-    public punishmentDB: table = new table('punishments');
     public mutesDB: table = new table('mutes');
     public tempBanDB: table = new table('tempbans');
 

@@ -1,6 +1,7 @@
 import { Message, MessageEmbed } from "discord.js";
 
-function ErrorEmbed(message: Message, value: string) {
+function ErrorEmbed(message: Message, value: string, err?: Error) {
+    if (err) console.log(err);
     const embed = new MessageEmbed()
         .setColor("#BF616A")
         .setTitle("❌ Something went wrong!")

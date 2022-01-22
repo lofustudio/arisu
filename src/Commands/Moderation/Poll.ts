@@ -17,7 +17,7 @@ export const command: Command = {
             return message.channel.send({ embeds: [embed] });
         }
 
-        if (args.length < 2) {
+        if (args.length < 2 || args[0] !== 'create') {
             message.react('✅');
             await message.guild.channels.fetch('839890628908810240').then((channel: TextChannel) => {
                 let question = args.join(' ');
@@ -69,7 +69,6 @@ export const command: Command = {
                     }
 
                     else if (m.content.toLowerCase() === 'done') {
-                        console.log('Finishing up...');
                         optionCollector.stop();
                         res.edit('Poll created.');
                         message.guild.channels.fetch('839890628908810240').then((channel: TextChannel) => {
@@ -89,7 +88,6 @@ export const command: Command = {
 
                             let desc = '';
                             options.forEach(obj => desc += `${obj.num}: ${obj.value}\n`);
-                            console.log(desc);
                             
                             const embed = new MessageEmbed()
                                 .setTitle(`${question}`)
@@ -104,6 +102,7 @@ export const command: Command = {
 
                     else if (options.length >= 10) {
                         optionCollector.stop();
+                        questionCollector.stop();
                         res.edit('You can only have 10 options.');
                         return;
                     }

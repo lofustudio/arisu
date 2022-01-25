@@ -5,7 +5,7 @@ import ms from "ms";
 export default async function muteSync(client: Client) {
     console.log('[MUTE SYNC] - Sync started!');
 	const guild = client.guilds.cache.get(client.config.guildID);
-	const muteRole = guild.roles.cache.get(client.config.muteRole);
+	const muteRole = guild.roles.cache.get('840342500555358258');
 
     const mutesData = client.mutesDB;
         

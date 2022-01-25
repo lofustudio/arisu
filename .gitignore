@@ -4,3 +4,4 @@ json.sqlite
 src/config.json
 /build
 package-lock.json
+dashboard/.next

@@ -2,6 +2,8 @@ import { Client, Collection } from 'discord.js';
 import path from 'path';
 import { table } from 'quick.db';
 import { readdirSync } from 'fs';
+import next from 'next';
+import express, { Request, Response } from 'express';
 import { Command } from '../Interfaces/Command';
 import { Event } from '../Interfaces/Event';
 import { Config } from '../Interfaces/Config';
@@ -47,6 +49,12 @@ class ExtendedClient extends Client {
             this.events.set(event.name, event);
             this.on(event.name, event.run.bind(null, this));
         });
+
+        /* Dashboard */
+        const dev = process.env.NODE_ENV !== "production";
+        const app = next({ dev });
+        const handle = app.getRequestHandler();
+        const port = process.env.PORT || 3000;
     }
 }
 

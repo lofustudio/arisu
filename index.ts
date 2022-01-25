@@ -2,15 +2,14 @@
 Hello. This script automatically updates and generates the latest build of cookie.
 */
 
-const exec = require('child_process').exec;
-const spawn = require('child_process').spawn;
-const fs = require('fs');
+import { exec, spawn } from "child_process";
+import * as fs from 'fs';
 
 // Pull the latest code from the repo
 exec('git pull', (error, stdout) => {
     let res = error || stdout;
     if (!error) {
-        if (res.includes('Already up to date')) {
+        if (res.toString().includes('Already up to date')) {
             console.log('Already up to date');
         } else {
             console.log('Pulling the latest changes, please wait...');
@@ -22,7 +21,7 @@ exec('git pull', (error, stdout) => {
         exec('npm install', (error, stdout) => {
             let res = error || stdout;
             if (!error) {
-                if (res.includes('up to date')) {
+                if (res.toString().includes('up to date')) {
                     console.log('Packages are ready.');
                 } else {
                     console.log('Installing packages, please wait...');
@@ -38,11 +37,12 @@ exec('git pull', (error, stdout) => {
                         exec('tsc && echo done', (error, stdout) => {
                             let res = error || stdout;
                             if (!error) {
-                                if (res.includes('done')) {
+                                if (res.toString().includes('done')) {
                                     console.log('Build is ready.');
                                     spawn('node', ['./build/index.js'], {
                                         stdio: 'inherit'
                                     });
+                                    spawn('node', ['./'])
                                 }
                             } else {
                                 console.log(res);

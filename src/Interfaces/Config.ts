@@ -3,5 +3,5 @@ export interface Config {
     prefix: string;
     guildID: string;
     ownerID: string;
-    muteRole: string;
+    port: number;
 }

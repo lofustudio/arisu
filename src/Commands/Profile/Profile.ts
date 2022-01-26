@@ -11,15 +11,15 @@ export const command: Command = {
     visable: true,
     run: async (client, message, args) => {
         const userDB = client.userDB;
-        
+
         if (!args[0]) {
             const nick = userDB.get(`${message.author.id}.nickname`) || 'None';
             const embed = new MessageEmbed()
                 .setTitle(`${message.member.user.tag}`)
                 .setThumbnail(message.author.displayAvatarURL())
                 .addField('• Info', `ID: **${message.author.id}**\nNickname: \`${nick}\``);
-            
-            
+
+
             if (userDB.get(`${message.author.id}.warns.amount`) >= 1) {
                 const warnsObj = userDB.get(`${message.author.id}.warns`);
                 embed.addField('• Warns', `${warnsObj.amount}`);
@@ -68,7 +68,7 @@ export const command: Command = {
                     }
                 }
                     break;
-                
+
                 case 'delete': {
                     if (message.member.id !== '889270418786119681') return message.channel.send('You don\'t have the correct permissions to use this command.');
                     const res = await message.channel.send('Are you sure you want to delete your profile? This action cannot be undone.');

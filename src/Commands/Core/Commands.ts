@@ -14,10 +14,10 @@ export const command: Command = {
 
             const embed = new MessageEmbed()
                 .setColor('#ffd1dc')
-                .setAuthor('Commands')
+                .setAuthor({ name: 'Commands' })
                 .addField("Core", core, false)
                 .addField("Moderation", moderation, false)
-                .setFooter(`To find more info on a specific command, use ${client.config.prefix}commands [command]`)
+                .setFooter({ text: `To find more info on a specific command, use ${client.config.prefix}commands [command]` })
             
             message.channel.send({ embeds: [embed] }, );
         } else {
@@ -26,7 +26,7 @@ export const command: Command = {
 
             const embed = new MessageEmbed()
                 .setColor('#ffd1dc')
-                .setAuthor(`Command: ${command.name}`)
+                .setAuthor({ name: `Command: ${command.name}`})
                 .addField("Description", command.description, false)
                 .addField("Category", command.category, true)
                 .addField("Aliases", command.aliases.length >= 1 ? command.aliases.join(', ') : 'None', true);

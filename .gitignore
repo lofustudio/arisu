@@ -5,3 +5,4 @@ src/config.json
 /build
 package-lock.json
 dashboard/.next
+dashboard/node_modules

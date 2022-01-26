@@ -15,10 +15,10 @@ class ExtendedClient extends Client {
     public config: Config = ConfigJson;
     public aliases: Collection<string, Command> = new Collection();
 
-    public userDB: table = new table('roles');
-    public serverDB: table = new table('server');
-    public mutesDB: table = new table('mutes');
-    public tempBanDB: table = new table('tempbans');
+    public userDB: table = new table('roles', { filePath: './database/users.sqlite' });
+    public serverDB: table = new table('server', { filePath: './datbase/server.sqlite' });
+    public mutesDB: table = new table('mutes', { filePath: './database/mutes.sqlite' });
+    public tempBanDB: table = new table('tempbans', { filePath: './database/tempBans.sqlite' });
 
     public async init() {
         this.login(this.config.token);

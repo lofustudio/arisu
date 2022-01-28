@@ -10,4 +10,11 @@ export async function setNick(client: Client, message: Message, nickname: string
 
     const reg = new RegExp("[^A-Za-z0-9 ]+");
     if (!reg.test(nickname)) return message.channel.send('Please refrain from including symbols in your name.');
+
+    try {
+        client.userDB.set(`${message.member.id}.profile.nickname`, nickname)
+    } catch (err) {
+        console.log(err)
+        return false;
+    }
 }

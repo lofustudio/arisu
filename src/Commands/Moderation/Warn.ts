@@ -1,6 +1,7 @@
 import { Permissions } from "discord.js";
 import ErrorEmbed from "../../Embeds/ErrorEmbed";
 import { Command } from "../../Interfaces/Command";
+import { Warn } from "../../Interfaces/Warn";
 
 export const command: Command = {
     name: 'warn',
@@ -26,7 +27,7 @@ export const command: Command = {
                 if (amount === undefined) amount = 0;
                 amount++;
                 userDB.set(`${member.id}.warns.amount`, amount);
-                const warn = {
+                const warn: Warn = {
                     num: amount,
                     reason: reason,
                     date: new Date().toLocaleString(),

@@ -1,9 +1,9 @@
 import { Permissions } from "discord.js";
 import ErrorEmbed from "../../Embeds/ErrorEmbed";
-import { Command } from "../../Interfaces/Command";
-import { Warn } from "../../Interfaces/Warn";
+import { DiscordCommand } from "../../Interfaces/DiscordCommand";
+import { MemberWarning } from "../../Interfaces/MemberWarning";
 
-export const command: Command = {
+export const command: DiscordCommand = {
     name: 'warn',
     description: 'Warn a member.',
     category: 'Moderation',
@@ -27,7 +27,7 @@ export const command: Command = {
                 if (amount === undefined) amount = 0;
                 amount++;
                 userDB.set(`${member.id}.warns.amount`, amount);
-                const warn: Warn = {
+                const warn: MemberWarning = {
                     num: amount,
                     reason: reason,
                     date: new Date().toLocaleString(),
@@ -42,7 +42,7 @@ export const command: Command = {
 
             message.react('✅');
 
-        // ID   
+            // ID   
         } else {
 
         }

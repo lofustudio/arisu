@@ -12,7 +12,6 @@ export default async function (client: Client, member: GuildMember) {
     }
 
     if (userDB.has(`${member.id}.roles`) === false) {
-        if (member.premiumSince)
         userDB.set(`${member.id}.roles`, {
             roles: {
                 notVerify: false,

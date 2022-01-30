@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
-import { Command } from "../../Interfaces/Command";
+import { DiscordCommand } from "../../Interfaces/DiscordCommand";
 
-export const command: Command = {
+export const command: DiscordCommand = {
     name: "commands",
     description: "Lists all commands",
     category: "Core",
@@ -18,19 +18,19 @@ export const command: Command = {
                 .addField("Core", core, false)
                 .addField("Moderation", moderation, false)
                 .setFooter({ text: `To find more info on a specific command, use ${client.config.prefix}commands [command]` })
-            
-            message.channel.send({ embeds: [embed] }, );
+
+            message.channel.send({ embeds: [embed] },);
         } else {
             const command = client.commands.get(args[0].toLowerCase()) || client.commands.find(x => x.aliases && x.aliases.includes(args[0].toLowerCase()));
             if (!command) return message.channel.send('That command does not exist!');
 
             const embed = new MessageEmbed()
                 .setColor('#ffd1dc')
-                .setAuthor({ name: `Command: ${command.name}`})
+                .setAuthor({ name: `Command: ${command.name}` })
                 .addField("Description", command.description, false)
                 .addField("Category", command.category, true)
                 .addField("Aliases", command.aliases.length >= 1 ? command.aliases.join(', ') : 'None', true);
-            
+
             message.channel.send({ embeds: [embed] });
         }
     }

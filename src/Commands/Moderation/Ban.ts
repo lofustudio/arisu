@@ -1,9 +1,9 @@
-import { Command } from "../../Interfaces/Command";
+import { DiscordCommand } from "../../Interfaces/DiscordCommand";
 import { Permissions } from "discord.js";
 import { MessageEmbed } from "discord.js";
 import ErrorEmbed from "../../Embeds/ErrorEmbed";
 
-export const command: Command = {
+export const command: DiscordCommand = {
     name: 'ban',
     description: 'Bans a user from the server',
     category: 'Moderation',
@@ -33,7 +33,7 @@ export const command: Command = {
                 console.log(err);
                 ErrorEmbed(message, 'Failed to ban that member. The error has been logged. Please try again later.');
             }
-        // ID
+            // ID
         } else {
             const reg = new RegExp('^[0-9]*$');
             if (reg.test(args[0]) === false) return message.channel.send('Please provide a valid ID.');
@@ -52,7 +52,7 @@ export const command: Command = {
                 if (reason != 'No reason provided') {
                     res += ` with reason: \`${reason}\``;
                 }
-                
+
                 const embed = new MessageEmbed()
                     .setDescription(res)
                     .setColor('#f3aca0');

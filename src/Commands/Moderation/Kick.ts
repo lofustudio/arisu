@@ -1,8 +1,8 @@
 import { MessageEmbed, Permissions } from "discord.js";
 import ErrorEmbed from "../../Embeds/ErrorEmbed";
-import { Command } from "../../Interfaces/Command";
+import { DiscordCommand } from "../../Interfaces/DiscordCommand";
 
-export const command: Command = {
+export const command: DiscordCommand = {
     name: 'kick',
     description: 'Kick a user from the server.',
     category: 'Moderation',
@@ -32,7 +32,7 @@ export const command: Command = {
             const embed = new MessageEmbed()
                 .setDescription(res)
                 .setColor('#f3aca0');
-            
+
             message.channel.send({ embeds: [embed] });
         } else {
             const reg = new RegExp('^[0-9]*$');

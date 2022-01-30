@@ -1,6 +1,6 @@
-import { Command } from '../../Interfaces/Command';
+import { DiscordCommand } from '../../Interfaces/DiscordCommand';
 
-export const command: Command = {
+export const command: DiscordCommand = {
     name: 'ping',
     description: 'Check if the bot is alive.',
     category: 'Core',

@@ -1,6 +1,6 @@
-import { Command } from "../../Interfaces/Command";
+import { DiscordCommand } from "../../Interfaces/DiscordCommand";
 
-export const command: Command = {
+export const command: DiscordCommand = {
     name: 'mute',
     category: 'Moderation',
     description: 'Mute a member.',
@@ -8,5 +8,5 @@ export const command: Command = {
     visable: true,
     run: async (client, message, args) => {
         message.react('⚠️');
-    }   
+    }
 }

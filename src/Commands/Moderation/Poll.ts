@@ -1,7 +1,7 @@
 import { MessageEmbed, Permissions, Message, TextChannel } from "discord.js";
-import { Command } from "../../Interfaces/Command";
+import { DiscordCommand } from "../../Interfaces/DiscordCommand";
 
-export const command: Command = {
+export const command: DiscordCommand = {
     name: 'poll',
     description: 'Create a poll.',
     category: 'Moderation',
@@ -54,7 +54,7 @@ export const command: Command = {
                 question = m.content;
                 m.delete();
                 questionCollector.stop();
-                
+
                 embed.setDescription('Please reply with the options you would like to use. Your options will be listed below. Once you are finished, please reply with `done`.');
                 res.edit({ embeds: [embed] });
 
@@ -72,7 +72,7 @@ export const command: Command = {
                         optionCollector.stop();
                         res.edit('Poll created.');
                         message.guild.channels.fetch('839890628908810240').then((channel: TextChannel) => {
-                                
+
                             const emojis = {
                                 1: '1️⃣',
                                 2: '2️⃣',
@@ -88,7 +88,7 @@ export const command: Command = {
 
                             let desc = '';
                             options.forEach(obj => desc += `${obj.num}: ${obj.value}\n`);
-                            
+
                             const embed = new MessageEmbed()
                                 .setTitle(`${question}`)
                                 .setDescription(`${desc}`);
@@ -113,7 +113,7 @@ export const command: Command = {
                         res.edit({ embeds: [embed] });
                         m.delete();
                     }
-                }); 
+                });
             });
         }
     }

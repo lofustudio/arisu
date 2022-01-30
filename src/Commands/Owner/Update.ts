@@ -1,7 +1,7 @@
-import { Command } from "../../Interfaces/Command";
+import { DiscordCommand } from "../../Interfaces/DiscordCommand";
 import { spawn } from "child_process";
 
-export const command: Command = {
+export const command: DiscordCommand = {
     name: "update",
     description: "Updates the bot",
     category: "Owner",

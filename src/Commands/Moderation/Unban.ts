@@ -1,8 +1,8 @@
 import { MessageEmbed, Permissions } from "discord.js"
 import ErrorEmbed from "../../Embeds/ErrorEmbed";
-import { Command } from "../../Interfaces/Command"
+import { DiscordCommand } from "../../Interfaces/DiscordCommand"
 
-export const command: Command = {
+export const command: DiscordCommand = {
     name: 'unban',
     description: 'Unbans a user from the server',
     category: 'Moderation',

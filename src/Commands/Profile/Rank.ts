@@ -1,6 +1,6 @@
-import { Command } from "../../Interfaces/Command";
+import { DiscordCommand } from "../../Interfaces/DiscordCommand";
 
-export const command: Command = {
+export const command: DiscordCommand = {
     name: 'rank',
     description: 'View your rank.',
     category: 'Profile',

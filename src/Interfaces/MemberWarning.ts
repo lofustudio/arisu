@@ -1,4 +1,4 @@
-export interface Warn {
+export interface MemberWarning {
     num: number;
     reason: string;
     date: string;

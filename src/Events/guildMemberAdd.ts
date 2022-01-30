@@ -1,9 +1,9 @@
 import { GuildMember, TextChannel } from "discord.js";
-import { Event } from "../Interfaces/Event";
+import Cookie from "../Client";
 
 export const event: Event = {
     name: 'guildMemberAdd',
-    run: async (client, member: GuildMember) => {
+    run: async (client: Cookie, member: GuildMember) => {
         const memberRole = member.guild.roles.cache.get('840301728817217606');
         const verifyRole = member.guild.roles.cache.get('840362645085356052');
 

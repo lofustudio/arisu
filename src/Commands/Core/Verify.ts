@@ -1,7 +1,7 @@
-import { Command } from "../../Interfaces/Command";
+import { DiscordCommand } from "../../Interfaces/DiscordCommand";
 import ErrorEmbed from "../../Embeds/ErrorEmbed";
 
-export const command: Command = {
+export const command: DiscordCommand = {
     name: 'verify',
     description: 'Verify you\'re not a robot.',
     category: 'Core',

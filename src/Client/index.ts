@@ -4,16 +4,15 @@ import { table } from 'quick.db';
 import { readdirSync } from 'fs';
 import next from 'next';
 import express, { Request, Response } from 'express';
-import { Command } from '../Interfaces/Command';
-import { Event } from '../Interfaces/Event';
-import { Config } from '../Interfaces/Config';
-import ConfigJson from '../config.json';
+import { DiscordCommand } from '../Interfaces/DiscordCommand';
+import { BotConfig } from '../Interfaces/BotConfig';
+import BotConfigJSON from '../config.json';
 
-class ExtendedClient extends Client {
-    public commands: Collection<string, Command> = new Collection();
+class Cookie extends Client {
+    public commands: Collection<string, DiscordCommand> = new Collection();
     public events: Collection<string, Event> = new Collection();
-    public config: Config = ConfigJson;
-    public aliases: Collection<string, Command> = new Collection();
+    public config: BotConfig = BotConfigJSON;
+    public aliases: Collection<string, DiscordCommand> = new Collection();
 
     public userDB: table = new table('roles', { filePath: './database/users.sqlite' });
     public serverDB: table = new table('server', { filePath: './datbase/server.sqlite' });
@@ -58,4 +57,4 @@ class ExtendedClient extends Client {
     }
 }
 
-export default ExtendedClient;
+export default Cookie;

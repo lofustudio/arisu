@@ -1,8 +1,8 @@
 import { MessageEmbed } from "discord.js";
 import { DiscordCommand } from "../../Interfaces/DiscordCommand";
-import deleteProfile from "../../Profile/DeleteProfile";
+import DeleteProfile from "../../Profile/DeleteProfile";
 import DisplayWarns from "../../Profile/DisplayWarns";
-import exportProfile from "../../Profile/ExportProfile";
+import ExportProfile from "../../Profile/ExportProfile";
 
 export const command: DiscordCommand = {
     name: 'profile',
@@ -30,20 +30,14 @@ export const command: DiscordCommand = {
             switch (args[0].toString().toLowerCase()) {
 
                 // Moderation
-                case 'warns': {
-                    DisplayWarns(client, message);
-                }
+                case 'warns': DisplayWarns(client, message);
                     break;
 
                 // Management
-                case 'export': {
-                    exportProfile(client, message, args);
-                }
+                case 'export': ExportProfile(client, message, args);
                     break;
 
-                case 'delete': {
-                    deleteProfile(client, message);
-                }
+                case 'delete': DeleteProfile(client, message);
                     break;
             }
         }

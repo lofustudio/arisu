@@ -1,4 +1,4 @@
-import { Permissions } from "discord.js";
+import { MessageEmbed, Permissions } from "discord.js";
 import ErrorEmbed from "../../Embeds/ErrorEmbed";
 import { DiscordCommand } from "../../Interfaces/DiscordCommand";
 import { MemberWarning } from "../../Interfaces/MemberWarning";
@@ -35,16 +35,46 @@ export const command: DiscordCommand = {
                     moderator: message.author.tag
                 };
                 userDB.push(`${member.id}.warns.data`, warn);
+
+                message.react('✅');
+                const embed = new MessageEmbed()
+                    .setTitle('You have been warned.')
+                    .setDescription(`Reason: ${reason}\nModerator: ${message.author.tag}\n\nYou now have ${amount} warnings.`)
+                    .setThumbnail(member.avatarURL({ dynamic: true }));
+                member.send({ embeds: [embed] });
+                
             } catch (err) {
-                console.log(err);
-                ErrorEmbed(message, 'Failed to warn that member. The error has been logged. Please try again later.');
+                return ErrorEmbed(message, 'An unexpected error occured!', err);
             }
-
-            message.react('✅');
-
-            // ID   
         } else {
+            const reg = new RegExp('^[0-9]*$');
+            if (reg.test(args[0]) === false) return message.channel.send('Please enter a valid ID.');
+            
+            message.guild.members.fetch(args[0]).then((member) => {
+                const reason = args.slice(1).join(' ') || 'No reason provided';
+                let amount = userDB.get(`${member.id}.warn.amount`);
+                if (amount === undefined) amount = 0;
+                amount++;
+                userDB.set(`${member.id}.warns.amount`, amount);
+                const warn: MemberWarning = {
+                    num: amount,
+                    reason,
+                    date: new Date().toLocaleString(),
+                    timestamp: Date.now(),
+                    moderator: message.author.tag
+                };
+                userDB.push(`${member.id}.warns.data`, warn);
 
+                message.react('✅');
+                const embed = new MessageEmbed()
+                    .setTitle('You have been warned.')
+                    .setDescription(`Reason: ${reason}\nModerator: ${message.author.tag}\n\nYou now have ${amount} warnings.`)
+                    .setThumbnail(member.avatarURL({ dynamic: true }));
+                member.send({ embeds: [embed] });
+            })
+            .catch((err) => {
+                return ErrorEmbed(message, 'An unexpected error occured!', err);
+            });
         }
     }
 }

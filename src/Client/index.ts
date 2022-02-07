@@ -1,9 +1,9 @@
 import { Client, Collection } from 'discord.js';
 import path from 'path';
 import { table } from 'quick.db';
+import * as mysql from 'mysql2'
 import { readdirSync } from 'fs';
 import next from 'next';
-import express, { Request, Response } from 'express';
 import { DiscordCommand } from '../Interfaces/DiscordCommand';
 import { BotConfig } from '../Interfaces/BotConfig';
 import BotConfigJSON from '../config.json';
@@ -25,7 +25,7 @@ class Cookie extends Client {
         /* Command handler */
         const commandPath = path.join(__dirname, "..", "Commands");
         readdirSync(commandPath).forEach((dir) => {
-            const commands = readdirSync(`${commandPath}/${dir}`).filter((file) => file.endsWith('.ts'));
+            const commands = readdirSync(`${commandPath}/${dir}`).filter((file) => file.endsWith('.ts') || file.endsWith('.js'));
 
             for (const file of commands) {
                 const { command } = require(`${commandPath}/${dir}/${file}`);

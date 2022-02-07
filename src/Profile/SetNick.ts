@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import Client from "../Client";
 
-export async function setNick(client: Client, message: Message, nickname: string) {
+export async function SetNick(client: Client, message: Message, nickname: string) {
     const oldNick = message.member.nickname;
 
     if (oldNick === nickname) return message.channel.send('You already have that nickname.');

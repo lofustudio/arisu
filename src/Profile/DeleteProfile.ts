@@ -1,7 +1,7 @@
 import { GuildMember, Message } from 'discord.js';
 import Client from '../Client';
 
-export default async function deleteProfile(client: Client, message: Message) {
+export default async function DeleteProfile(client: Client, message: Message) {
     const userDB = client.userDB;
 
     if (message.member.id !== '889270418786119681') return message.channel.send('You don\'t have the correct permissions to use this command.');

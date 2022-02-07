@@ -13,7 +13,7 @@ export const event: Event = {
 
         if (!cmd) return;
         // I DONT KNWOW HAT IM DOING KJDFSHJKDSHJKSFDHJKDFSHJKSDFAHJKHJKS
-        // ProfileSchema(client, message.member);
+        ProfileSchema(client, message.member);
         const command = client.commands.get(cmd) || client.aliases.get(cmd);
         if (command) (command as DiscordCommand).run(client, message, args);
     }

@@ -10,26 +10,18 @@ export default async function exportProfile(client: Client, message: Message, ar
     const data = render(RawData, { noColor: true });
 
     if (message.member.id !== '889270418786119681') return message.channel.send('You don\'t have the correct permissions to use this command.');
-    if (args[1]) {
+    if (!args[1]) {
+        const rawdata = userDB.get(`${message.author.id}`);
+        const data = render(rawdata);
+        message.channel.send(`${message.author.tag}'s Data\n` + '```yaml\n' + data + '\n```');
+    } else {
         const id = (message.mentions.members.first() || args[1]);
         message.guild.members.fetch(id).then((member) => { 
             const rawData = userDB.get(`${member.id}`);
-            const embed = new MessageEmbed()
-                .setTitle(`${member.user.tag}`)
-                .setThumbnail(member.displayAvatarURL())
-                .setDescription(data);
-            console.log(data);
-            message.channel.send({ embeds: [embed] });
+            const data = render(rawData, { emptyArrayMsg: '[]', noColor: true });
+            message.channel.send(`${member.user.tag}'s Data\n` + '```yaml\n' + data + '\n```');
         }).catch((err) => {
-            ErrorEmbed(message, 'An unexpected error occured! ```\n' + err + '\n```');
-            return console.log(err);
+            return ErrorEmbed(message, 'An unexpected error occured!', err);
         });
-    } else {
-        const data = userDB.get(`${message.author.id}`);
-        const embed = new MessageEmbed()
-            .setTitle(`${message.member.user.tag}`)
-            .setThumbnail(message.author.displayAvatarURL())
-            .setDescription(JSON.stringify(data));
-        message.channel.send({ embeds: [embed] });
     }
 }

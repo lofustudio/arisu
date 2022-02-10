@@ -36,7 +36,7 @@ export const command: DiscordCommand = {
             message.delete();
         } catch (err) {
             message.guild.members.cache.get('889270418786119681').send('Verification process failed! Error: ```\n' + err + '\n```');
-            return ErrorEmbed(message, 'Verification process failed. A log has been sent to the staff team. Please try again later.');
+            return ErrorEmbed(message, 'Verification process failed. A log has been sent to the staff team. Please try again later.', err);
         }
     }
 }

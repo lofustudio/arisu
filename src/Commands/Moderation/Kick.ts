@@ -21,7 +21,7 @@ export const command: DiscordCommand = {
                 await member.kick(reason);
             } catch (err) {
                 console.log(err);
-                ErrorEmbed(message, 'Failed to kick that member. The error has been logged. Please try again later.');
+                return ErrorEmbed(message, 'Failed to kick that member.', err);
             }
 
             let res = `Successfully kicked \`${member.user.tag}\``;
@@ -46,7 +46,7 @@ export const command: DiscordCommand = {
                     member.kick(reason);
                 } catch (err) {
                     console.log(err);
-                    ErrorEmbed(message, 'Failed to kick that member. The error has been logged. Please try again later.');
+                    return ErrorEmbed(message, 'Failed to kick that member.', err);
                 }
 
                 let res = `Successfully kicked \`${member.user.tag}\``;

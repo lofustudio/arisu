@@ -33,7 +33,7 @@ export const command: DiscordCommand = {
             message.channel.send({ embeds: [embed] });
         } catch (err) {
             console.log(err);
-            ErrorEmbed(message, 'Failed to unban the user. Please try again later.');
+            return ErrorEmbed(message, 'Failed to unban the user.', err);
         }
     }
 }

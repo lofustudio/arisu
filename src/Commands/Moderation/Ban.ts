@@ -31,7 +31,7 @@ export const command: DiscordCommand = {
                 message.channel.send({ embeds: [embed] });
             } catch (err) {
                 console.log(err);
-                ErrorEmbed(message, 'Failed to ban that member. The error has been logged. Please try again later.');
+                return ErrorEmbed(message, 'Failed to ban that member.', err);
             }
             // ID
         } else {
@@ -45,7 +45,7 @@ export const command: DiscordCommand = {
                 try {
                     member.ban({ reason: reason });
                 } catch (err) {
-                    ErrorEmbed(message, 'Failed to ban that member. The error has been logged. Please try again later.', err);
+                    return ErrorEmbed(message, 'Failed to ban that member.', err);
                 }
 
                 let res = `Successfully banned \`${member.user.tag}\``;

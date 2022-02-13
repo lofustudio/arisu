@@ -1,12 +1,12 @@
 import { Client, Collection } from 'discord.js';
 import path from 'path';
 import { table } from 'quick.db';
-import * as mysql from 'mysql2'
 import { readdirSync } from 'fs';
 import next from 'next';
 import { DiscordCommand } from '../Interfaces/DiscordCommand';
 import { BotConfig } from '../Interfaces/BotConfig';
 import BotConfigJSON from '../config.json';
+import userDB from '../Database';
 
 class Cookie extends Client {
     public commands: Collection<string, DiscordCommand> = new Collection();
@@ -18,6 +18,8 @@ class Cookie extends Client {
     public serverDB: table = new table('server', { filePath: './datbase/server.sqlite' });
     public mutesDB: table = new table('mutes', { filePath: './database/mutes.sqlite' });
     public tempBanDB: table = new table('tempbans', { filePath: './database/tempBans.sqlite' });
+
+    public userDatabase = new userDB();
 
     public async init() {
         this.login(this.config.token);

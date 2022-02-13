@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import Client from "../Client";
+import Client from "../../../Client";
 
 export async function SetNick(client: Client, message: Message, nickname: string) {
     const oldNick = message.member.nickname;

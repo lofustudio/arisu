@@ -1,5 +1,5 @@
 import { Message, MessageEmbed } from "discord.js";
-import ExtendedClient from "../Client";
+import ExtendedClient from "../../../Client";
 
 export default function DisplayWarns(client: ExtendedClient, message: Message) {
     const userDB = client.userDB;

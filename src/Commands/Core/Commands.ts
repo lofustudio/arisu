@@ -26,7 +26,7 @@ export const command: DiscordCommand = {
 
             const embed = new MessageEmbed()
                 .setColor('#ffd1dc')
-                .setAuthor({ name: `Command: ${command.name}` })
+                .setAuthor({ name: `${command.name}` })
                 .addField("Description", command.description, false)
                 .addField("Category", command.category, true)
                 .addField("Aliases", command.aliases.length >= 1 ? command.aliases.join(', ') : 'None', true);

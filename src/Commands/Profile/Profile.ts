@@ -1,8 +1,8 @@
 import { MessageEmbed } from "discord.js";
 import { DiscordCommand } from "../../Interfaces/DiscordCommand";
-import DeleteProfile from "../../Profile/DeleteProfile";
-import DisplayWarns from "../../Profile/DisplayWarns";
-import ExportProfile from "../../Profile/ExportProfile";
+import DeleteProfile from "./Functions/DeleteProfile";
+import DisplayWarns from "./Functions/DisplayWarns";
+import ExportProfile from "./Functions/ExportProfile";
 
 export const command: DiscordCommand = {
     name: 'profile',

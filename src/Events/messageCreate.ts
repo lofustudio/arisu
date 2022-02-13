@@ -12,7 +12,7 @@ export const event: Event = {
 
         if (!cmd) return;
         // Update member
-        client.userDatabase.test(message);
+        client.userDB.SyncMember(message);
         const command = client.commands.get(cmd) || client.aliases.get(cmd);
         if (command) (command as DiscordCommand).run(client, message, args);
     }

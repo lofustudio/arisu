@@ -24,7 +24,6 @@ export const command: DiscordCommand = {
                 const warnsObj = userDB.get(`${message.author.id}.warns`);
                 embed.addField('• Warns', `${warnsObj.amount}`);
             }
-
             message.channel.send({ embeds: [embed] });
         } else {
             switch (args[0].toString().toLowerCase()) {
@@ -38,6 +37,9 @@ export const command: DiscordCommand = {
                     break;
 
                 case 'delete': DeleteProfile(client, message);
+                    break;
+
+                case 'test': client.userDB.test(message);
                     break;
             }
         }

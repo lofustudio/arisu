@@ -11,7 +11,18 @@ const Schema = {
         moderator: false,
         admin: false,
         owner: false
-    }
+    },
+
+    notes: {
+        amount: 0,
+        data: [],
+        deleted: {
+            amount: 0,
+            data: []
+        },
+    },
+
+
 }
 
 export default Schema;

@@ -6,7 +6,7 @@ import next from 'next';
 import { DiscordCommand } from '../Interfaces/DiscordCommand';
 import { BotConfig } from '../Interfaces/BotConfig';
 import BotConfigJSON from '../config.json';
-import userDB from '../Database';
+import db from '../Database';
 
 class Cookie extends Client {
     public commands: Collection<string, DiscordCommand> = new Collection();
@@ -14,12 +14,10 @@ class Cookie extends Client {
     public config: BotConfig = BotConfigJSON;
     public aliases: Collection<string, DiscordCommand> = new Collection();
 
-    public userDB: table = new table('roles', { filePath: './database/users.sqlite' });
     public serverDB: table = new table('server', { filePath: './datbase/server.sqlite' });
     public mutesDB: table = new table('mutes', { filePath: './database/mutes.sqlite' });
     public tempBanDB: table = new table('tempbans', { filePath: './database/tempBans.sqlite' });
-
-    public userDatabase = new userDB();
+    public userDB = new db.users('users');
 
     public async init() {
         this.login(this.config.token);

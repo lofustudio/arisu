@@ -20,9 +20,7 @@ const Schema = {
             amount: 0,
             data: []
         },
-    },
-
-
+    }
 }
 
 export default Schema;

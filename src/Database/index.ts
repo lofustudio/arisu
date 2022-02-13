@@ -1,25 +1,36 @@
-import { Message } from "discord.js";
+import { GuildMember, Message } from "discord.js";
 import ProfileSchema from './Schemas/ProfileSchema'
 import { table } from "quick.db";
+import Cookie from "../Client";
+
+// UserDB Functions
+import addWarning from "./Functions/AddWarning";
+
 class users extends table {
     public database = new table('users');
     public SyncMember(message: Message) {
         const memberID = message.author.id;
 
-        if (this.database.get(`${memberID}`) != ProfileSchema) {
-            console.log('\n\nBefore:\n' + JSON.stringify(this.database.fetch(`${memberID}`)));
-            this.database.set(`${memberID}`, ProfileSchema);
-            console.log('\n\nAfter:\n' + JSON.stringify(this.database.fetch(`${memberID}`)));
-            console.log('\n\nWarns:\n' + JSON.stringify(this.database.fetch(`${memberID}.warns`)));
-            console.log('\n\nRoles:\n' + JSON.stringify(this.database.fetch(`${memberID}.roles`)));
-            console.log('\n\nNotes:\n' + JSON.stringify(this.database.fetch(`${memberID}.notes`)));
-        }
+        // Check if there is any data missing for the member
+        Object.keys(ProfileSchema).forEach(key => {
+            if (!this.database.has(`${memberID}.${key}`)) {
+                this.database.set(`${memberID}.${key}`, ProfileSchema[key]);
+            }
+        });
 
-        return true;
+        // Fetch for the updated data
+        const profile = this.database.get(`${memberID}`);
+
+        // Check for any data that isn't in the schema
+        Object.keys(profile).forEach(key => {
+            if (!ProfileSchema.hasOwnProperty(key)) {
+                this.database.delete(`${memberID}.${key}`);
+            }
+        })
     }
 
-    public test(message: Message) {
-        message.channel.send('it works');
+    public addWarning(client: Cookie, member: GuildMember, moderator: string, reason?: string) {
+        addWarning(client, member, moderator, reason);
     }
 }
 

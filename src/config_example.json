@@ -1,5 +1,6 @@
 {
     "token": "DSC_TOKEN",
     "prefix": "!",
-    "guildID": "DSC_GUILD_ID"
+    "guildID": "DSC_GUILD_ID",
+    "ownerID": "DSC_OWNER_ID"
 }

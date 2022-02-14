@@ -38,9 +38,6 @@ export const command: DiscordCommand = {
 
                 case 'delete': DeleteProfile(client, message);
                     break;
-
-                case 'test': client.userDB.test(message);
-                    break;
             }
         }
     }

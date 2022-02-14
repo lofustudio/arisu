@@ -9,17 +9,38 @@ export const command: DiscordCommand = {
     visable: true,
     run: async (client, message, args) => {
         if (!args[0]) {
-            const core = client.commands.filter(x => x.category === "Core").map((x) => '`' + x.name + '`').join(', ');
-            const moderation = client.commands.filter(x => x.category === "Moderation").map((x) => '`' + x.name + '`').join(', ');
+            if (message.author.id === client.config.ownerID) {
+                const core = client.commands.filter((command) => command.category === "Core").map((x) => '`' + x.name + '`').join(", ");
+                const moderation = client.commands.filter((command) => command.category === "Moderation").map((x) => '`' + x.name + '`').join(", ");
+                const owner = client.commands.filter((command) => command.category === "Owner").map((x) => '`' + x.name + '`').join(", ");
+                const profile = client.commands.filter((command) => command.category === "Profile").map((x) => '`' + x.name + '`').join(", ");
 
-            const embed = new MessageEmbed()
-                .setColor('#ffd1dc')
-                .setAuthor({ name: 'Commands' })
-                .addField("Core", core, false)
-                .addField("Moderation", moderation, false)
-                .setFooter({ text: `To find more info on a specific command, use ${client.config.prefix}commands [command]` })
+                const embed = new MessageEmbed()
+                    .setColor('#ffd1dc')
+                    .setAuthor({ name: 'Commands [Admin]' })
+                    .addField('Core', core, false)
+                    .addField('Moderation', moderation, false)
+                    .addField('Owner', owner, false)
+                    .addField('Profile', profile, false)
 
-            message.channel.send({ embeds: [embed] },);
+                message.channel.send({ embeds: [embed] });
+
+            } else {
+                const core = client.commands.filter((command) => command.category === "Core" && command.visable === true).map((x) => '`' + x.name + '`').join(', ');
+                const moderation = client.commands.filter((command) => command.category === "Moderation" && command.visable === true).map((x) => '`' + x.name + '`').join(', ');
+                const profile = client.commands.filter((command) => command.category === "Profile" && command.visable === true).map((x) => '`' + x.name + '`').join(', ');
+
+                const embed = new MessageEmbed()
+                    .setColor('#ffd1dc')
+                    .setAuthor({ name: 'Commands' })
+                    .addField("Core", core, false)
+                    .addField("Moderation", moderation, false)
+                    .addField("Profile", profile, false)
+                    .setFooter({ text: `To find more info on a specific command, use ${client.config.prefix}commands [command]` })
+
+                message.channel.send({ embeds: [embed] });
+            }
+
         } else {
             const command = client.commands.get(args[0].toLowerCase()) || client.commands.find(x => x.aliases && x.aliases.includes(args[0].toLowerCase()));
             if (!command) return message.channel.send('That command does not exist!');

@@ -6,7 +6,7 @@ import Cookie from "../Client";
 // UserDB Functions
 import addWarning from "./Functions/AddWarning";
 
-class users extends table {
+class ExtendedUserDB extends table {
     public database = new table('users');
     public SyncMember(message: Message) {
         const memberID = message.author.id;
@@ -35,7 +35,7 @@ class users extends table {
 }
 
 const db = {
-    users
+    users: ExtendedUserDB
 }
 
 export default db;

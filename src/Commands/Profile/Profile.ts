@@ -1,8 +1,5 @@
 import { MessageEmbed } from "discord.js";
 import { DiscordCommand } from "../../Interfaces/DiscordCommand";
-import DeleteProfile from "./Functions/DeleteProfile";
-import DisplayWarns from "./Functions/DisplayWarns";
-import ExportProfile from "./Functions/ExportProfile";
 
 export const command: DiscordCommand = {
     name: 'profile',
@@ -26,19 +23,7 @@ export const command: DiscordCommand = {
             }
             message.channel.send({ embeds: [embed] });
         } else {
-            switch (args[0].toString().toLowerCase()) {
-
-                // Moderation
-                case 'warns': DisplayWarns(client, message);
-                    break;
-
-                // Management
-                case 'export': ExportProfile(client, message, args);
-                    break;
-
-                case 'delete': DeleteProfile(client, message);
-                    break;
-            }
+            console.log('bruh')
         }
     }
 }

@@ -7,6 +7,6 @@ export const command: DiscordCommand = {
     aliases: ['level'],
     visable: true,
     run: async (client, message, args) => {
-        const userDB = client.userDB;
+
     }
 }

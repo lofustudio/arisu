@@ -35,13 +35,13 @@ export default function Navbar({ enableTransition }) {
         <DrawerContent backgroundColor="background">
           <DrawerCloseButton color="background" />
           <DrawerHeader borderBottomWidth="1px" borderColor="borderColor" backgroundColor="textPrimary" color="background">
-            Konsole.
+            Cookie
           </DrawerHeader>
           <DrawerBody>
             <Stack spacing="24px">
               <NextLink href="/account" passHref>
                 <Button as="a" variant="solid" bgColor='displayColor' fontSize="16px">
-                  Account
+                  Settings
                 </Button>
               </NextLink>
             </Stack>
@@ -75,19 +75,19 @@ export default function Navbar({ enableTransition }) {
         >
           <NextLink href="/">
             <a>
-              <Text>Konsole.</Text>
+              <Text>Cookie</Text>
             </a>
           </NextLink>
           {isLargerThan768 ? (
             <Box color="textPrimary">
               <NextLink href="/account" passHref>
                 <Button as="a" color="white" variant="solid" p="4" ml="3vw" fontSize="16px">
-                  Account
+                  Settings
                 </Button>
               </NextLink>{" "}
             </Box>
           ) : (
-              <Icon as={AiOutlineMenu} w={7} h={7} onClick={onOpen} color="background" />
+            <Icon as={AiOutlineMenu} w={7} h={7} onClick={onOpen} color="background" />
           )}
         </Flex>
       </Slide>

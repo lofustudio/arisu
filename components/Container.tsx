@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
-import { Flex, Stack, Box } from '@chakra-ui/react'
+import React from 'react'
+import { Flex, Stack, Box, Text } from '@chakra-ui/react'
 import Navbar from './Navbar'
-import { Copyright } from './Copyright'
 
 const Container = ({ enableTransition, children }) => {
   return (
@@ -12,7 +11,9 @@ const Container = ({ enableTransition, children }) => {
       </Flex>
       <Box as="footer" role="contentinfo" mx="auto" maxW="7xl" py="12" px={{ base: '4', md: '8' }}>
         <Stack>
-          <Copyright text color="textPrimary" alignSelf={{ base: 'center', sm: 'start' }} />
+          <Text color="textPrimary" alignSelf={{ base: 'center', sm: 'start' }}>
+            © {new Date().getFullYear()} tygerxqt
+          </Text>
         </Stack>
       </Box>
     </>

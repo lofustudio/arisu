@@ -3,6 +3,7 @@ import path from 'path';
 import { table } from 'quick.db';
 import { readdirSync } from 'fs';
 import next from 'next';
+import express from 'express';
 import { DiscordCommand } from '../Interfaces/DiscordCommand';
 import { BotConfig } from '../Interfaces/BotConfig';
 import BotConfigJSON from '../config.json';
@@ -50,10 +51,22 @@ class Cookie extends Client {
         });
 
         /* Dashboard */
-        const dev = process.env.NODE_ENV !== "production";
+        const port = 3000;
+        const dev = process.env.NODE_ENV !== 'production';
         const app = next({ dev });
         const handle = app.getRequestHandler();
-        const port = process.env.PORT || 3000;
+
+        app.prepare().then(() => {
+            const server = express()
+
+            server.all('*', (req, res) => {
+                return handle(req, res)
+            });
+
+            server.listen(3000, () => {
+                console.log(`Dashboard on http://localhost:${port}`);
+            });
+        });
     }
 }
 

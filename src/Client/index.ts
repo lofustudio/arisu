@@ -64,7 +64,7 @@ class Cookie extends Client {
             });
 
             server.listen(3000, () => {
-                console.log(`Dashboard on http://localhost:${port}`);
+                console.log(`Dashboard is online: http://localhost:${port}`);
             });
         });
     }

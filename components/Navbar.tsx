@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import {
   Button,
   Flex,
@@ -13,8 +13,7 @@ import {
   DrawerHeader,
   DrawerBody,
   Stack,
-  Icon,
-  Image
+  Icon
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import useMediaQuery from "../hook/useMediaQuery";

@@ -5,7 +5,9 @@
   "main": "build/index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts",
-    "build": "rimraf ./build && tsc && echo Compiled successfully!"
+    "build": "rimraf ./build && tsc && echo Compiled successfully!",
+    "dev-web": "next dev",
+    "build-web": "next build"
   },
   "repository": {
     "type": "git",

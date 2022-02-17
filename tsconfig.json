@@ -16,14 +16,14 @@
     "skipDefaultLibCheck": true,
     "resolveJsonModule": true,
     "importHelpers": true,
+    "types": [],
     "allowJs": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "incremental": true,
+    "noEmit": false,
     "isolatedModules": true,
     "jsx": "preserve",
-    "types": []
+    "incremental": true
   },
   "include": [
     "src"

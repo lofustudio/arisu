@@ -13,15 +13,19 @@ import {
   DrawerHeader,
   DrawerBody,
   Stack,
-  Icon
+  Icon,
+  useColorMode
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import useMediaQuery from "../hook/useMediaQuery";
 import { AiOutlineMenu } from "react-icons/ai";
+import { BsMoonFill, BsFillSunFill } from "react-icons/bs"
 
 export default function Navbar({ enableTransition }) {
   const isLargerThan768 = useMediaQuery(768);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { colorMode, toggleColorMode } = useColorMode()
 
   const NavbarDrawer = () => (
     <>
@@ -31,15 +35,15 @@ export default function Navbar({ enableTransition }) {
         onClose={onClose}
       >
         <DrawerOverlay />
-        <DrawerContent backgroundColor="background">
-          <DrawerCloseButton color="background" />
-          <DrawerHeader borderBottomWidth="1px" borderColor="borderColor" backgroundColor="textPrimary" color="background">
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">
             Cookie
           </DrawerHeader>
           <DrawerBody>
             <Stack spacing="24px">
-              <NextLink href="/account" passHref>
-                <Button as="a" variant="solid" bgColor='displayColor' fontSize="16px">
+              <NextLink href="/settings" passHref>
+                <Button as="a" variant="solid" fontSize="16px">
                   Settings
                 </Button>
               </NextLink>
@@ -70,23 +74,36 @@ export default function Navbar({ enableTransition }) {
           px="3vw"
           py="3"
           borderBottom="0.5px solid borderColor"
-          background="textPrimary"
         >
           <NextLink href="/">
             <a>
-              <Text>Cookie</Text>
+              <Text fontSize='lg' fontWeight={'bold'}>Cookie</Text>
             </a>
           </NextLink>
           {isLargerThan768 ? (
-            <Box color="textPrimary">
-              <NextLink href="/account" passHref>
-                <Button as="a" color="white" variant="solid" p="4" ml="3vw" fontSize="16px">
+            <Box>
+              <NextLink href={"/settings"} passHref>
+                <Button as="a" variant={"ghost"} p="4" ml="3vw" fontSize={"16px"}>
                   Settings
+                </Button>
+              </NextLink>
+              <NextLink href="/account" passHref>
+                <Button as="a" variant="solid" p="4" ml="3vw" fontSize="16px">
+                  Account
                 </Button>
               </NextLink>{" "}
             </Box>
           ) : (
-            <Icon as={AiOutlineMenu} w={7} h={7} onClick={onOpen} color="background" />
+            <a>
+              <Icon as={ colorMode === 'light' ? BsFillSunFill : BsMoonFill } pt="6px" w={7} h={14} onClick={toggleColorMode} />
+            </a>
+          )}
+          {isLargerThan768 ? (
+            <a>
+              <Icon as={ colorMode === 'light' ? BsFillSunFill : BsMoonFill } paddingTop="6px" w={7} h={14} onClick={toggleColorMode} />
+            </a>
+          ) : (
+            <Icon as={AiOutlineMenu} w={7} h={7} onClick={onOpen} />
           )}
         </Flex>
       </Slide>

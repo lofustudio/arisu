@@ -4,10 +4,13 @@ import { table } from 'quick.db';
 import { readdirSync } from 'fs';
 import next from 'next';
 import express from 'express';
+import * as dotenv from 'dotenv';
 import { DiscordCommand } from '../Interfaces/DiscordCommand';
 import { BotConfig } from '../Interfaces/BotConfig';
 import BotConfigJSON from '../config.json';
 import db from '../Database';
+
+dotenv.config();
 
 class Cookie extends Client {
     public commands: Collection<string, DiscordCommand> = new Collection();
@@ -53,7 +56,7 @@ class Cookie extends Client {
         /* Dashboard */
         const port = 3000;
         const dev = process.env.NODE_ENV !== 'production';
-        const app = next({ dev });
+        const app = next({ dev, quiet: true });
         const handle = app.getRequestHandler();
 
         app.prepare().then(() => {

@@ -1,51 +1,22 @@
-import { ChakraProvider } from '@chakra-ui/react'
+import Head from 'next/head'
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
+import type { AppProps } from 'next/app'
+
 import customTheme from '../styles/theme'
-import { Global, css } from '@emotion/react'
-const GlobalStyle = ({ children }) => {
+
+function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Global
-        styles={css`
-          ::selection {
-            background-color: #26282B;
-            color: #26282B;
-          }
-          ::-moz-selection {
-            background: #ffb7b7;
-            color: #3B4252;
-          }
-          html {
-            min-width: 356px;
-          }
-          #__next {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background: #D8DEE9;
-          }
-          ::-webkit-scrollbar {
-            width: 8px;
-            background: #303236;
-          }
-
-          ::-webkit-scrollbar-thumb {
-            background: #26282B;
-            border-radius: 8px;
-          }
-        `}
-      />
-      {children}
+      <Head>
+        <meta content="IE=edge" httpEquiv="X-UA-Compatible" />
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+      </Head>
+      <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
+      <ChakraProvider theme={customTheme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
     </>
   )
 }
 
-function MyApp({ Component, pageProps }) {
-  return (
-    <ChakraProvider resetCSS theme={customTheme}>
-      <GlobalStyle>
-        <Component {...pageProps} />
-      </GlobalStyle>
-    </ChakraProvider>
-  )
-}
-export default MyApp
+export default App

@@ -1,4 +1,7 @@
-// next.config.js
+module.exports = {
+    distDir: './build'
+}
+
 const nextConfig = {
     webpack: (config, options) => {
         // modify the `config` here
@@ -11,4 +14,3 @@ const nextConfig = {
         return config;
     },
 };
-// more plugins etc...

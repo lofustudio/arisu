@@ -3,8 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
-import { ApiRoute } from '../Interfaces/ApiRoute';
-import * as basicAuth from 'express-basic-auth';
+import passport from 'passport';
 import { readdirSync } from 'fs';
 import Cookie from '../Client';
 
@@ -22,6 +21,9 @@ export class Api {
         this.app.use(cors());
         this.app.use(helmet());
 
+        this.app.use(passport.initialize());
+        this.app.use(passport.session());
+
         this.app.get('/', (req, res) => {
             res.redirect('/api');
         });
@@ -36,10 +38,13 @@ export class Api {
 
             for (const file of routes) {
                 const { route } = require(`${routesPath}/${dir}/${file}`);
-                console.log(`[API] Loading API route: ${route.path}`);
-                this.app.get(`${route.path}`, (req, res) => {
-                    route.handler(this.client, req, res);
-                });
+                if (path.parse(file).name === "index") {
+                    console.log(`[API] Loading API route: /api/${path.parse(dir).name}`);
+                    this.app.get(`/api/` + path.parse(dir).name, route.handler.bind(this, this.client));
+                } else {
+                    console.log(`[API] Loading API route: /api/${path.parse(dir).name}${route.path}`);
+                    this.app.get(`/api/` + path.parse(dir).name + `${route.path}`, route.handler.bind(this, this.client));
+                }
             }
         });
 

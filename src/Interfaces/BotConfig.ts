@@ -3,4 +3,7 @@ export interface BotConfig {
     prefix: string;
     guildID: string;
     ownerID: string;
+    apiUser: string;
+    apiPass: string;
+    apiPort: number;
 }

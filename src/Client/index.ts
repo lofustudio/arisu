@@ -2,19 +2,23 @@ import { Client, Collection } from 'discord.js';
 import path from 'path';
 import { table } from 'quick.db';
 import { readdirSync } from 'fs';
-import next from 'next';
-import express from 'express';
-import * as dotenv from 'dotenv';
 import { DiscordCommand } from '../Interfaces/DiscordCommand';
+import { DiscordEvent } from '../Interfaces/DiscordEvent';
 import { BotConfig } from '../Interfaces/BotConfig';
 import BotConfigJSON from '../config.json';
 import db from '../Database';
 
-dotenv.config();
+/* API Packages */
+import express, { Request, Response } from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import helmet from 'helmet';
+import { Api } from '../API';
+
 
 class Cookie extends Client {
     public commands: Collection<string, DiscordCommand> = new Collection();
-    public events: Collection<string, Event> = new Collection();
+    public events: Collection<string, DiscordEvent> = new Collection();
     public config: BotConfig = BotConfigJSON;
     public aliases: Collection<string, DiscordCommand> = new Collection();
 
@@ -52,37 +56,6 @@ class Cookie extends Client {
             this.events.set(event.name, event);
             this.on(event.name, event.run.bind(null, this));
         });
-
-        /* create and host an API on express with port 5000 */
-        const api = express();
-
-        api.get('/', (req, res) => {
-            res.send('API is working!');
-        });
-
-        api.get('/api/users/:id', (req, res) => {
-            const id = req.params.id;
-            const user = this.userDB.get(id);
-            res.send(user);
-        });
-
-        api.listen(4000, () => console.log('> API is running on port 4000'));
-
-        // /* Dashboard */
-        // const app = next({ dev: process.env.NODE_ENV !== 'production', dir: './dashboard', quiet: true });
-        // const handle = app.getRequestHandler();
-
-        // app.prepare().then(() => {
-        //     const server = express();
-
-        //     server.all('*', (req, res) => {
-        //         return handle(req, res);
-        //     });
-
-        //     server.listen(3000, () => {
-        //         console.log('> Dashboard is running on port 3000');
-        //     });
-        // });
     }
 }
 

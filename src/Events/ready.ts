@@ -1,8 +1,10 @@
 import Cookie from '../Client';
 import { TextChannel, MessageEmbed } from 'discord.js';
 import ms from 'ms';
+import { DiscordEvent } from '../Interfaces/DiscordEvent';
+import { Api } from '../API';
 
-export const event: Event = {
+export const event: DiscordEvent = {
     name: 'ready',
     run: async (client: Cookie) => {
         console.log(`${client.user.tag} is online!`);
@@ -61,13 +63,13 @@ export const event: Event = {
                 });
             console.log(`[MUTE SYNC] - Found mutes...`);
         });
-    
-    // TempBan Sync
+
+        // TempBan Sync
         console.log(`[TEMPBAN SYNC] - Sync started!`);
         const guild = client.guilds.cache.get(client.config.guildID);
-    
+
         const tempBanData = client.tempBanDB;
-    
+
         tempBanData.all().map(x => ({
             ID: x.ID,
             data: x.data,
@@ -84,7 +86,7 @@ export const event: Event = {
                         catch (err) {
                             return console.log(`[TEMPBAN SYNC ERROR] - Failed to unban ${member.tag}. ${err}`);
                         }
-    
+
                         guild.channels.fetch('840296305502322709').then((channel: TextChannel) => {
                             if (channel != null) {
                                 const embed = new MessageEmbed()
@@ -97,7 +99,7 @@ export const event: Event = {
                                 channel.send({ embeds: [embed] });
                             }
                         });
-    
+
                     } else {
                         console.log(`[TEMPBAN SYNC] - Starting ${member.tag}'s ban.`);
                         setTimeout(() => {
@@ -109,7 +111,7 @@ export const event: Event = {
                             catch (err) {
                                 return console.log(`[TEMPBAN SYNC ERROR] - Failed to unban ${member.tag}. ${err}`);
                             }
-    
+
                             guild.channels.fetch('840296305502322709').then((channel: TextChannel) => {
                                 if (channel != null) {
                                     const embed = new MessageEmbed()
@@ -127,5 +129,8 @@ export const event: Event = {
                 });
             console.log(`[TEMPBAN SYNC] - Found bans...`);
         });
+
+        const API = new Api(client);
+        API.init();
     }
 }

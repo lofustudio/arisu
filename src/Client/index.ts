@@ -8,13 +8,6 @@ import { BotConfig } from '../Interfaces/BotConfig';
 import BotConfigJSON from '../config.json';
 import db from '../Database';
 
-/* API Packages */
-import express, { Request, Response } from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import helmet from 'helmet';
-import { Api } from '../API';
-
 
 class Cookie extends Client {
     public commands: Collection<string, DiscordCommand> = new Collection();

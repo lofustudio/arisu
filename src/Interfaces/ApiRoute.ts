@@ -5,8 +5,10 @@ interface handler {
     (client: Cookie, req: Request, res: Response): void;
 }
 
+
 export interface ApiRoute {
     path: string;
     method: string;
+    protected: boolean;
     handler: handler;
 }

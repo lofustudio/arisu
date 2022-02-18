@@ -53,23 +53,36 @@ class Cookie extends Client {
             this.on(event.name, event.run.bind(null, this));
         });
 
-        /* Dashboard */
-        const port = 3000;
-        const dev = process.env.NODE_ENV !== 'production';
-        const app = next({ dev, quiet: true });
-        const handle = app.getRequestHandler();
+        /* create and host an API on express with port 5000 */
+        const api = express();
 
-        app.prepare().then(() => {
-            const server = express()
-
-            server.all('*', (req, res) => {
-                return handle(req, res)
-            });
-
-            server.listen(3000, () => {
-                console.log(`Dashboard is online: http://localhost:${port}`);
-            });
+        api.get('/', (req, res) => {
+            res.send('API is working!');
         });
+
+        api.get('/api/users/:id', (req, res) => {
+            const id = req.params.id;
+            const user = this.userDB.get(id);
+            res.send(user);
+        });
+
+        api.listen(4000, () => console.log('> API is running on port 4000'));
+
+        // /* Dashboard */
+        // const app = next({ dev: process.env.NODE_ENV !== 'production', dir: './dashboard', quiet: true });
+        // const handle = app.getRequestHandler();
+
+        // app.prepare().then(() => {
+        //     const server = express();
+
+        //     server.all('*', (req, res) => {
+        //         return handle(req, res);
+        //     });
+
+        //     server.listen(3000, () => {
+        //         console.log('> Dashboard is running on port 3000');
+        //     });
+        // });
     }
 }
 

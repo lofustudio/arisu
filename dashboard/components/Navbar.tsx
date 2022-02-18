@@ -95,12 +95,12 @@ export default function Navbar({ enableTransition }) {
             </Box>
           ) : (
             <a>
-              <Icon as={ colorMode === 'light' ? BsFillSunFill : BsMoonFill } pt="6px" w={7} h={14} onClick={toggleColorMode} />
+              <Icon as={colorMode === 'light' ? BsFillSunFill : BsMoonFill} pt="6px" w={7} h={14} onClick={toggleColorMode} />
             </a>
           )}
           {isLargerThan768 ? (
             <a>
-              <Icon as={ colorMode === 'light' ? BsFillSunFill : BsMoonFill } paddingTop="6px" w={7} h={14} onClick={toggleColorMode} />
+              <Icon as={colorMode === 'light' ? BsFillSunFill : BsMoonFill} paddingTop="6px" w={7} h={14} onClick={toggleColorMode} />
             </a>
           ) : (
             <Icon as={AiOutlineMenu} w={7} h={7} onClick={onOpen} />

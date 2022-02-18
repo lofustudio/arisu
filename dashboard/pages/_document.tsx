@@ -14,7 +14,6 @@ export default class MyDocument extends NextDocument {
           href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap"
           rel="stylesheet"
         />
-        <meta name="theme-color" content="white" />
         <Head />
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />

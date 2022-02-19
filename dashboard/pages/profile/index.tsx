@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { Stack, Heading, Text, SimpleGrid, Divider, Avatar } from '@chakra-ui/react'
 import Container from '../../components/Container'
 import { useSession } from 'next-auth/react'
+import fetchID from '../../util/fetchID'
 
 export default function IndexPage() {
     const { data: session, status } = useSession()
@@ -56,7 +57,7 @@ export default function IndexPage() {
                         </Text>
                     </Stack>
                     <Divider />
-                    <SimpleGrid columns={3} spacing={4}>
+                    <SimpleGrid columns={4} spacing={4}>
                         <Stack pt={8} spacing={4}>
                             <Heading as="h3" size="lg">
                                 Name
@@ -78,6 +79,14 @@ export default function IndexPage() {
                                 Image
                             </Heading>
                             <Avatar size="2xl" name={session.user.name} src={session.user.image} />
+                        </Stack>
+                        <Stack pt={8} spacing={4}>
+                            <Heading as="h3" size="lg">
+                                Discord ID
+                            </Heading>
+                            <Text>
+                                {fetchID(session.user.image)}
+                            </Text>
                         </Stack>
                     </SimpleGrid>
                 </Stack>

@@ -4,7 +4,35 @@ import Container from '../../components/Container'
 import { useSession } from 'next-auth/react'
 
 export default function IndexPage() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession()
+
+    if (status === 'loading') {
+        return <div>Loading...</div>
+    }
+
+    if (status === 'unauthenticated') {
+        return (
+            <>
+                <Container enableTransition={false}>
+                    <Head>
+                        <title>Profile</title>
+                    </Head>
+                    <Stack
+                        spacing={5}
+                        justifyContent="center"
+                        px={["5vw", "10vw"]}
+                        my={["25vh", "15vh", "22.5vh", "22.5vh"]}
+                    >
+                        <Stack>
+                            <Heading fontSize={{ base: "4xl", md: "6xl" }}>
+                                You need to be logged in to access this page.
+                            </Heading>
+                        </Stack>
+                    </Stack>
+                </Container>
+            </>
+        )
+    }
 
     return (
         <>
@@ -19,7 +47,7 @@ export default function IndexPage() {
                     px={["5vw", "10vw"]}
                     my={["15vh", "15vh", "22.5vh", "22.5vh"]}
                 >
-                    <Stack      >
+                    <Stack>
                         <Heading fontSize={{ base: "4xl", md: "6xl" }}>
                             Profile
                         </Heading>

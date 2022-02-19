@@ -8,3 +8,4 @@ dashboard/node_modules
 dashboard/build
 /.vscode
 /.next
+/dashboard/.env.local

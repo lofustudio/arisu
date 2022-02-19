@@ -4,8 +4,8 @@ import DiscordProvider from "next-auth/providers/discord"
 export default NextAuth({
     providers: [
         DiscordProvider({
-            clientId: '846139750779715584',
-            clientSecret: 'e0onkXJeo7nUpHQDW9fJgl7_fcdroobO',
+            clientId: process.env.DISCORD_CLIENT_ID,
+            clientSecret: process.env.DISCORD_CLIENT_SECRET,
         }),
     ],
 })

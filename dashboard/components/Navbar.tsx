@@ -14,16 +14,33 @@ import {
   DrawerBody,
   Stack,
   Icon,
-  useColorMode
+  useColorMode,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverFooter,
+  ButtonGroup,
+  Avatar,
+  AvatarBadge,
+  Wrap,
+  WrapItem
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import useMediaQuery from "../hook/useMediaQuery";
 import { AiOutlineMenu } from "react-icons/ai";
 import { BsMoonFill, BsFillSunFill } from "react-icons/bs"
+import { useSession, signOut, signIn } from "next-auth/react";
 
 export default function Navbar({ enableTransition }) {
   const isLargerThan768 = useMediaQuery(768);
+  const initialFocusRef = React.useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { data: session } = useSession();
 
   const { colorMode, toggleColorMode } = useColorMode()
 
@@ -87,27 +104,64 @@ export default function Navbar({ enableTransition }) {
                   Settings
                 </Button>
               </NextLink>
-              <NextLink href="/account" passHref>
-                <Button as="a" variant="solid" p="4" ml="3vw" fontSize="16px">
-                  Account
-                </Button>
-              </NextLink>{" "}
+              {session ? (
+                <Popover
+                  placement='bottom'
+                  closeOnBlur={false}
+                >
+                  <PopoverTrigger>
+                    <Button variant={'ghost'} p="4" ml="3vw" fontSize={"16px"}>
+                      <Avatar size="sm" name={session.user.name} src={session.user.image} />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverBody>
+                      <ButtonGroup spacing={4}>
+                        <Button variant={"solid"} onClick={() => signOut({ callbackUrl: '/', redirect: true })}>Sign Out</Button>
+                        <NextLink href={"/profile"} passHref>
+                          <Button variant={"solid"}>
+                            Profile
+                          </Button>
+                        </NextLink>
+                      </ButtonGroup>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+              ) : (
+                <NextLink href={'/api/auth/signin'} passHref>
+                  <Button as="a" variant={"solid"} p="4" ml="3vw" fontSize={'16px'}>
+                    Sign In
+                  </Button>
+                </NextLink>
+              )}
+              <Button
+                variant="ghost"
+                p="4"
+                ml="3vw"
+                fontSize={"16px"}
+                onClick={toggleColorMode}
+              >
+                {colorMode === "dark" ? <BsMoonFill /> : <BsFillSunFill />}
+              </Button>
             </Box>
           ) : (
-            <a>
-              <Icon as={colorMode === 'light' ? BsFillSunFill : BsMoonFill} pt="6px" w={7} h={14} onClick={toggleColorMode} />
-            </a>
-          )}
-          {isLargerThan768 ? (
-            <a>
-              <Icon as={colorMode === 'light' ? BsFillSunFill : BsMoonFill} paddingTop="6px" w={7} h={14} onClick={toggleColorMode} />
-            </a>
-          ) : (
-            <Icon as={AiOutlineMenu} w={7} h={7} onClick={onOpen} />
+            <Box>
+              <Button
+                variant="ghost"
+                p="4"
+                ml="3vw"
+                fontSize={"16px"}
+                onClick={onOpen}
+              >
+                <AiOutlineMenu />
+              </Button>
+              <NavbarDrawer />
+            </Box>
           )}
         </Flex>
       </Slide>
-      <NavbarDrawer />
     </Box>
   );
 }

@@ -38,10 +38,9 @@ export class Api {
 
                 for (const file of routes) {
                     const { route } = require(`${methodPath}/${file}`);
-                    console.log(route);
                     switch (method) {
                         case "GET": {
-                            this.app.get(route, (req: Request, res: Response) => {
+                            this.app.get(`/api/${category}/${route.path}`, (req: Request, res: Response) => {
                                 route.handler(req, res, this.client);
                             });
                             console.log(`[API] Loaded ${method} route: ${route.path}`);
@@ -49,7 +48,7 @@ export class Api {
                             break;
 
                         case "PUT": {
-                            this.app.put(route, (req: Request, res: Response) => {
+                            this.app.put(`/api/${category}/${route.path}`, (req: Request, res: Response) => {
                                 route.handler(req, res, this.client);
                             });
                             console.log(`[API] Loaded ${method} route: ${route.path}`);
@@ -57,7 +56,7 @@ export class Api {
                             break;
 
                         case "POST": {
-                            this.app.post(route, (req: Request, res: Response) => {
+                            this.app.post(`/api/${category}/${route.path}`, (req: Request, res: Response) => {
                                 route.handler(req, res, this.client);
                             });
                             console.log(`[API] Loaded ${method} route: ${route.path}`);
@@ -65,7 +64,7 @@ export class Api {
                             break;
 
                         case "DELETE": {
-                            this.app.delete(route, (req: Request, res: Response) => {
+                            this.app.delete(`/api/${category}/${route.path}`, (req: Request, res: Response) => {
                                 route.handler(req, res, this.client);
                             });
                             console.log(`[API] Loaded ${method} route: ${route.path}`);

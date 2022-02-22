@@ -38,6 +38,7 @@ export class Api {
 
                 for (const file of routes) {
                     const { route } = require(`${methodPath}/${file}`);
+                    console.log(route);
                     switch (method) {
                         case "GET": {
                             this.app.get(route, (req: Request, res: Response) => {
@@ -51,6 +52,7 @@ export class Api {
                             this.app.put(route, (req: Request, res: Response) => {
                                 route.handler(req, res, this.client);
                             });
+                            console.log(`[API] Loaded ${method} route: ${route.path}`);
                         }
                             break;
 
@@ -58,6 +60,7 @@ export class Api {
                             this.app.post(route, (req: Request, res: Response) => {
                                 route.handler(req, res, this.client);
                             });
+                            console.log(`[API] Loaded ${method} route: ${route.path}`);
                         }
                             break;
 
@@ -65,6 +68,7 @@ export class Api {
                             this.app.delete(route, (req: Request, res: Response) => {
                                 route.handler(req, res, this.client);
                             });
+                            console.log(`[API] Loaded ${method} route: ${route.path}`);
                         }
                             break;
                     }

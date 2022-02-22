@@ -10,6 +10,5 @@ export interface ApiRoute {
     path: string;
     description: string;
     method: string;
-    protected: boolean;
     handler: handler;
 }

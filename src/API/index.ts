@@ -4,6 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
 import { readdirSync } from 'fs';
+import { ApiRoute } from '../Interfaces/ApiRoute';
 import Cookie from '../Client';
 
 export class Api {
@@ -25,23 +26,50 @@ export class Api {
         });
 
         this.app.get('/api', (req, res) => {
-            res.send('Hello, world!');
+            res.send({ "hello": "world" });
         });
 
         const routesPath = path.join(__dirname, ".", "Routes");
-        readdirSync(routesPath).forEach((dir) => {
-            const routes = readdirSync(`${routesPath}/${dir}`).filter((file) => file.endsWith('.ts') || file.endsWith('.js'));
+        readdirSync(routesPath).forEach((category) => {
+            const categoryPath = path.join(routesPath, category);
+            readdirSync(categoryPath).forEach((method) => {
+                const methodPath = path.join(categoryPath, method);
+                const routes = readdirSync(`${methodPath}`).filter((file) => file.endsWith('.ts') || file.endsWith('.js'));
 
-            for (const file of routes) {
-                const { route } = require(`${routesPath}/${dir}/${file}`);
-                if (path.parse(file).name === "index") {
-                    console.log(`[API] Loading API route: /api/${path.parse(dir).name}`);
-                    this.app.get(`/api/` + path.parse(dir).name, route.handler.bind(this, this.client));
-                } else {
-                    console.log(`[API] Loading API route: /api/${path.parse(dir).name}${route.path}`);
-                    this.app.get(`/api/` + path.parse(dir).name + `${route.path}`, route.handler.bind(this, this.client));
+                for (const file of routes) {
+                    const { route } = require(`${methodPath}/${file}`);
+                    switch (method) {
+                        case "GET": {
+                            this.app.get(route, (req: Request, res: Response) => {
+                                route.handler(req, res, this.client);
+                            });
+                            console.log(`[API] Loaded ${method} route: ${route.path}`);
+                        }
+                            break;
+
+                        case "PUT": {
+                            this.app.put(route, (req: Request, res: Response) => {
+                                route.handler(req, res, this.client);
+                            });
+                        }
+                            break;
+
+                        case "POST": {
+                            this.app.post(route, (req: Request, res: Response) => {
+                                route.handler(req, res, this.client);
+                            });
+                        }
+                            break;
+
+                        case "DELETE": {
+                            this.app.delete(route, (req: Request, res: Response) => {
+                                route.handler(req, res, this.client);
+                            });
+                        }
+                            break;
+                    }
                 }
-            }
+            })
         });
 
         this.app.listen(this.client.config.apiPort, () => {

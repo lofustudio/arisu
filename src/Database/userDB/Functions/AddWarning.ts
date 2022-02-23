@@ -1,6 +1,6 @@
-import Cookie from '../../Client';
+import Cookie from '../../../Client';
 import { GuildMember, MessageEmbed } from 'discord.js';
-import { MemberWarning } from '../../Interfaces/MemberWarning';
+import { MemberWarning } from '../../../Interfaces/MemberWarning';
 
 async function addWarning(client: Cookie, member: GuildMember, moderator: string, reason?: string) {
     try {

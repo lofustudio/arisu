@@ -6,8 +6,9 @@ import { DiscordCommand } from '../Interfaces/DiscordCommand';
 import { DiscordEvent } from '../Interfaces/DiscordEvent';
 import { BotConfig } from '../Interfaces/BotConfig';
 import BotConfigJSON from '../config.json';
-import db from '../Database';
 
+import botDB from '../Database/botDB';
+import userDB from '../Database/userDB';
 
 class Cookie extends Client {
     public commands: Collection<string, DiscordCommand> = new Collection();
@@ -18,10 +19,12 @@ class Cookie extends Client {
     public serverDB: table = new table('server', { filePath: './datbase/server.sqlite' });
     public mutesDB: table = new table('mutes', { filePath: './database/mutes.sqlite' });
     public tempBanDB: table = new table('tempbans', { filePath: './database/tempBans.sqlite' });
-    public userDB = new db.users('users');
+    public userDB: userDB = new userDB('users');
+    public settings: botDB = new botDB('settings');
 
     public async init() {
         this.login(this.config.token);
+        this.settings.SyncSettings();
 
         /* Command handler */
         const commandPath = path.join(__dirname, "..", "Commands");

@@ -1,12 +1,12 @@
 import { GuildMember, Message } from "discord.js";
-import ProfileSchema from './Schemas/ProfileSchema'
+import ProfileSchema from '../../Schemas/ProfileSchema'
 import { table } from "quick.db";
-import Cookie from "../Client";
+import Cookie from "../../Client";
 
 // UserDB Functions
 import addWarning from "./Functions/AddWarning";
 
-class ExtendedUserDB extends table {
+class userDB extends table {
     public database = new table('users');
     public SyncMember(message: Message) {
         const memberID = message.author.id;
@@ -34,8 +34,4 @@ class ExtendedUserDB extends table {
     }
 }
 
-const db = {
-    users: ExtendedUserDB
-}
-
-export default db;
+export default userDB;

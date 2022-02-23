@@ -1,6 +1,5 @@
-import Cookie from "../../Client";
+import Cookie from "../../../Client";
 import { render } from 'prettyjson'
-import { Message } from "discord.js";
 
 async function exportProfile(client: Cookie, memberID: string, format?: boolean) {
     if (format) {

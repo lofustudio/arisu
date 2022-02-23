@@ -8,13 +8,13 @@ export const event: DiscordEvent = {
     name: 'ready',
     run: async (client: Cookie) => {
         console.log(`${client.user.tag} is online!`);
-        console.log(`Prefix: ${client.config.prefix}`);
+        console.log(`Prefix: ${client.settings.get('settings.general.prefix')}`);
         client.user.setActivity(`Doki Doki Literature Club`, { type: 'PLAYING' });
 
         // Mute Sync
         console.log('[MUTE SYNC] - Sync started!');
-        const guildObj = client.guilds.cache.get(client.config.guildID);
-        const muteRole = guildObj.roles.cache.get('840342500555358258');
+        const guildObj = client.guilds.cache.get(client.settings.get('settings.guildID'));
+        const muteRole = guildObj.roles.cache.find(r => r.name.toLowerCase() === 'muted');
         const mutesData = client.mutesDB;
         mutesData.all().map(x => ({
             ID: x.ID,
@@ -66,7 +66,7 @@ export const event: DiscordEvent = {
 
         // TempBan Sync
         console.log(`[TEMPBAN SYNC] - Sync started!`);
-        const guild = client.guilds.cache.get(client.config.guildID);
+        const guild = client.guilds.cache.get(client.settings.get('settings.general.guildID'));
 
         const tempBanData = client.tempBanDB;
 

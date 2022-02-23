@@ -1,11 +1,17 @@
 import Head from 'next/head'
-import { Divider, Heading, Stack, Text, SimpleGrid } from '@chakra-ui/react'
+import React from 'react';
+import axios from 'axios';
+import { Divider, Stack, Text, SimpleGrid, Input, Button, Heading } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import Container from '../../components/Container'
 import isAdmin from '../../util/isAdmin'
 
-export default function SettingsPage() {
+export default function SettingsPage(settings) {
   const { data: session, status } = useSession()
+
+  const [prefix, setPrefix] = React.useState('')
+  const handlePrefixChange = (event) => setPrefix(event.target.value)
+
 
   if (status === 'loading') {
     return <div>Loading...</div>
@@ -16,7 +22,7 @@ export default function SettingsPage() {
       <>
         <Container enableTransition={false}>
           <Head>
-            <title>Profile</title>
+            <title>Settings</title>
           </Head>
           <Stack
             spacing={5}
@@ -85,12 +91,51 @@ export default function SettingsPage() {
             </Text>
           </Stack>
           <Divider />
-          <SimpleGrid columns={4} spacing={4}>
-            <Stack pt={8} spacing={4}>
+          <SimpleGrid columns={3} spacing={16}>
+            <Stack alignContent="center" pt={8} spacing={4}>
+              <Heading fontSize={{ base: "2xl", md: "3xl" }}>
+                Prefix
+              </Heading>
+              <Input
+                value={prefix}
+                placeholder={"Enter value"}
+                onChange={(e) => setPrefix(e.target.value)}
+              />
+              <Button variant={'solid'} p="4" ml="3vw" fontSize={"16px"}>
+                Update
+              </Button>
+            </Stack>
+            <Stack alignContent="center" pt={8} spacing={4}>
+              <Heading fontSize={{ base: "2xl", md: "3xl" }}>
+                Prefix
+              </Heading>
+              <Input
+                value={prefix}
+                placeholder={"Enter value"}
+                onChange={(e) => setPrefix(e.target.value)}
+              />
+              <Button variant={'solid'} p="4" ml="3vw" fontSize={"16px"}>
+                Update
+              </Button>
             </Stack>
           </SimpleGrid>
         </Stack>
       </Container>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const res = await fetch(`http://localhost:3001/api/settings`)
+  const settings = await res.json()
+
+  if (!settings) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: { settings }, // will be passed to the page component as props
+  }
 }

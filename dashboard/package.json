@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.6.0",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
+    "axios": "^0.26.0",
     "dotenv": "^16.0.0",
     "framer-motion": "^6.2.6",
     "next": "^12.1.0",

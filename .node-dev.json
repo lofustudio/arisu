@@ -1,3 +1,5 @@
 {
-    "ignore": [".next"]
+    "ignore": [
+        ".next"
+    ]
 }

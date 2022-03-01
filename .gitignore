@@ -9,3 +9,4 @@ dashboard/build
 /.vscode
 /.next
 /dashboard/.env.local
+dashboard/.env

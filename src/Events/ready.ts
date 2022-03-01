@@ -3,16 +3,16 @@ import { TextChannel, MessageEmbed } from 'discord.js';
 import ms from 'ms';
 import { DiscordEvent } from '../Interfaces/DiscordEvent';
 import { Api } from '../API';
+import Spinnies from 'spinnies'
+import express, { Request, Response } from 'express';
+import next from 'next';
 
 export const event: DiscordEvent = {
     name: 'ready',
     run: async (client: Cookie) => {
-        console.log(`${client.user.tag} is online!`);
-        console.log(`Prefix: ${client.settings.get('settings.general.prefix')}`);
         client.user.setActivity(`Doki Doki Literature Club`, { type: 'PLAYING' });
 
         // Mute Sync
-        console.log('[MUTE SYNC] - Sync started!');
         const guildObj = client.guilds.cache.get(client.settings.get('settings.guildID'));
         const muteRole = guildObj.roles.cache.find(r => r.name.toLowerCase() === 'muted');
         const mutesData = client.mutesDB;
@@ -24,7 +24,6 @@ export const event: DiscordEvent = {
                 .then(member => {
                     const obj = JSON.parse(x.data);
                     if (obj.expiresAt <= Date.now()) {
-                        console.log(`[MUTE SYNC] - ${member.user.tag}'s mute is over, removing mute.`);
                         mutesData.delete(x.ID);
                         member.roles.remove(muteRole);
                         guild.channels.fetch('840296305502322709').then((channel: TextChannel) => {
@@ -131,6 +130,31 @@ export const event: DiscordEvent = {
         });
 
         const API = new Api(client);
+        client.logger.add('API', { text: 'Loading API...' });
         API.init();
+
+        client.logger.add('DASH', {
+            text: 'Initializing Dashboard...'
+        });
+
+        const app = next({
+            dev: false,
+            quiet: true,
+            dir: './dashboard'
+        });
+        const handle = app.getRequestHandler();
+
+        app.prepare().then(() => {
+            const server = express();
+            server.all('*', (req: Request, res: Response) => {
+                return handle(req, res);
+            });
+
+            server.listen(3000, () => {
+                client.logger.succeed('DASH', {
+                    text: `Dashboard is running! (http://localhost:3000)`,
+                });
+            });
+        });
     }
 }

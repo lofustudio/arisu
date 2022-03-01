@@ -1,7 +1,3 @@
-module.exports = {
-    distDir: './build'
-}
-
 const nextConfig = {
     webpack: (config, options) => {
         // modify the `config` here

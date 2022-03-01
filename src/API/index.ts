@@ -7,7 +7,6 @@ import path from 'path';
 import { readdirSync } from 'fs';
 import Cookie from '../Client';
 import ms from 'ms';
-
 export class Api {
     private client: Cookie;
     private app: express.Application;
@@ -45,12 +44,18 @@ export class Api {
                                 this.app.get(`/api${route.path}`, (req: Request, res: Response) => {
                                     route.handler(this.client, req, res);
                                 });
-                                console.log(`[API] Loaded ${method} route: /api${route.path}`);
+                                this.client.logger.add(path.parse(file).name, {
+                                    text: `Loaded GET route: /api${route.path}`,
+                                    status: 'succeed',
+                                });
                             } else {
                                 this.app.get(`/api/${category}${route.path}`, (req: Request, res: Response) => {
                                     route.handler(this.client, req, res);
                                 });
-                                console.log(`[API] Loaded ${method} route: /api/${category}${route.path}`);
+                                this.client.logger.add(`${route.name}`, {
+                                    text: `Loaded GET route: /api/${category}${route.path}`,
+                                    status: 'succeed',
+                                });
                             }
                         }
                             break;
@@ -60,12 +65,18 @@ export class Api {
                                 this.app.put(`/api${route.path}`, (req: Request, res: Response) => {
                                     route.handler(this.client, req, res);
                                 });
-                                console.log(`[API] Loaded ${method} route: /api${route.path}`);
+                                this.client.logger.add(path.parse(file).name, {
+                                    text: `Loaded PUT route: /api${route.path}`,
+                                    status: 'succeed',
+                                });
                             } else {
                                 this.app.put(`/api/${category}${route.path}`, (req: Request, res: Response) => {
                                     route.handler(this.client, req, res);
                                 });
-                                console.log(`[API] Loaded ${method} route: /api/${category}${route.path}`);
+                                this.client.logger.add(`${route.name}`, {
+                                    text: `Loaded PUT route: /api/${category}${route.path}`,
+                                    status: 'succeed',
+                                });
                             }
                         }
                             break;
@@ -75,12 +86,18 @@ export class Api {
                                 this.app.post(`/api${route.path}`, (req: Request, res: Response) => {
                                     route.handler(this.client, req, res);
                                 });
-                                console.log(`[API] Loaded ${method} route: /api${route.path}`);
+                                this.client.logger.add(`${route.name}`, {
+                                    text: `Loaded POST route: /api${route.path}`,
+                                    status: 'succeed',
+                                });
                             } else {
                                 this.app.post(`/api/${category}${route.path}`, (req: Request, res: Response) => {
                                     route.handler(this.client, req, res);
                                 });
-                                console.log(`[API] Loaded ${method} route: /api/${category}${route.path}`);
+                                this.client.logger.add(`${route.name}`, {
+                                    text: `Loaded POST route: /api/${category}${route.path}`,
+                                    status: 'succeed',
+                                });;
                             }
                         }
                             break;
@@ -90,12 +107,18 @@ export class Api {
                                 this.app.delete(`/api${route.path}`, (req: Request, res: Response) => {
                                     route.handler(this.client, req, res);
                                 });
-                                console.log(`[API] Loaded ${method} route: /api${route.path}`);
+                                this.client.logger.add(`${route.name}`, {
+                                    text: `Loaded DELETE route: /api${route.path}`,
+                                    status: 'succeed',
+                                });
                             } else {
                                 this.app.delete(`/api/${category}${route.path}`, (req: Request, res: Response) => {
                                     route.handler(this.client, req, res);
                                 });
-                                console.log(`[API] Loaded ${method} route: /api/${category}${route.path}`);
+                                this.client.logger.add(`${route.name}`, {
+                                    text: `Loaded DELETE route: /api/${category}${route.path}`,
+                                    status: 'succeed',
+                                });
                             }
                         }
                             break;
@@ -105,7 +128,7 @@ export class Api {
         });
 
         this.app.listen(this.client.settings.get('settings.api.port'), () => {
-            console.log(`[API] Listening on port ${this.client.settings.get('settings.api.port')}`);
+            this.client.logger.succeed('API', { text: 'API has initialized.' });
         });
     }
 }

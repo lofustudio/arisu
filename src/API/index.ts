@@ -1,8 +1,6 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import cors from 'cors';
 import helmet from 'helmet';
-import session from 'express-session';
 import path from 'path';
 import { readdirSync } from 'fs';
 import Cookie from '../Client';
@@ -18,7 +16,6 @@ export class Api {
 
     public async init() {
         this.app.use(bodyParser.json());
-        this.app.use(cors({ origin: `http://localhost:${this.client.settings.get('settings.api.port')}`, credentials: true }));
         this.app.use(helmet());
 
         this.app.get('/', (req, res) => {

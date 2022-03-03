@@ -1,17 +1,19 @@
 import Head from 'next/head'
 import React from 'react';
-import axios from 'axios';
 import { Divider, Stack, Text, SimpleGrid, Input, Button, Heading } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import Container from '../../components/Container'
+import axios from 'axios';
 import isAdmin from '../../util/isAdmin'
 
 export default function SettingsPage(settings) {
   const { data: session, status } = useSession()
 
-  const [prefix, setPrefix] = React.useState('')
+  const [prefix, setPrefix] = React.useState(settings.settings.prefix)
   const handlePrefixChange = (event) => setPrefix(event.target.value)
 
+  const [guildID, setGuildID] = React.useState(settings.settings.guildID)
+  const handleGuildID = (event) => setGuildID(event.target.value)
 
   if (status === 'loading') {
     return <div>Loading...</div>
@@ -45,7 +47,7 @@ export default function SettingsPage(settings) {
   if (!isAdmin(session.user.image)) {
     return (
       <>
-        <Container enableTransition={true}>
+        <Container enableTransition={false}>
           <Head>
             <title>Dashboard</title>
             <meta name="title" content="Dashboard" />
@@ -107,12 +109,12 @@ export default function SettingsPage(settings) {
             </Stack>
             <Stack alignContent="center" pt={8} spacing={4}>
               <Heading fontSize={{ base: "2xl", md: "3xl" }}>
-                Prefix
+                Server ID
               </Heading>
               <Input
-                value={prefix}
+                value={guildID}
                 placeholder={"Enter value"}
-                onChange={(e) => setPrefix(e.target.value)}
+                onChange={(e) => setGuildID(e.target.value)}
               />
               <Button variant={'solid'} p="4" ml="3vw" fontSize={"16px"}>
                 Update
@@ -125,7 +127,7 @@ export default function SettingsPage(settings) {
   )
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const res = await fetch(`http://localhost:3001/api/settings`)
   const settings = await res.json()
 

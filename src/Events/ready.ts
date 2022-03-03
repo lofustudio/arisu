@@ -138,7 +138,7 @@ export const event: DiscordEvent = {
         });
 
         const app = next({
-            dev: false,
+            dev: process.env.NODE_ENV != 'development',
             quiet: true,
             dir: './dashboard'
         });

@@ -10,3 +10,4 @@ dashboard/build
 /.next
 /dashboard/.env.local
 dashboard/.env
+/.github

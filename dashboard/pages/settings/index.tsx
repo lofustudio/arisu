@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import React from 'react';
-import { Divider, Stack, Text, SimpleGrid, Input, Button, Heading } from '@chakra-ui/react'
+import { Divider, Stack, Text, SimpleGrid, Input, Button, Heading, useToast } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import Container from '../../components/Container'
 import axios from 'axios';
@@ -8,6 +8,7 @@ import isAdmin from '../../util/isAdmin'
 
 export default function SettingsPage(settings) {
   const { data: session, status } = useSession()
+  const toast = useToast()
 
   const [prefix, setPrefix] = React.useState(settings.settings.prefix)
   const handlePrefixChange = (event) => setPrefix(event.target.value)
@@ -103,7 +104,29 @@ export default function SettingsPage(settings) {
                 placeholder={"Enter value"}
                 onChange={(e) => setPrefix(e.target.value)}
               />
-              <Button variant={'solid'} p="4" ml="3vw" fontSize={"16px"}>
+              <Button variant={'solid'} p="4" ml="3vw" fontSize={"16px"} onClick={() => {
+                axios.put('http://localhost:3001/api/settings', {
+                  "prefix": prefix
+                }).then(res => {
+                  if (res.status === 200) {
+                    toast({
+                      title: 'Success',
+                      description: 'Prefix successfully updated. Please restart the bot for changes to take effect.',
+                      status: 'success',
+                      duration: 3000,
+                      isClosable: true
+                    });
+                  } else {
+                    toast({
+                      title: 'Error',
+                      description: 'An error occured while updating the prefix.',
+                      status: 'error',
+                      duration: 3000,
+                      isClosable: true
+                    });
+                  }
+                })
+              }}>
                 Update
               </Button>
             </Stack>

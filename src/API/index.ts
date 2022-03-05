@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import path from 'path';
 import { readdirSync } from 'fs';
 import Cookie from '../Client';
+import cors from 'cors';
 import ms from 'ms';
 export class Api {
     private client: Cookie;
@@ -17,12 +18,18 @@ export class Api {
     public async init() {
         this.app.use(bodyParser.json());
         this.app.use(helmet());
+        this.app.use(cors());
+        const headers = {
+            "Allowed-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        }
 
         this.app.get('/', (req, res) => {
             res.redirect('/api');
         });
 
         this.app.get('/api', (req, res) => {
+            res.header(headers);
             res.send({ "hello": "world" });
         });
 
@@ -39,6 +46,7 @@ export class Api {
                         case "GET": {
                             if (path.parse(file).name === "index") {
                                 this.app.get(`/api${route.path}`, (req: Request, res: Response) => {
+                                    res.header(headers);
                                     route.handler(this.client, req, res);
                                 });
                                 this.client.logger.add(path.parse(file).name, {
@@ -47,6 +55,7 @@ export class Api {
                                 });
                             } else {
                                 this.app.get(`/api/${category}${route.path}`, (req: Request, res: Response) => {
+                                    res.header(headers);
                                     route.handler(this.client, req, res);
                                 });
                                 this.client.logger.add(`${route.name}`, {
@@ -60,6 +69,7 @@ export class Api {
                         case "PUT": {
                             if (path.parse(file).name === 'index') {
                                 this.app.put(`/api${route.path}`, (req: Request, res: Response) => {
+                                    res.header(headers);
                                     route.handler(this.client, req, res);
                                 });
                                 this.client.logger.add(path.parse(file).name, {
@@ -68,6 +78,7 @@ export class Api {
                                 });
                             } else {
                                 this.app.put(`/api/${category}${route.path}`, (req: Request, res: Response) => {
+                                    res.header(headers);
                                     route.handler(this.client, req, res);
                                 });
                                 this.client.logger.add(`${route.name}`, {
@@ -81,6 +92,7 @@ export class Api {
                         case "POST": {
                             if (path.parse(file).name === 'index') {
                                 this.app.post(`/api${route.path}`, (req: Request, res: Response) => {
+                                    res.header(headers);
                                     route.handler(this.client, req, res);
                                 });
                                 this.client.logger.add(`${route.name}`, {
@@ -89,6 +101,7 @@ export class Api {
                                 });
                             } else {
                                 this.app.post(`/api/${category}${route.path}`, (req: Request, res: Response) => {
+                                    res.header(headers);
                                     route.handler(this.client, req, res);
                                 });
                                 this.client.logger.add(`${route.name}`, {
@@ -102,6 +115,7 @@ export class Api {
                         case "DELETE": {
                             if (path.parse(file).name === 'index') {
                                 this.app.delete(`/api${route.path}`, (req: Request, res: Response) => {
+                                    res.header(headers);
                                     route.handler(this.client, req, res);
                                 });
                                 this.client.logger.add(`${route.name}`, {
@@ -110,6 +124,7 @@ export class Api {
                                 });
                             } else {
                                 this.app.delete(`/api/${category}${route.path}`, (req: Request, res: Response) => {
+                                    res.header(headers);
                                     route.handler(this.client, req, res);
                                 });
                                 this.client.logger.add(`${route.name}`, {

@@ -11,3 +11,4 @@ dashboard/build
 /dashboard/.env.local
 dashboard/.env
 /.github
+yarn.lock

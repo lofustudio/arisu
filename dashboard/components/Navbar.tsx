@@ -27,6 +27,7 @@ import {
   VStack,
   Text,
   Spinner,
+  Divider,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import useMediaQuery from "../hook/useMediaQuery";
@@ -45,28 +46,9 @@ export default function Navbar({ enableTransition }) {
 
   if (status === 'loading') {
     return (
-      <Flex
-        as="header"
-        alignItems="center"
-        justifyContent="center"
-        height="100vh"
-        width="100%"
-        position="fixed"
-        top="0"
-        left="0"
-        zIndex="1"
-      >
-        <Box
-          as="span"
-          role="img"
-          aria-label="loading"
-          fontSize="32px"
-        >
-          <Center>
-            <Spinner size="xl" />
-          </Center>
-        </Box>
-      </Flex>
+      <>
+        <div />
+      </>
     );
   }
 
@@ -78,35 +60,35 @@ export default function Navbar({ enableTransition }) {
           <ModalHeader />
           <ModalCloseButton />
           <ModalBody>
-            <SimpleGrid columns={2} spacing={4}>
+            <VStack>
+              <Avatar src={session.user.image} rounded="full" size={isLargerThan768 ? '2xl' : 'lg'} />
               <VStack>
-                <Avatar src={session.user.image} rounded="full" size={isLargerThan768 ? '2xl' : 'lg'} />
-                <VStack>
-                  <Text fontSize="26px" fontWeight="bold">{session.user.name}</Text>
-                  <Text fontSize="14px">{session.user.email}</Text>
-                </VStack>
+                <Text fontSize="26px" fontWeight="bold">{session.user.name}</Text>
+                <Text fontSize="14px">{session.user.email}</Text>
               </VStack>
-              <Center>
-                <VStack spacing={5}>
-                  <motion.a
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 1 }}
-                  >
+            </VStack>
+            <Center>
+              <SimpleGrid columns={isLargerThan768 ? 2 : 1} spacing={5} mt={'2vw'}>
+                <motion.a
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 1 }}
+                >
+                  <NextLink href="/profile" passHref>
                     <Button as="a" variant="solid" fontSize="16px">
-                      Settings
+                      Profile
                     </Button>
-                  </motion.a>
-                  <motion.a
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 1 }}
-                  >
-                    <Button as="a" variant="solid" fontSize="16px" onClick={() => { signOut({ redirect: true, callbackUrl: "/" }) }}>
-                      Log out
-                    </Button>
-                  </motion.a>
-                </VStack>
-              </Center>
-            </SimpleGrid>
+                  </NextLink>
+                </motion.a>
+                <motion.a
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 1 }}
+                >
+                  <Button as="a" variant="solid" fontSize="16px" onClick={() => { signOut({ redirect: true, callbackUrl: "/" }) }}>
+                    Log out
+                  </Button>
+                </motion.a>
+              </SimpleGrid>
+            </Center>
           </ModalBody>
           <Center>
             <ModalFooter />
@@ -136,16 +118,6 @@ export default function Navbar({ enableTransition }) {
                   Home
                 </Button>
               </NextLink>
-              <NextLink href="/projects" passHref>
-                <Button as="a" variant="ghost" fontSize="16px">
-                  Projects
-                </Button>
-              </NextLink>
-              <NextLink href="/blog" passHref>
-                <Button as="a" variant="ghost" fontSize="16px">
-                  Blog
-                </Button>
-              </NextLink>
             </Stack>
           </DrawerBody>
         </DrawerContent>
@@ -153,8 +125,9 @@ export default function Navbar({ enableTransition }) {
     </>
   );
 
+
   return (
-    <Box zIndex="99">
+    <Box zIndex="98">
       <Slide
         direction="top"
         in={true}

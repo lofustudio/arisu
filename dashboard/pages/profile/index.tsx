@@ -57,7 +57,7 @@ export default function IndexPage() {
                         </Text>
                     </Stack>
                     <Divider />
-                    <SimpleGrid columns={4} spacing={4}>
+                    <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={4}>
                         <Stack pt={8} spacing={4}>
                             <Heading as="h3" size="lg">
                                 Name

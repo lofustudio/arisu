@@ -5,8 +5,11 @@ import { useSession } from 'next-auth/react'
 import Container from '../../components/Container'
 import axios from 'axios';
 import isAdmin from '../../util/isAdmin'
+import useMediaQuery from '../../hook/useMediaQuery';
 
 export default function SettingsPage(settings) {
+  const isLargerThan768 = useMediaQuery(768);
+
   const { data: session, status } = useSession()
   const toast = useToast()
 
@@ -94,9 +97,9 @@ export default function SettingsPage(settings) {
             </Text>
           </Stack>
           <Divider />
-          <SimpleGrid columns={3} spacing={16}>
+          <SimpleGrid columns={isLargerThan768 ? 2 : 1} spacing={16}>
             <Stack alignContent="center" pt={8} spacing={4}>
-              <Heading fontSize={{ base: "2xl", md: "3xl" }}>
+              <Heading fontSize={{ sm: '2xl', md: '4xl' }}>
                 Prefix
               </Heading>
               <Input
@@ -131,7 +134,7 @@ export default function SettingsPage(settings) {
               </Button>
             </Stack>
             <Stack alignContent="center" pt={8} spacing={4}>
-              <Heading fontSize={{ base: "2xl", md: "3xl" }}>
+              <Heading fontSize={{ sm: '2xl', md: '4xl' }}>
                 Server ID
               </Heading>
               <Input
@@ -139,13 +142,36 @@ export default function SettingsPage(settings) {
                 placeholder={"Enter value"}
                 onChange={(e) => setGuildID(e.target.value)}
               />
-              <Button variant={'solid'} p="4" ml="3vw" fontSize={"16px"}>
+              <Button variant={'solid'} p="4" ml="3vw" fontSize={"16px"} onClick={() => {
+                console.log('http://localhost:3001/api/settings');
+                axios.put('http://localhost:3001/api/settings', {
+                  "guildID": guildID
+                }).then(res => {
+                  if (res.status === 200) {
+                    toast({
+                      title: 'Success',
+                      description: 'Server ID successfully updated. Please restart the bot for changes to take effect.',
+                      status: 'success',
+                      duration: 3000,
+                      isClosable: true
+                    });
+                  } else {
+                    toast({
+                      title: 'Error',
+                      description: 'An error occured while updating the server ID.',
+                      status: 'error',
+                      duration: 3000,
+                      isClosable: true
+                    });
+                  }
+                })
+              }}>
                 Update
               </Button>
             </Stack>
           </SimpleGrid>
         </Stack>
-      </Container>
+      </Container >
     </>
   )
 }

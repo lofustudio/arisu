@@ -103,7 +103,7 @@ export default function IndexPage(data) {
                     {isLargerThan1050 ? (
                         <>
                             <Flex>
-                                <VStack w={'35%'} align={'flex-start'}>
+                                <VStack w={'sm'} align={'flex-start'}>
                                     <Box
                                         boxShadow="lg"
                                         rounded="lg"

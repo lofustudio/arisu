@@ -5,7 +5,7 @@ export const command: DiscordCommand = {
     name: 'profile',
     description: 'View your profile.',
     category: 'Profile',
-    aliases: ['p'],
+    aliases: ['account'],
     visable: true,
     run: async (client, message, args) => {
         const userDB = client.userDB;

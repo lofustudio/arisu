@@ -1,13 +1,16 @@
 import Head from 'next/head'
-import { Box, Center, Heading, SimpleGrid, Flex, Stack, Spinner, Text, VStack } from '@chakra-ui/react'
+import { Box, Center, Heading, SimpleGrid, Flex, Stack, Spinner, Text, VStack, Divider, Button, Grid } from '@chakra-ui/react'
 import Container from '../../components/Container';
 import { useSession } from 'next-auth/react';
 import { motion, AnimateSharedLayout } from 'framer-motion';
 import useMediaQuery from '../../hook/useMediaQuery';
 import CommandCard from '../../components/CommandCard';
+import { useState } from 'react';
 
 export default function IndexPage(data) {
     const { data: session, status } = useSession();
+    const [filter, setFilter] = useState('all');
+    const isLargerThan1050 = useMediaQuery(1050);
 
     if (status === 'loading') {
         return (
@@ -38,6 +41,44 @@ export default function IndexPage(data) {
         )
     }
 
+    const categories = data.data.map(command => command.category).filter((value, index, self) => self.indexOf(value) === index);
+
+    const AllCommands = () => {
+        return (
+            <>
+                <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={{ base: 4, sm: 8 }}>
+                    <AnimateSharedLayout>
+                        {data.data.map((command) => (
+                            <CommandCard command={command} />
+                        ))}
+                    </AnimateSharedLayout>
+                </SimpleGrid>
+            </>
+        )
+    }
+
+    const FilteredCommands = () => {
+        return (
+            <>
+                <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={{ base: 4, sm: 8 }}>
+                    <AnimateSharedLayout>
+                        {data.data.filter(command => command.category === filter).map((command) => (
+                            <CommandCard command={command} />
+                        ))}
+                    </AnimateSharedLayout>
+                </SimpleGrid>
+            </>
+        )
+    }
+
+    const Commands = () => {
+        if (filter === 'all') {
+            return <AllCommands />
+        } else {
+            return <FilteredCommands />
+        }
+    }
+
     return (
         <>
             <Container enableTransition={true}>
@@ -46,24 +87,106 @@ export default function IndexPage(data) {
                     <meta name="title" content="Dashboard" />
                 </Head>
                 <Stack
-                    as="main"
-                    spacing="4vw"
-                    justifyContent="flex-start"
-                    alignItems="inherit"
-                    px={{ base: '5vw', md: '10vw' }}
-                    mt={{ base: '15vh', md: '22.5vh' }}
+                    spacing={5}
+                    justifyContent="center"
+                    px={["5vw", "10vw"]}
+                    my={["15vh", "15vh", "22.5vh", "22.5vh"]}
                 >
                     <Heading fontSize={{ base: '4xl', md: '6xl' }}>
                         Commands
                     </Heading>
-                    { /* Create a simplegrid with 2 columns, boxes with shadows containing the commands infomation */}
-                    <SimpleGrid columns={2} spacing={16}>
-                    <AnimateSharedLayout>
-                        {data.data.map((command) => (
-                            <CommandCard command={command} content={undefined} />
-                        ))}
-                        </AnimateSharedLayout>
-                    </SimpleGrid>
+                    <Text fontSize={{ base: "14px", md: "16px" }}>
+                        View all the bots commands here.
+                    </Text>
+                    <Divider />
+                    { /* Create a command category picker */}
+                    {isLargerThan1050 ? (
+                        <>
+                            <Flex>
+                                <VStack w={'35%'} align={'flex-start'}>
+                                    <Box
+                                        boxShadow="lg"
+                                        rounded="lg"
+                                        p={8}
+                                    >
+                                        <SimpleGrid columns={1} spacing={8}>
+                                            <motion.a
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 1 }}
+                                            >
+                                                <Button
+                                                    as="a"
+                                                    variant="solid"
+                                                    fontSize="16px"
+                                                    onClick={() => setFilter('all')}
+                                                >
+                                                    All
+                                                </Button>
+                                            </motion.a>
+                                            {categories.map(category => (
+                                                <motion.a
+                                                    whileHover={{ scale: 1.1 }}
+                                                    whileTap={{ scale: 1 }}
+                                                >
+                                                    <Button
+                                                        variant="solid"
+                                                        fontSize="16px"
+                                                        onClick={() => setFilter(category)}
+                                                    >
+                                                        {category}
+                                                    </Button>
+                                                </motion.a>
+                                            ))}
+                                        </SimpleGrid>
+                                    </Box>
+                                </VStack>
+                                <Commands />
+                            </Flex>
+                        </>
+                    ) : (
+                        <>
+
+                            <Stack>
+                                <Box
+                                    boxShadow="lg"
+                                    rounded="lg"
+                                    p={8}
+                                >
+                                    <SimpleGrid columns={{ base: 2, md: categories.length }} spacingY={8}>
+                                        <motion.a
+                                            whileHover={{ scale: 1.1 }}
+                                            whileTap={{ scale: 1 }}
+                                        >
+                                            <Button
+                                                variant="solid"
+                                                fontSize="16px"
+                                                size={'md'}
+                                                onClick={() => setFilter('all')}
+                                            >
+                                                All
+                                            </Button>
+                                        </motion.a>
+                                        {categories.map(category => (
+                                            <motion.a
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 1 }}
+                                            >
+                                                <Button
+                                                    variant="solid"
+                                                    fontSize="16px"
+                                                    onClick={() => setFilter(category)}
+                                                >
+                                                    {category}
+                                                </Button>
+                                            </motion.a>
+                                        ))}
+                                    </SimpleGrid>
+                                </Box>
+                            </Stack>
+                            <Commands />
+                        </>
+                    )}
+
                 </Stack>
             </Container>
         </>

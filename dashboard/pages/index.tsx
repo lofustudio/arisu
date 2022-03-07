@@ -6,7 +6,6 @@ import Script from 'next/script';
 import { motion } from 'framer-motion';
 import useMediaQuery from '../hook/useMediaQuery';
 import NextLink from 'next/link';
-import isAdmin from '../util/isAdmin';
 import fetchID from '../util/fetchID';
 
 export default function IndexPage() {

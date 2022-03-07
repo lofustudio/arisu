@@ -46,7 +46,7 @@ export default function IndexPage(data) {
     const AllCommands = () => {
         return (
             <>
-                <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={{ base: 4, sm: 8 }}>
+                <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={{ base: 4, sm: 8 }}>
                     <AnimateSharedLayout>
                         {data.data.map((command) => (
                             <CommandCard command={command} />
@@ -140,7 +140,9 @@ export default function IndexPage(data) {
                                         </SimpleGrid>
                                     </Box>
                                 </VStack>
-                                <Commands />
+                                <Box alignSelf={{ sm: 'center', md: 'flex-start' }}>
+                                    <Commands />
+                                </Box>
                             </Flex>
                         </>
                     ) : (
@@ -152,7 +154,7 @@ export default function IndexPage(data) {
                                     rounded="lg"
                                     p={8}
                                 >
-                                    <SimpleGrid columns={{ base: 2, md: categories.length }} spacingY={8}>
+                                    <SimpleGrid columns={{ base: 3, md: categories.length }} spacingY={8}>
                                         <motion.a
                                             whileHover={{ scale: 1.1 }}
                                             whileTap={{ scale: 1 }}
@@ -183,7 +185,9 @@ export default function IndexPage(data) {
                                     </SimpleGrid>
                                 </Box>
                             </Stack>
-                            <Commands />
+                            <Box alignSelf={{ sm: 'center', md: 'flex-start' }}>
+                                <Commands />
+                            </Box>
                         </>
                     )}
 

@@ -2,8 +2,9 @@ import Head from 'next/head'
 import { Box, Center, Heading, SimpleGrid, Flex, Stack, Spinner, Text, VStack } from '@chakra-ui/react'
 import Container from '../../components/Container';
 import { useSession } from 'next-auth/react';
-import { motion } from 'framer-motion';
+import { motion, AnimateSharedLayout } from 'framer-motion';
 import useMediaQuery from '../../hook/useMediaQuery';
+import CommandCard from '../../components/CommandCard';
 
 export default function IndexPage(data) {
     const { data: session, status } = useSession();
@@ -56,27 +57,12 @@ export default function IndexPage(data) {
                         Commands
                     </Heading>
                     { /* Create a simplegrid with 2 columns, boxes with shadows containing the commands infomation */}
-                    <SimpleGrid columns={2} spacing={8}>
+                    <SimpleGrid columns={2} spacing={16}>
+                    <AnimateSharedLayout>
                         {data.data.map((command) => (
-                            <motion.a
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 1 }}
-                            >
-                                <Box
-                                    key={command.name}
-                                    boxShadow="lg"
-                                    rounded="lg"
-                                    p={8}
-                                >
-                                    <Heading as="h3" size="lg" fontWeight="semibold">
-                                        {command.name}
-                                    </Heading>
-                                    <Text fontSize="lg" mt={2}>
-                                        {command.description}
-                                    </Text>
-                                </Box>
-                            </motion.a>
+                            <CommandCard command={command} content={undefined} />
                         ))}
+                        </AnimateSharedLayout>
                     </SimpleGrid>
                 </Stack>
             </Container>

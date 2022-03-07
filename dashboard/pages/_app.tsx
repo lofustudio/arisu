@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react"
 import type { AppProps } from 'next/app'
 
 import customTheme from '../styles/theme'
+import { AnimatePresence } from 'framer-motion'
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
@@ -13,10 +14,12 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <meta content="width=device-width, initial-scale=1" name="viewport" />
       </Head>
       <SessionProvider session={session}>
+      <AnimatePresence>
         <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
         <ChakraProvider theme={customTheme}>
           <Component {...pageProps} />
         </ChakraProvider>
+      </AnimatePresence>
       </SessionProvider>
     </>
   )

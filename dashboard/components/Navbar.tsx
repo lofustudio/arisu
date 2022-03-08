@@ -118,6 +118,16 @@ export default function Navbar({ enableTransition }) {
                   Home
                 </Button>
               </NextLink>
+              <NextLink href="/commands" passHref>
+                <Button as="a" variant="ghost" fontSize="16px">
+                  Commands
+                </Button>
+              </NextLink>
+              <NextLink href="/settings" passHref>
+                <Button as="a" variant="ghost" fontSize="16px">
+                  Settings
+                </Button>
+              </NextLink>
             </Stack>
           </DrawerBody>
         </DrawerContent>
@@ -152,6 +162,16 @@ export default function Navbar({ enableTransition }) {
           </NextLink>
           {isLargerThan768 ? (
             <Center>
+              <NextLink href="/" passHref>
+                <Button as="a" variant="ghost" fontSize="16px">
+                  Home
+                </Button>
+              </NextLink>
+              <NextLink href="/commands" passHref>
+                <Button as="a" variant="ghost" fontSize="16px">
+                  Commands
+                </Button>
+              </NextLink>
               <NextLink href={"/settings"} passHref>
                 <Button variant={"ghost"} p="4" ml="3vw" fontSize={"16px"}>
                   Settings

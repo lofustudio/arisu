@@ -1,10 +1,9 @@
 import React from 'react'
-import { Flex, Stack, Box, Text, useDisclosure, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Center } from '@chakra-ui/react'
+import { Flex, Stack, Box, Text, useDisclosure, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, Center, Heading, VStack } from '@chakra-ui/react'
 import Navbar from './Navbar'
 
 const Container = ({ enableTransition, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const finalRef = React.useRef()
 
   return (
     <>
@@ -17,24 +16,22 @@ const Container = ({ enableTransition, children }) => {
           <Text color="textPrimary" alignSelf={'center'} onClick={onOpen}>
             © {new Date().getFullYear()} tygerxqt
           </Text>
-          <Modal size={"3xl"} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>lore</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
+          <Drawer onClose={onClose} isOpen={isOpen} size={'full'}>
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerHeader />
+              <DrawerBody>
                 <Center>
-                  <video src='https://i.imgur.com/eUqTfWg.mp4' autoPlay loop />
+                  <VStack>
+                    <Text fontSize={'9xl'} onClick={onClose} style={{ cursor: 'pointer' }}>🗿</Text>
+                    <Text fontSize={'9xl'}>LORE!!!</Text>
+                    <Text fontSize={'4xl'}>(click moyai to close)</Text>
+                  </VStack>
+                  <audio src="https://cdn.discordapp.com/attachments/869982937553186877/951244599349874740/LORE.mp3" autoPlay loop />
                 </Center>
-              </ModalBody>
-
-              <ModalFooter>
-                <Button colorScheme='blue' mr={3} onClick={onClose}>
-                  Close
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
+              </DrawerBody>
+            </DrawerContent>
+          </Drawer>
         </Stack>
       </Box>
     </>

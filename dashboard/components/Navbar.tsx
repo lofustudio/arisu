@@ -137,7 +137,7 @@ export default function Navbar({ enableTransition }) {
 
 
   return (
-    <Box zIndex="98">
+    <Box zIndex="99">
       <Slide
         direction="top"
         in={true}
@@ -155,6 +155,7 @@ export default function Navbar({ enableTransition }) {
           width="100%"
           px={isLargerThan768 ? "4vw" : "4vw"}
           py={isLargerThan768 ? "2vw" : "4vw"}
+          bg={colorMode === 'light' ? '#F1F1F1' : '#1F1F1F'}
           borderBottom="0.5px solid borderColor"
         >
           <NextLink href="/">
@@ -168,7 +169,7 @@ export default function Navbar({ enableTransition }) {
                 </Button>
               </NextLink>
               <NextLink href="/commands" passHref>
-                <Button as="a" variant="ghost" fontSize="16px">
+                <Button as="a" variant={"ghost"} p="4" ml="3vw" fontSize={"16px"}>
                   Commands
                 </Button>
               </NextLink>

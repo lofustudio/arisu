@@ -1,5 +1,5 @@
 const Schema = {
-    prefix: '!',
+    prefix: '>',
     guildID: '839886398466687016',
 
     api: {

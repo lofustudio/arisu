@@ -23,11 +23,11 @@ const Container = ({ enableTransition, children }) => {
               <DrawerBody>
                 <Center>
                   <VStack>
-                    <Text fontSize={'9xl'} onClick={onClose} style={{ cursor: 'pointer' }}>🗿</Text>
-                    <Text fontSize={'9xl'}>LORE!!!</Text>
-                    <Text fontSize={'4xl'}>(click moyai to close)</Text>
+                    <video src="https://i.imgur.com/IfVTyNS.mp4" width={"320px"} height={'420px'} autoPlay loop onClick={onClose} />
+                    <Text fontSize={'9xl'}>LORE</Text>
+                    <Text fontSize={'4xl'}>(click dancing moyai to close)</Text>
                   </VStack>
-                  <audio src="https://cdn.discordapp.com/attachments/869982937553186877/951244599349874740/LORE.mp3" autoPlay loop />
+                  <audio src="https://cdn.discordapp.com/attachments/869982937553186877/951249004992295013/LORE.mp3" autoPlay loop />
                 </Center>
               </DrawerBody>
             </DrawerContent>

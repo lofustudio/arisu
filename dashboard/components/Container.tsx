@@ -1,7 +1,6 @@
 import React from 'react'
 import { Flex, Stack, Box, Text, useDisclosure, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Center } from '@chakra-ui/react'
 import Navbar from './Navbar'
-import ReactPlayer from 'react-player'
 
 const Container = ({ enableTransition, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()

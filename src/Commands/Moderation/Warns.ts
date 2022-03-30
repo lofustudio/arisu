@@ -13,11 +13,11 @@ export const command: DiscordCommand = {
         if (!message.member.permissions.has(Permissions.FLAGS.KICK_MEMBERS || Permissions.FLAGS.ADMINISTRATOR)) return message.channel.send('You don\'t have the correct permissions to use this command.');
 
         if (!args[0]) {
-            const warnObj: ServerWarnings = client.serverDB.get(`${message.guild.id}.warns`);
+            const warnObj: ServerWarnings = client.database.server.get(`${message.guild.id}.warns`);
             const embed = new MessageEmbed()
                 .setTitle(`All warnings in ${message.guild.name}`)
             message.channel.send({ embeds: [embed] });
         }
-        const warnsObj: ServerWarnings = client.userDB.get(`${message.member.id}.warns`);
+        const warnsObj: ServerWarnings = client.database.users.get(`${message.member.id}.warns`);
     }
 }

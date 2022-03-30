@@ -12,7 +12,7 @@ export const command: DiscordCommand = {
         const memberRole = message.guild.roles.cache.get('840301728817217606');
         const notVerifiedRole = message.guild.roles.cache.get('840362645085356052');
         const staffRole = message.guild.roles.cache.get('924024859556712489');
-        const hasMemberRole = client.userDB.get(`${message.author.id}.roles.member`);
+        const hasMemberRole = client.database.users.get(`${message.author.id}.roles.member`);
 
         if (message.member.roles.cache.has(staffRole.id)) return;
 
@@ -27,8 +27,8 @@ export const command: DiscordCommand = {
         }
 
         try {
-            client.userDB.set(`${message.author.id}.roles.member`, true);
-            client.userDB.set(`${message.author.id}.roles.notVerify`, false);
+            client.database.users.set(`${message.author.id}.roles.member`, true);
+            client.database.users.set(`${message.author.id}.roles.notVerify`, false);
             const res = await message.channel.send(`Verification complete!`);
             message.member.roles.remove(notVerifiedRole);
             message.member.roles.add(memberRole);

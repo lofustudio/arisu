@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Box, Heading, Text } from '@chakra-ui/react';
-import { TiArrowDown } from 'react-icons/ti';
 
 const Content = ({ command }) => {
   return (

@@ -114,7 +114,7 @@ export default function SettingsPage(settings) {
                   if (res.status === 200) {
                     toast({
                       title: 'Success',
-                      description: 'Prefix successfully updated. Please restart the bot for changes to take effect.',
+                      description: 'Prefix successfully updated.',
                       status: 'success',
                       duration: 3000,
                       isClosable: true
@@ -150,7 +150,7 @@ export default function SettingsPage(settings) {
                   if (res.status === 200) {
                     toast({
                       title: 'Success',
-                      description: 'Server ID successfully updated. Please restart the bot for changes to take effect.',
+                      description: 'Server ID successfully updated.',
                       status: 'success',
                       duration: 3000,
                       isClosable: true

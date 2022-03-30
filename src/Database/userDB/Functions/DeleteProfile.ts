@@ -1,9 +1,9 @@
 import Cookie from "../../../Client";
 
 async function deleteProfile(client: Cookie, memberID: string) {
-    if (!client.userDB.has(memberID)) return false;
+    if (!client.database.users.has(memberID)) return false;
     try {
-        client.userDB.delete(memberID)
+        client.database.users.delete(memberID)
     } catch (err) {
         console.log(err)
         return false;

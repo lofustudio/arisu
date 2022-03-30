@@ -1,4 +1,5 @@
 import { ApiRoute } from "../../../../Interfaces/ApiRoute";
+import SettingsSchema from '../../../Schemas/SettingsSchema';
 import Ajv from "ajv";
 
 export const route: ApiRoute = {
@@ -7,24 +8,11 @@ export const route: ApiRoute = {
     method: "PUT",
     handler: async (client, req, res) => {
         const update: object = req.body;
-        const data = client.settings.get('settings');
+        const data = client.database.settings.get('settings');
 
         const ajv = new Ajv();
-        const schema = {
-            type: "object",
-            properties: {
-                prefix: { type: "string" },
-                guildID: { type: "string" },
-                api: {
-                    type: "object", properties: {
-                        port: { type: "integer" }
-                    }
-                }
-            },
-            additionalProperties: false
-        }
 
-        const valid = ajv.validate(schema, update);
+        const valid = ajv.validate(SettingsSchema, update);
         if (!valid) {
             res.status(400).json({
                 error: ajv.errors
@@ -38,7 +26,7 @@ export const route: ApiRoute = {
         });
 
         // save the data
-        client.settings.set('settings', data);
+        client.database.settings.set('settings', data);
         res.json(data);
     }
 };

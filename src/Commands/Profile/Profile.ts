@@ -8,7 +8,7 @@ export const command: DiscordCommand = {
     aliases: ['account'],
     visable: true,
     run: async (client, message, args) => {
-        const userDB = client.userDB;
+        const userDB = client.database.users;
 
         if (!args[0]) {
             const nick = userDB.get(`${message.author.id}.nickname`) || 'None';

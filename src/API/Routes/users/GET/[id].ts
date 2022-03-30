@@ -5,7 +5,7 @@ export const route: ApiRoute = {
     description: 'Get info about a user',
     method: "GET",
     handler: async (client, req, res) => {
-        const user = client.userDB.get(req.params.id);
+        const user = client.database.users.get(req.params.id);
         if (!user) {
             res.status(404).json({
                 error: "User not found"

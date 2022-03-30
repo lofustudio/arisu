@@ -99,7 +99,6 @@ export default function IndexPage(data) {
                         View all the bots commands here.
                     </Text>
                     <Divider />
-                    { /* Create a command category picker */}
                     {isLargerThan1050 ? (
                         <>
                             <Flex>

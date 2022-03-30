@@ -61,7 +61,6 @@ export default function IndexPage() {
               <Heading fontSize={{ base: '4xl', md: '6xl' }}>
                 Welcome, {session.user.name}!
               </Heading>
-              { /* Create 4 boxes in a simplegrid with colored background with infomation in them */}
               <SimpleGrid columns={[1, 1, 2, 2]} spacing={16}>
                 <Stack
                   p={8}
@@ -119,11 +118,8 @@ export default function IndexPage() {
           ) : (
             <>
               <Heading fontSize={{ base: '4xl', md: '6xl' }}>
-                Redirecting...
+                Welcome! Please login to view this page.
               </Heading>
-              <Script>
-                {signIn('discord', { callbackUrl: '/', redirect: true })}
-              </Script>
             </>
           )}
         </Stack>

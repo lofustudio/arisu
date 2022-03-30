@@ -4,7 +4,7 @@ import { MemberWarning } from '../../../Interfaces/MemberWarning';
 
 async function addWarning(client: Cookie, member: GuildMember, moderator: string, reason?: string) {
     try {
-        let amount = client.userDB.get(`${member.id}.warns.amount`);
+        let amount = client.database.users.get(`${member.id}.warns.amount`);
         amount++;
         const warn: MemberWarning = {
             num: amount,
@@ -13,8 +13,8 @@ async function addWarning(client: Cookie, member: GuildMember, moderator: string
             timestamp: Date.now(),
             moderator
         };
-        client.userDB.push(`${member.id}.warns.data`, warn);
-        client.userDB.set(`${member.id}.warns.amount`, amount);
+        client.database.users.push(`${member.id}.warns.data`, warn);
+        client.database.users.set(`${member.id}.warns.amount`, amount);
 
         const embed = new MessageEmbed()
             .setTitle('You have been warned.')

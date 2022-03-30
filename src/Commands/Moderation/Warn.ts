@@ -16,7 +16,7 @@ export const command: DiscordCommand = {
 
         if (!member) return message.channel.send('I couldn\'t find that member. Please try warning them with their user ID instead.');
 
-        client.userDB.addWarning(client, member, message.author.tag, reason);
+        client.database.users.addWarning(client, member, message.author.tag, reason);
         message.react('✅');
     }
 }

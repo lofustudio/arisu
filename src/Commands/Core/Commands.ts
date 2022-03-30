@@ -5,11 +5,11 @@ export const command: DiscordCommand = {
     name: "commands",
     description: "Lists all commands",
     category: "Core",
-    aliases: ["help", "cmds"],
+    aliases: ["cmds"],
     visable: true,
     run: async (client, message, args) => {
         if (!args[0]) {
-            if (message.author.id === client.settings.get(`settings.owner.id`)) {
+            if (message.author.id === client.database.settings.get(`settings.owner.id`)) {
                 const core = client.commands.filter((command) => command.category === "Core").map((x) => '`' + x.name + '`').join(", ");
                 const moderation = client.commands.filter((command) => command.category === "Moderation").map((x) => '`' + x.name + '`').join(", ");
                 const owner = client.commands.filter((command) => command.category === "Owner").map((x) => '`' + x.name + '`').join(", ");
@@ -36,7 +36,7 @@ export const command: DiscordCommand = {
                     .addField("Core", core, false)
                     .addField("Moderation", moderation, false)
                     .addField("Profile", profile, false)
-                    .setFooter({ text: `To find more info on a specific command, use ${client.settings.get('settings.prefix')}commands [command]` })
+                    .setFooter({ text: `To find more info on a specific command, use ${client.database.settings.get('settings.prefix')}commands [command]` })
 
                 message.channel.send({ embeds: [embed] });
             }

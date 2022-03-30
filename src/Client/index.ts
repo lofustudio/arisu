@@ -1,14 +1,17 @@
-import { Client, Collection, CommandInteractionOptionResolver } from 'discord.js';
+import { Client, Collection } from 'discord.js';
 import path from 'path';
-import { table } from 'quick.db';
 import { readdirSync } from 'fs';
 import { DiscordCommand } from '../Interfaces/DiscordCommand';
 import { DiscordEvent } from '../Interfaces/DiscordEvent';
 import { BotConfig } from '../Interfaces/BotConfig';
 import BotConfigJSON from '../config.json';
-import Spinnies from 'spinnies'
+import Spinnies from 'spinnies';
 import botDB from '../Database/botDB';
 import userDB from '../Database/userDB';
+import mutesDB from '../Database/mutesDB';
+import tempBanDB from '../Database/tempBanDB';
+import serverDB from '../Database/serverDB';
+import SetUp from './setup';
 
 class Cookie extends Client {
     public commands: Collection<string, DiscordCommand> = new Collection();
@@ -16,21 +19,30 @@ class Cookie extends Client {
     public config: BotConfig = BotConfigJSON;
     public aliases: Collection<string, DiscordCommand> = new Collection();
 
-    public serverDB: table = new table('server', { filePath: './datbase/server.sqlite' });
-    public mutesDB: table = new table('mutes', { filePath: './database/mutes.sqlite' });
-    public tempBanDB: table = new table('tempbans', { filePath: './database/tempBans.sqlite' });
-    public userDB: userDB = new userDB('users');
-    public settings: botDB = new botDB('settings');
+    private serverDB: serverDB = new serverDB('server');
+    private mutesDB: mutesDB = new mutesDB('mutes');
+    private tempBanDB: tempBanDB = new tempBanDB('tempbans');
+    private usersDB: userDB = new userDB('users');
+    private botDB: botDB = new botDB('settings');
+
+    public database = {
+        server: this.serverDB,
+        mutes: this.mutesDB,
+        tempBans: this.tempBanDB,
+        users: this.usersDB,
+        settings: this.botDB
+    }
+
     public logger = new Spinnies({
         succeedPrefix: "✔",
         failPrefix: "✖",
     });
 
     public async init() {
-
-        this.logger.add('login', { text: 'Logging in...', color: '' });
+        if (this.database.settings.has('settings.firstTime') === false) return SetUp(this);
+        this.logger.add('login', { text: 'Logging in...' });
         this.login(this.config.token);
-        this.settings.SyncSettings();
+        this.database.settings.SyncSettings();
         this.logger.succeed('login', { text: 'Logged into Discord.' });
 
 

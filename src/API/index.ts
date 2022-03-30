@@ -5,7 +5,6 @@ import path from 'path';
 import { readdirSync } from 'fs';
 import Cookie from '../Client';
 import cors from 'cors';
-import ms from 'ms';
 export class Api {
     private client: Cookie;
     private app: express.Application;
@@ -139,7 +138,7 @@ export class Api {
             })
         });
 
-        this.app.listen(this.client.settings.get('settings.api.port'), () => {
+        this.app.listen(this.client.database.settings.get('settings.api.port'), () => {
             this.client.logger.succeed('API', { text: 'API has initialized.' });
         });
     }

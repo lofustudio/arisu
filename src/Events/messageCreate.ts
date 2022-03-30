@@ -2,38 +2,26 @@ import { DiscordCommand } from "../Interfaces/DiscordCommand";
 import { Message } from "discord.js";
 import Cookie from "../Client";
 import { DiscordEvent } from "../Interfaces/DiscordEvent";
-import ProfileSchema from "../Schemas/ProfileSchema";
 
 export const event: DiscordEvent = {
     name: 'messageCreate',
     run: (client: Cookie, message: Message) => {
-        if (message.author.bot || !message.guild || !message.content.startsWith(client.settings.get('settings.prefix'))) return;
+        // Check if the message is a mention of the bot
+        if (message.content.includes("<@!846139750779715584>")) client.commands.get('help').run(client, message, []);
 
-        const args = message.content.slice(client.settings.get('settings.prefix').length).trim().split(/ +/g);
+        // Check if the message was send by a bot, is not from a server, and make sure it starts with the prefix before we continue.
+        if (message.author.bot || !message.guild || !message.content.startsWith(client.database.settings.get('settings.prefix'))) return;
+
+        // Get the arguments and requested query
+        const args = message.content.slice(client.database.settings.get('settings.prefix').length).trim().split(/ +/g);
         const cmd = args.shift().toLowerCase();
 
         if (!cmd) return;
 
         // Update member
-        const memberID = message.author.id;
+        client.database.users.SyncMember(message);
 
-        // Check if there is any data missing for the member
-        Object.keys(ProfileSchema).forEach(key => {
-            if (!client.userDB.has(`${memberID}.${key}`)) {
-                client.userDB.set(`${memberID}.${key}`, ProfileSchema[key]);
-            }
-        });
-
-        // Fetch for the updated data
-        const profile = client.userDB.get(`${memberID}`);
-
-        // Check for any data that isn't in the schema
-        Object.keys(profile).forEach(key => {
-            if (!ProfileSchema.hasOwnProperty(key)) {
-                client.userDB.delete(`${memberID}.${key}`);
-            }
-        })
-
+        // Run command
         const command = client.commands.get(cmd) || client.aliases.get(cmd);
         if (command) (command as DiscordCommand).run(client, message, args);
     }

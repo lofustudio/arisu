@@ -1,9 +1,13 @@
 const Schema = {
     prefix: '>',
-    guildID: '839886398466687016',
+    guildID: 'CHANGE_ME',
 
     api: {
         port: 3001
+    },
+
+    dash: {
+        port: 3000
     }
 }
 

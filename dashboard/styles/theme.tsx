@@ -1,7 +1,6 @@
 import { theme as chakraTheme } from '@chakra-ui/react';
 import { extendTheme, ThemeConfig } from '@chakra-ui/react'
 import { mode, createBreakpoints } from "@chakra-ui/theme-tools"
-import { GlobalProps } from '@emotion/react';
 
 const config: Partial<ThemeConfig> = {
   useSystemColorMode: true,
@@ -16,40 +15,47 @@ const fluidType = (minFont, maxFont) => {
 }
 
 const styles = {
-  global: (props: GlobalProps) => ({
-    html: {
-      body: {
-        color: mode('#1D1D1D', '#FFFFFF')(props),
-        backgroundColor: mode('#FFFFFF', '#1D1D1D')(props),
-      }
-    },
-
-    // sidebar
-    '*::-webkit-scrollbar': {
-      width: '0.5rem',
-      height: '0.5rem',
-    },
-    '*::-webkit-scrollbar-track': {
-      background: mode('#FFFFFF', '#1D1D1D')(props),
-    },
-    '*::-webkit-scrollbar-thumb': {
-      background: mode('#1D1D1D', '#FFFFFF')(props),
-    },
-    '*::-webkit-scrollbar-thumb:hover': {
-      background: mode('#1D1D1D', '#FFFFFF')(props),
-    },
-    '*::-webkit-scrollbar-thumb:active': {
-      background: mode('#1D1D1D', '#FFFFFF')(props),
-    },
-    '*::-webkit-scrollbar-corner': {
-      background: mode('#FFFFFF', '#1D1D1D')(props),
-    },
-    Modal: {
-      baseStyle: {
-        backgroundColor: mode('#FFFFFF', '#1D1D1D')(props),
-      },
+  global: props => ({
+    body: {
+      color: mode('#101212', '#FFFFFF')(props),
+      bg: mode('#FFFFFF', '#101212')(props),
     },
   }),
+};
+
+const components = {
+  Drawer: {
+    // setup light/dark mode component defaults
+    baseStyle: props => ({
+      dialog: {
+        bg: mode('white', '#111111')(props),
+      },
+    }),
+  },
+
+  Menu: {
+    baseStyle: props => ({
+      list: {
+        bg: mode('white', '#111111')(props),
+      },
+    }),
+  },
+
+  Modal: {
+    baseStyle: props => ({
+      dialog: {
+        bg: mode('white', '#111111')(props),
+      }
+    })
+  },
+
+  Popover: {
+    baseStyle: props => ({
+      content: {
+        bg: mode('white', '#111111')(props),
+      }
+    })
+  }
 };
 
 const fonts = {
@@ -72,6 +78,7 @@ const overrides = {
   config,
   fonts,
   breakpoints,
+  components,
   fontWeights: {
     normal: 300,
     medium: 600,

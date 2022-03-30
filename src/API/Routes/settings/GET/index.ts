@@ -5,7 +5,7 @@ export const route: ApiRoute = {
     description: "Fetch the settings for the bot",
     method: "GET",
     handler: async (client, req, res) => {
-        const settings = client.settings.get('settings');
+        const settings = client.database.settings.get('settings');
         res.json(settings);
     }
 };

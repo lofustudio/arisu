@@ -26,8 +26,6 @@ import {
   SimpleGrid,
   VStack,
   Text,
-  Spinner,
-  Divider,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import useMediaQuery from "../hook/useMediaQuery";
@@ -156,6 +154,8 @@ export default function Navbar({ enableTransition }) {
           px={isLargerThan768 ? "4vw" : "4vw"}
           py={isLargerThan768 ? "2vw" : "4vw"}
           bg={colorMode === 'light' ? '#F1F1F1' : '#1F1F1F'}
+          backgroundColor={colorMode === "light" ? "rgba(255, 255, 255, 0.8)" : "rgba(16, 18, 18, 0.5)"}
+          backdropBlur={'blur(12px)'}
           borderBottom="0.5px solid borderColor"
         >
           <NextLink href="/">

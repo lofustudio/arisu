@@ -7,17 +7,21 @@
   "license": "MIT",
   "scripts": {
     "build": "remix build && tsc -p ./src",
-    "dev": "cross-env NODE_ENV=development node ./build/index.js",
-    "start": "cross-env NODE_ENV=production node ./build/index.js",
-    "generate": "npx prisma generate"
+    "dev": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts",
+    "start": "./build/index.js",
+    "generate:prisma": "npx prisma generate",
+    "generate:css": "npx tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css"
   },
   "dependencies": {
     "@prisma/client": "^3.15.2",
     "@remix-run/express": "^1.6.1",
     "@remix-run/node": "^1.6.1",
     "@remix-run/react": "^1.6.1",
+    "@remix-run/serve": "^1.6.1",
     "compression": "^1.7.4",
-    "cross-env": "^7.0.3",
+    "discord.js": "^13.8.0",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.18.0",
     "express": "^4.18.1",
     "morgan": "^1.10.0",
     "react": "^18.2.0",
@@ -31,7 +35,9 @@
     "@types/morgan": "^1.9.3",
     "@types/react": "^17.0.45",
     "@types/react-dom": "^17.0.17",
+    "npm-run-all": "^4.1.5",
     "prisma": "^3.15.2",
+    "tailwindcss": "^3.1.4",
     "typescript": "^4.6.4"
   },
   "engines": {

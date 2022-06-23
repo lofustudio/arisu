@@ -4,7 +4,6 @@ bin
 build
 public/build
 package-lock.json
-yarn.lock
 prisma/.env
 app/tailwind.css
 .env

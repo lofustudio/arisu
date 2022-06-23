@@ -1,5 +1,8 @@
 node_modules
 bin
+.cache
+build
+public/build
 package-lock.json
 yarn.lock
 prisma/.env

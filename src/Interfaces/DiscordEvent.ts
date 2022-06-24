@@ -1,11 +1,7 @@
-import Client from '../Client';
-import { ClientEvents, Message } from 'discord.js';
+import { ClientEvents } from 'discord.js';
 
-interface Run {
-    (client: Client, message?: Message, ...args: string[]): void;
-}
-
-export interface DiscordEvent {
-    name: keyof ClientEvents;
-    run: Run;
+export interface DiscordEvent<T extends keyof ClientEvents> {
+    name: T;
+    add: () => void;
+    run: (...args: ClientEvents[T]) => void | PromiseLike<void>;
 }

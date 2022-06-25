@@ -2,8 +2,8 @@
   "name": "cookie",
   "version": "1.0.0",
   "main": "build/index.js",
-  "repository": "tygerxqt/cookie",
-  "author": "tygerxqt <tygerxqt@gmail.com>",
+  "repository": "lofustudio/cookie",
+  "author": "tygerxqt <hello@tygr.dev>",
   "license": "MIT",
   "scripts": {
     "build": "concurrently \"npm run build:web\" \"npm run build:bot\"",

@@ -1,6 +1,4 @@
-import { Message } from 'discord.js';
-import { client } from '..';
-import { DiscordCommand } from '../Interfaces/DiscordCommand';
+import { DiscordCommand } from '../../Interfaces/DiscordCommand';
 
 export const command: DiscordCommand = {
     name: 'ping',
@@ -8,7 +6,7 @@ export const command: DiscordCommand = {
     module: 'Core',
     aliases: [],
     visable: true,
-    run: async (message: Message) => {
+    run: async (client, message) => {
         message.channel.send(`Pong! \`${client.ws.ping}\`ms`);
     },
 };

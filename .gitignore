@@ -7,3 +7,4 @@ package-lock.json
 prisma/.env
 app/tailwind.css
 .env
+json.sqlite

@@ -1,12 +1,8 @@
-import { client, commands } from '..';
 import { DiscordEvent } from '../Interfaces';
 
-export const messageCreate: DiscordEvent<'messageCreate'> = {
+export const event: DiscordEvent<'messageCreate'> = {
     name: 'messageCreate',
-    add: () => {
-        client.on('messageCreate', messageCreate.run);
-    },
-    run: (message) => {
+    run: (client, message) => {
         if (!message) return;
         // Check if the message is a mention of the bot
         if (/^<@!?(\d{17,19})>/.test(message.content))
@@ -25,7 +21,7 @@ export const messageCreate: DiscordEvent<'messageCreate'> = {
         const cmd = args.shift()!.toLowerCase();
 
         // Run command
-        const command = commands.get(cmd);
-        if (command) command.run(message, args);
+        const command = client.commands.get(cmd);
+        if (command) command.run(client, message, args);
     },
 };

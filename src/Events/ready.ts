@@ -1,26 +1,21 @@
-import { dev, serve } from '../Modules/Dash/dashboard';
-import { client } from '..';
+import { Dash } from '../Modules/Dash';
 import { DiscordEvent } from '../Interfaces/DiscordEvent';
-import { Logger } from '../Modules/Core/logger';
 
-export const ready: DiscordEvent<'ready'> = {
+export const event: DiscordEvent<'ready'> = {
     name: 'ready',
-    add: () => {
-        client.on('ready', ready.run);
-    },
-    run: () => {
-        const log = new Logger('ready');
+    run: (client) => {
+        const dash = new Dash();
         if (
             process.env.TS_NODE_DEV === 'true' ||
             process.env.NODE_ENV === 'development'
         ) {
-            log.info(
-                'Starting dashboard in development mode. http://localhost:3000/'
+            client.log.event.info(
+                'Starting dashboard in dev mode: http://localhost:3000/'
             );
-            dev();
+            dash.dev();
         } else {
-            log.info('Starting dashboard...');
-            serve();
+            client.log.event.info('Starting dashboard: http://localhost:3000/');
+            dash.serve();
         }
     },
 };

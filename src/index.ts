@@ -1,5 +1,5 @@
-import { Intents } from 'discord.js';
-import Client from './Modules/Client';
+import { Intents } from "discord.js";
+import Client from "./Modules/Client";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -18,8 +18,8 @@ new Client({
     presence: {
         activities: [
             {
-                name: 'The Cookie Jar',
-                type: 'WATCHING',
+                name: "The Cookie Jar",
+                type: "WATCHING",
             },
         ],
     },

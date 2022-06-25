@@ -1,5 +1,5 @@
-import { Message } from 'discord.js';
-import Client from '../Modules/Client';
+import type { Message } from "discord.js";
+import type Client from "../Modules/Client";
 
 interface Run {
     (client: Client, message: Message, args: string[]): void | Promise<void>;

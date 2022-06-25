@@ -1,5 +1,5 @@
 import { QuickDB } from "quick.db";
-import { DiscordCommand } from "../../Interfaces";
+import type { DiscordCommand } from "../../Interfaces";
 
 export const command: DiscordCommand = {
     name: "log",
@@ -14,15 +14,15 @@ export const command: DiscordCommand = {
             const modules = logs.map(log => log.value.module).filter((value, index, self) => self.indexOf(value) === index);
             let msg = "";
             modules.forEach(module => {
-                const filtered: Array<string> = []
+                const filtered: Array<string> = [];
                 logs.filter(log => log.value.module === module).forEach(log => {
                     filtered.push(log.value.value);
                 });
                 msg += `=== ${module[0].toUpperCase() + module.slice(1)} ===\n${filtered.join("\n")}\n\n`;
             });
             message.channel.send("```" + msg + "```");
-        } else {
+        } else
             message.channel.send("No logs found.");
-        }
-    }
-}
+
+    },
+};

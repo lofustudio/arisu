@@ -1,6 +1,6 @@
+import { PrismaClient } from "@prisma/client";
 import chalk from "chalk";
 import { MessageEmbed } from "discord.js";
-import { QuickDB } from "quick.db";
 
 export class Logger {
     private module: string;
@@ -8,17 +8,7 @@ export class Logger {
         this.module = module;
     }
 
-    private db = new QuickDB({ table: "logs" });
-
-    private generateID() {
-        let ID = "";
-        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        for (let i = 0; i < 12; i++)
-            ID += characters.charAt(Math.floor(Math.random() * 36));
-
-
-        return ID;
-    }
+    private database: PrismaClient = new PrismaClient();
 
     private log(message: string) {
         console.log(
@@ -27,9 +17,11 @@ export class Logger {
     }
 
     async error(message: string) {
-        await this.db.set(`${this.generateID()}`, {
-            module: this.module,
-            value: message,
+        await this.database.logs.create({
+            data: {
+                module: this.module,
+                message: message,
+            },
         });
         this.log(chalk.red("error") + " - " + message);
 
@@ -37,13 +29,15 @@ export class Logger {
             .setColor("#BF616A")
             .setTitle("❌ Something went wrong!")
             .setDescription(message);
-        return { embeds: [embed]};
+        return { embeds: [embed] };
     }
 
     async warn(message: string) {
-        await this.db.set(`${this.generateID()}`, {
-            module: this.module,
-            value: message,
+        await this.database.logs.create({
+            data: {
+                module: this.module,
+                message: message,
+            },
         });
         this.log(chalk.yellow("warn") + " - " + message);
 
@@ -51,29 +45,35 @@ export class Logger {
             .setColor("#EBCB8B")
             .setTitle("⚠️ Something went wrong!")
             .setDescription(message);
-        return { embeds: [embed]};
+        return { embeds: [embed] };
     }
 
     async info(message: string) {
-        await this.db.set(`${this.generateID()}`, {
-            module: this.module,
-            value: message,
+        await this.database.logs.create({
+            data: {
+                module: this.module,
+                message: message,
+            },
         });
         this.log(chalk.cyan("info") + " - " + message);
     }
 
     async debug(message: string) {
-        await this.db.set(`${this.generateID()}`, {
-            module: this.module,
-            value: message,
+        await this.database.logs.create({
+            data: {
+                module: this.module,
+                message: message,
+            },
         });
         this.log(chalk.magenta("debug") + " - " + message);
     }
 
     async trace(message: string) {
-        await this.db.set(`${this.generateID()}`, {
-            module: this.module,
-            value: message,
+        await this.database.logs.create({
+            data: {
+                module: this.module,
+                message: message,
+            },
         });
         this.log(chalk.magenta("trace") + " - " + message);
     }

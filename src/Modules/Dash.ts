@@ -10,72 +10,11 @@ export class Dash {
         exec("concurrently \"remix dev\" \"yarn run generate:css -- --watch\"", (err, stdout, stderr) => {
             if (err)
                 return console.error(err);
-
-
             console.log(stdout);
         });
-    }
-
-    public start() {
-        const BUILD_DIR = path.join(process.cwd(), "build");
-        console.log(BUILD_DIR);
-
-        const app = express();
-
-        app.use(compression());
-
-        app.disable("x-powered-by");
-
-        app.use(
-            "/build",
-            express.static("public/build", { immutable: true, maxAge: "1y" }),
-        );
-
-        app.use(express.static("public", { maxAge: "1h" }));
-
-        app.use(morgan("tiny"));
-
-        app.all(
-            "*",
-            process.env.NODE_ENV === "development"
-                ? (req, res, next) => {
-                    purgeRequireCache();
-
-                    return createRequestHandler({
-                        build: require(BUILD_DIR + "/remix.js"),
-                        mode: process.env.NODE_ENV,
-                    })(req, res, next);
-                }
-                : createRequestHandler({
-                    build: require(BUILD_DIR + "/remix.js"),
-                    mode: process.env.NODE_ENV,
-                }),
-        );
-        // TODO: Move port setting to the database.
-        const port = process.env.PORT || 3000;
-
-        app.listen(port, () => {
-            console.log(`Express server listening on port ${port}`);
-        });
-
-        function purgeRequireCache() {
-            for (const key in require.cache)
-                if (key.startsWith(BUILD_DIR))
-                    delete require.cache[key];
-
-
-        }
     }
 
     public serve() {
-        exec("yarn run build", (err, stdout, stderr) => {
-            if (err)
-                return console.error(err);
-
-
-            console.log(stdout);
-        });
-
         const BUILD_DIR = path.join(process.cwd(), "build");
         console.log(BUILD_DIR);
 
@@ -113,15 +52,13 @@ export class Dash {
         const port = process.env.PORT || 3000;
 
         app.listen(port, () => {
-            console.log(`[DASH] Dashboard listening on port ${port}.`);
+            console.log(`[DASH] info - Dashboard listening on port ${port}.`);
         });
 
         function purgeRequireCache() {
             for (const key in require.cache)
                 if (key.startsWith(BUILD_DIR))
                     delete require.cache[key];
-
-
         }
     }
 }

@@ -3,12 +3,13 @@ import { Client, Collection } from "discord.js";
 import type { DiscordCommand, DiscordEvent } from "../Interfaces";
 import path from "path";
 import { readdirSync } from "fs";
-import { QuickDB } from "quick.db";
 import { Logger } from "./Logger";
+import { PrismaClient } from "@prisma/client";
 
-class ExtendedClient extends Client {
+class Cookie extends Client {
     public commands: Collection<string, DiscordCommand> = new Collection();
     public events: Collection<string, DiscordEvent<never>> = new Collection();
+    public database: PrismaClient = new PrismaClient();
     public log: {
         init: Logger,
         bot: Logger,
@@ -20,9 +21,10 @@ class ExtendedClient extends Client {
         };
 
     public async init() {
-        // TODO: Add if no config, then set up here
-        const db = new QuickDB({ table: "logs" });
-        await db.deleteAll();
+        if (await this.database.logs.findMany().then(logs => logs.length >= 1)) {
+            await this.database.logs.deleteMany();
+        }
+
         this.log.init.info("Starting Cookie...");
 
         const eventPath = path.join(__dirname, "..", "Events");
@@ -57,4 +59,4 @@ class ExtendedClient extends Client {
     }
 }
 
-export default ExtendedClient;
+export default Cookie;

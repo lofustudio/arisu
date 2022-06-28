@@ -7,3 +7,5 @@ package-lock.json
 app/tailwind.css
 .env
 json.sqlite
+.eslintrc.js
+prisma/migrations

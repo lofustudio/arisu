@@ -1,7 +1,10 @@
+import Navbar from "./Navbar";
+
 export default function Container({ children }: any) {
     return (
         <>
-            <div className="w-screen h-screen">
+            <Navbar />
+            <div className="flex flex-col px-20">
                 {children}
             </div>
         </>

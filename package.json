@@ -14,11 +14,13 @@
     "generate:css": "npx tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css"
   },
   "dependencies": {
+    "@headlessui/react": "^1.6.5",
     "@prisma/client": "^3.15.2",
     "@remix-run/express": "^1.6.1",
     "@remix-run/node": "^1.6.1",
     "@remix-run/react": "^1.6.1",
     "@remix-run/serve": "^1.6.1",
+    "@tailwindcss/typography": "^0.5.2",
     "axios": "^0.27.2",
     "clsx": "^1.1.1",
     "compression": "^1.7.4",

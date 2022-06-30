@@ -49,13 +49,11 @@ export function App() {
                 <Meta />
                 <Links />
             </head>
-            <body>
-                <div className="text-black ease-in-out bg-white dark:bg-black dark:text-white">
-                    <Outlet />
-                    <ScrollRestoration />
-                    <Scripts />
-                    <LiveReload />
-                </div>
+            <body className="bg-white dark:bg-black text-black dark:text-white">
+                <Outlet />
+                <ScrollRestoration />
+                <Scripts />
+                <LiveReload />
             </body>
         </html>
     );

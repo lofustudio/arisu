@@ -9,3 +9,4 @@ app/tailwind.css
 json.sqlite
 .eslintrc.js
 prisma/migrations
+yarn-error.log

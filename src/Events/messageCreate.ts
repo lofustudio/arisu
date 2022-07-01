@@ -11,7 +11,8 @@ export const event: DiscordEvent<"messageCreate"> = {
         const prefix = guildPrefix ?? botPrefix ?? ">"
 
         // Check if the message is a mention of the bot
-        if (/^<@!?(\d{17,19})>/.test(message.content)) {
+        const mention = /^<@!?(\d{17,19})>/.exec(message.content)
+        if (mention && mention[1] === client.user?.id) {
             message.reply("My prefix is `" + prefix + "`!");
         }
 

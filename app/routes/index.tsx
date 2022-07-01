@@ -1,14 +1,16 @@
-import Container from "~/components/Container";
+import type { LoaderFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
+
+export const loader: LoaderFunction = async ({ request, params }) => {
+    return redirect("/dashboard");
+};
 
 export default function IndexRoute() {
     return (
-        <Container>
+        <div className="flex items-center justify-center h-screen">
             <h1 className="text-5xl font-bold">
-                Dashboard
+                Redirecting...
             </h1>
-            <p className="text-xl">
-                This is the dashboard page.
-            </p>
-        </Container>
+        </div>
     );
 }

@@ -22,21 +22,28 @@ model Guild {
   prefix     String      @default(">")
   moderation Moderation?
   backup     Backup?
+
+  guildUser GuildUser[]
 }
 
 model GlobalUser {
-  id        String     @id
-  guildUser GuildUser?
+  id        String      @id
+  guildUser GuildUser[]
+  admin     Boolean     @default(false)
 }
 
 model GuildUser {
-  globalUser   GlobalUser @relation(fields: [globalUserId], references: [id])
-  globalUserId String     @id
+  globalUser   GlobalUser @relation(fields: [globalUserId], references: [id], onDelete: Cascade)
+  globalUserId String
+  guild        Guild      @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  guildId      String
   prefix       String?
+
+  @@id([globalUserId, guildId])
 }
 
 model Moderation {
-  guild   Guild   @relation(fields: [guildId], references: [id])
+  guild   Guild   @relation(fields: [guildId], references: [id], onDelete: Cascade)
   guildId String  @id
   enabled Boolean @default(true)
   mute    String?

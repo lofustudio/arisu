@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.6.5",
+    "@popperjs/core": "^2.11.5",
     "@prisma/client": "^3.15.2",
     "@remix-run/express": "^1.6.1",
     "@remix-run/node": "^1.6.1",

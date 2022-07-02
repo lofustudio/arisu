@@ -6,14 +6,14 @@ export const loader: LoaderFunction = async ({ request }) => {
     return await authenticator.isAuthenticated(request);
 };
 
-export default function IndexRoute() {
+export default function CommandsRoute() {
     return (
         <Container>
             <h1 className="text-5xl font-bold">
-                Dashboard
+                Commands
             </h1>
             <p className="text-xl">
-                An overview of your profile and other useful information.
+                The full list of commands, with their descriptions, modules and other information about them.
             </p>
         </Container>
     );

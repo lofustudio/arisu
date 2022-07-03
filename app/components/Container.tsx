@@ -1,8 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { FaDiscord } from "react-icons/fa";
-import { RiParkingFill } from "react-icons/ri";
-import useMediaQuery from "~/hook/useMediaQuery";
 import { authenticator } from "~/services/auth.server";
 import Navbar from "./Navbar";
 
@@ -21,7 +19,7 @@ export default function Container({ children }: any) {
                 <>
                     <div className="flex flex-row">
                         <Navbar />
-                        <div className="flex flex-col p-10 w-5/6">
+                        <div className="flex flex-col p-10 ml-[20%]">
                             {children}
                         </div>
                     </div>

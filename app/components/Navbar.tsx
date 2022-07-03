@@ -27,7 +27,7 @@ export default function Navbar() {
                     <div className="flex items-center text-center">
                         <img className="h-8 w-8" src={theme === Theme.LIGHT ? "https://i.imgur.com/vS8XGbu.png" : "https://i.imgur.com/6vWxl4c.png"} />
                     </div>
-                    <div className="flex items-center text-center p-2 rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800">
+                    <div className="flex items-center text-center p-2 rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800 transition ease-in-out 300">
                         <button onClick={toggleTheme}>
                             {theme === Theme.LIGHT ? <BsFillMoonFill /> : <BsFillSunFill />}
                         </button>
@@ -85,18 +85,21 @@ export default function Navbar() {
                     <div className="flex flex-col gap-2 md:flex-row items-center md:justify-between w-full">
                         <div className="flex items-center text-center">
 
-                            <img className="h-8 w-8 rounded-full" src={`https://cdn.discordapp.com/avatars/${profile.__json.id}/${profile.__json.avatar}.png?size=512`} />
-
+                            <img className="h-8 w-8 rounded-full md:mr-2" src={`https://cdn.discordapp.com/avatars/${profile.__json.id}/${profile.__json.avatar}.png?size=512`} />
+                            <div className="hidden xl:flex xl:flex-row">
+                                <h1 className="font-semibold text-zinc-800 dark:text-white hidden xl:block">{profile.__json.username}</h1>
+                                <h1 className="font-semibold text-zinc-800 dark:text-white hidden xl:block">#{profile.__json.discriminator}</h1>
+                            </div>
                         </div>
 
                         <div className="flex flex-col md:flex-row">
                             <a href="/auth/profile">
-                                <div className="flex items-center text-center p-2 rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800">
+                                <div className="flex items-center text-center p-2 rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800 transition ease-in-out 300">
                                     <BiCog fontSize={"20px"} />
                                 </div>
                             </a>
                             <a onClick={() => {fetcher.submit(null, { action: "/auth/logout", method: "post" });}}>
-                                <div className="flex items-center text-center p-2 rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800">
+                                <div className="flex items-center text-center p-2 rounded-xl hover:bg-zinc-200 dark:hover:bg-zinc-800 transition ease-in-out 300">
                                     <BiLogOut fontSize={"20px"} />
                                 </div>
                             </a>

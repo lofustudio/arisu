@@ -6,6 +6,9 @@ export const command: DiscordCommand = {
     module: "Core",
     aliases: [],
     visable: true,
+    permissions: [],
+    permLevel: "MEMBER",
+    usage: "",
     run: (client, message) => {
         message.channel.send(`Pong! \`${client.ws.ping}\`ms`);
     },

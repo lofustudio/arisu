@@ -10,6 +10,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// === Bot ===
+
 model Bot {
   id     String @id @default("")
   prefix String @default(">")
@@ -17,41 +19,88 @@ model Bot {
   status Json   @default("{ \"type\": \"WATCHING\", \"message\": \"The Cookie Jar\", \"twitch\": \"lofustudio\" }")
 }
 
+enum Modules {
+  MODERATION
+  ECONOMY
+  BACKUP
+}
+
+// === Guild ===
+
 model Guild {
   id         String      @id
   prefix     String      @default(">")
   moderation Moderation?
+  economy    Economy?
   backup     Backup?
+  mutes      Mute[]
 
   guildUser GuildUser[]
+}
+
+// === Users ===
+
+enum permissionLevel {
+  NOT_VERIFIED
+  MEMBER
+  MODERATOR
+  ADMIN
+  OWNER
 }
 
 model GlobalUser {
   id        String      @id
   guildUser GuildUser[]
-  admin     Boolean     @default(false)
+  prefix    String      @default(">")
+  owner     Boolean     @default(false)
 }
 
 model GuildUser {
-  globalUser   GlobalUser @relation(fields: [globalUserId], references: [id], onDelete: Cascade)
-  globalUserId String
-  guild        Guild      @relation(fields: [guildId], references: [id], onDelete: Cascade)
-  guildId      String
-  prefix       String?
+  globalUser      GlobalUser      @relation(fields: [globalUserId], references: [id], onDelete: Cascade)
+  guild           Guild           @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  globalUserId    String
+  guildId         String
+  permissionLevel permissionLevel @default(NOT_VERIFIED)
+  xp              Int             @default(0)
+  level           Int             @default(1)
+  balance         Int             @default(0)
 
+  mute Mute?
   @@id([globalUserId, guildId])
 }
+
+model Mute {
+  guildUser             GuildUser @relation(fields: [guildUserGlobalUserId, guildId], references: [globalUserId, guildId])
+  Guild                 Guild     @relation(fields: [guildId], references: [id])
+  guildUserGlobalUserId String
+  guildId               String
+  mutedAt               DateTime  @default(now())
+  mutedUntil            DateTime
+  mutedBy               String
+
+  @@id([guildUserGlobalUserId, guildId])
+}
+
+// === Modules ===
 
 model Moderation {
   guild   Guild   @relation(fields: [guildId], references: [id], onDelete: Cascade)
   guildId String  @id
   enabled Boolean @default(true)
-  mute    String?
+  mute    Json    @default("{ \"role\": null, \"defaultDuration\": \"30m\" }")
+}
+
+model Economy {
+  guild    Guild   @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  guildId  String  @id
+  enabled  Boolean @default(true)
+  currency Json    @default("{ \"name\": \"Cookie\", \"symbol\": \"🍪\" }")
 }
 
 model Backup {
   guild                       Guild     @relation(fields: [id], references: [id])
   id                          String    @id
+  enabled                     Boolean   @default(true)
   name                        String
   icon                        String?
   splash                      String?
@@ -108,7 +157,7 @@ model EmojisOnRoles {
   emoji   Emoji  @relation(fields: [emojiId], references: [id], onDelete: Cascade)
   emojiId String
   role    Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  // * Deleting the role would remove the role restriction, which is not what Discord does (requires testing)
+  // * Deleting the role would remove the role restriction, which is not accurate to what Discord does.
   roleId  String
 
   @@id([emojiId, roleId])

@@ -8,16 +8,19 @@ import { PrismaClient } from "@prisma/client";
 
 class Cookie extends Client {
     public commands: Collection<string, DiscordCommand> = new Collection();
+    public aliases: Collection<string, DiscordCommand> = new Collection();
     public events: Collection<string, DiscordEvent<never>> = new Collection();
     public database: PrismaClient = new PrismaClient();
     public log: {
         init: Logger,
         bot: Logger,
         event: Logger,
+        command: Logger
     } = {
             init: new Logger("Init"),
             bot: new Logger("Bot"),
             event: new Logger("Event"),
+            command: new Logger("Command")
         };
 
     public async init() {
@@ -48,8 +51,8 @@ class Cookie extends Client {
 
                 if (command?.aliases.length !== 0)
                     command.aliases.forEach((alias: string) => {
-                        this.commands.set(alias, command);
-                        this.log.init.trace("Loaded command: " + command.name + ` (${command.aliases.join(", ")})`);
+                        this.aliases.set(alias, command);
+                        this.log.init.trace(`Added alias for ${command.name}: ` + `"${alias}"`);
                     });
 
             }

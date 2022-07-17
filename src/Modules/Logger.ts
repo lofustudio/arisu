@@ -19,7 +19,7 @@ export class Logger {
     async error(message: string) {
         await this.database.logs.create({
             data: {
-                module: this.module,
+                module: this.module.toLowerCase(),
                 message: message,
             },
         });
@@ -35,7 +35,7 @@ export class Logger {
     async warn(message: string) {
         await this.database.logs.create({
             data: {
-                module: this.module,
+                module: this.module.toLowerCase(),
                 message: message,
             },
         });
@@ -51,7 +51,7 @@ export class Logger {
     async info(message: string) {
         await this.database.logs.create({
             data: {
-                module: this.module,
+                module: this.module.toLowerCase(),
                 message: message,
             },
         });
@@ -61,7 +61,7 @@ export class Logger {
     async debug(message: string) {
         await this.database.logs.create({
             data: {
-                module: this.module,
+                module: this.module.toLowerCase(),
                 message: message,
             },
         });
@@ -71,7 +71,7 @@ export class Logger {
     async trace(message: string) {
         await this.database.logs.create({
             data: {
-                module: this.module,
+                module: this.module.toLowerCase(),
                 message: message,
             },
         });

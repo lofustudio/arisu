@@ -1,5 +1,6 @@
+import { AppShell, Button, Center, Container, Title, Text, Stack } from "@mantine/core";
 import type { LoaderFunction } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData, Link } from "@remix-run/react";
 import { FaDiscord } from "react-icons/fa";
 import { authenticator } from "~/services/auth.server";
 import Navbar from "./Navbar";
@@ -11,47 +12,47 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     };
 };
 
-export default function Container({ children }: any) {
+export default function AppContainer({ children }: any) {
     const profile = useLoaderData();
+    const fetcher = useFetcher();
     return (
         <>
             {profile ? (
                 <>
-                    <div className="flex flex-row">
-                        <Navbar />
-                        <div className="flex flex-col p-10 ml-[20%]">
-                            {children}
-                        </div>
-                    </div>
+                    <AppShell
+                        padding="md"
+                        navbar={<Navbar />}
+                        styles={(theme) => ({
+                            main: {
+                                backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],
+                            },
+                        })}
+                    >
+                        {children}
+                    </AppShell>
                 </>
             ) : (
                 <>
-                    <div className="flex items-center justify-center h-screen">
-                        <div className="min-w-[36vw] mix-h-[50vh] rounded-xl p-8 flex flex-col items-center gap-8">
-                            <div>
-                                <h1 className="text-center font-bold text-4xl mb-4">
-                                Log in
-                                </h1>
-                                <p className="font-light text-center">
+                    <Container>
+                        <Center>
+                            <Stack>
+                                <Title align="center">
+                                    Login
+                                </Title>
+                                <Text align="center">
                                 We only use your Discord information to authenticate you and to identify you as a user. <br />
                                     We do not store any account information on the database. <br /> Please refer to the{" "}
                                     <a href="https://cookiebot.tech/privacy">
                                         Privacy Policy
                                     </a>{" "}
                                     for more information.
-                                </p>
-                            </div>
-
-                            <Form action="/auth/discord" method="post">
-                                <button className="text-zinc-800 dark:text-white hover:bg-zinc-200 dark:hover:bg-zinc-900 py-2 px-4 rounded-xl transition ease-in-out 300">
-                                    <div className="flex flex-row gap-2 items-center">
-                                        <FaDiscord fontSize={"20px"} />
-                                        <span className="font-semibold">Login with Discord</span>
-                                    </div>
-                                </button>
-                            </Form>
-                        </div>
-                    </div>
+                                </Text>
+                                <Button px={4} py={2} style={{ transition: "ease-in-out", transitionDuration: "300" }} radius={"md"} leftIcon={<FaDiscord fontSize={"20px"} />} onClick={() => fetcher.submit(null, { method: "post", action: "/auth/discord" })}>
+                                    <span>Login with Discord</span>
+                                </Button>
+                            </Stack>
+                        </Center>
+                    </Container>
                 </>
             )}
         </>

@@ -7,22 +7,18 @@ import {
     Scripts,
     ScrollRestoration,
     useCatch,
-    useLoaderData,
 } from "@remix-run/react";
-import styles from "./tailwind.css";
-import clsx from "clsx";
-import { NonFlashOfWrongThemeEls, ThemeProvider, useTheme } from "./contexts/theme";
-import type { LoaderFunction } from "@remix-run/node";
-import type { Theme } from "./contexts/theme";
-import { getThemeSession } from "./utils/theme.server";
+import { Center, Container, MantineProvider, Text, Title } from "@mantine/core";
 
 export function ErrorBoundary({ error }: { error: Error }) {
     console.error(error);
     return (
-        <div className="h-screen justify-center">
-            <h1>There was an error</h1>
-            <p>{error.message}</p>
-        </div>
+        <Container style={{ justifyContent: "center", minHeight: "100%" }}>
+            <Center>
+                <Title>There was an error</Title>
+                <Text>{error.message}</Text>
+            </Center>
+        </Container>
     );
 }
 
@@ -33,18 +29,18 @@ export function CatchBoundary() {
     case 401:
         message = (
             <>
-                <p>
+                <Text>
                     Oops! Looks like you tried to visit a page that you do not have access
                     to.
-                </p>
+                </Text>
             </>
         );
         break;
     case 404:
         message = (
-            <p>
+            <Text>
                 Oops! Looks like you tried to visit a page that does not exist.
-            </p>
+            </Text>
         );
         break;
 
@@ -53,28 +49,14 @@ export function CatchBoundary() {
     }
 
     return (
-        <div className="h-screen justify-center">
-            <h1>
+        <Container style={{ justifyContent: "center", minHeight: "100%" }}>
+            <Title>
                 {caught.status}: {caught.statusText}
-            </h1>
+            </Title>
             {message}
-        </div>
+        </Container>
     );
 }
-
-export type LoaderData = {
-    theme: Theme | null;
-}
-
-export const loader: LoaderFunction = async ({ request }) => {
-    const themeSession = await getThemeSession(request);
-
-    const data: LoaderData = {
-        theme: themeSession.getTheme(),
-    };
-
-    return data;
-};
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -83,20 +65,17 @@ export const meta: MetaFunction = () => ({
 });
 
 export function links() {
-    return [{ rel: "stylesheet", href: styles }];
+    return [];
 }
 
 export function App() {
-    const data = useLoaderData<LoaderData>();
-    const [theme] = useTheme();
     return (
-        <html lang="en" className={clsx(theme)}>
+        <html lang="en">
             <head>
-                <NonFlashOfWrongThemeEls ssrTheme={Boolean(data.theme)} />
                 <Meta />
                 <Links />
             </head>
-            <body className="bg-[#f8f9f9] dark:bg-black text-black dark:text-white">
+            <body>
                 <Outlet />
                 <ScrollRestoration />
                 <Scripts />
@@ -107,11 +86,11 @@ export function App() {
 }
 
 export default function AppWithProviders() {
-    const data = useLoaderData<LoaderData>();
-
     return (
-        <ThemeProvider specifiedTheme={data.theme}>
+        <MantineProvider theme={{
+            colorScheme: "dark",
+        }}>
             <App />
-        </ThemeProvider>
+        </MantineProvider>
     );
 }

@@ -32,6 +32,7 @@ model Guild {
   prefix     String      @default(">")
   moderation Moderation?
   economy    Economy?
+  social     Social?
   backup     Backup?
   mutes      Mute[]
 
@@ -53,6 +54,15 @@ model GlobalUser {
   guildUser GuildUser[]
   prefix    String      @default(">")
   owner     Boolean     @default(false)
+  profile   Profile?
+}
+
+model Profile {
+  id         String     @id
+  bio        String     @default("")
+  banner     String     @default("")
+  birthday   String     @default("")
+  GlobalUser GlobalUser @relation(fields: [id], references: [id])
 }
 
 model GuildUser {
@@ -95,6 +105,12 @@ model Economy {
   guildId  String  @id
   enabled  Boolean @default(true)
   currency Json    @default("{ \"name\": \"Cookie\", \"symbol\": \"🍪\" }")
+}
+
+model Social {
+  guild   Guild   @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  guildId String  @id
+  enabled Boolean @default(true)
 }
 
 model Backup {

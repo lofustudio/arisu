@@ -33,8 +33,8 @@ export const event: DiscordEvent<"messageCreate"> = {
         // Run command
         const command: DiscordCommand | undefined = client.commands.get(cmd) || client.aliases.get(cmd);
         const member = await message.guild.members.fetch({ user: message.author });
-        let globalUser = await client.database.globalUser.findUnique({ where: { id: message.author.id } });
-        let guildUser = await client.database.guildUser.findUnique({ where: { globalUserId_guildId: { globalUserId: message.author.id, guildId: message.guild.id } } });
+        let globalUser = await client.database.globalUser.findUnique({ where: { id: message.author.id }, include: { profile: true } });
+        let guildUser = await client.database.guildUser.findUnique({ where: { globalUserId_guildId: { globalUserId: message.author.id, guildId: message.guild.id } }, include: { mute: true } });
         let guild = await client.database.guild.findUnique({ where: { id: message.guild.id } });
 
         // Check if member has guildUser and globalUser
@@ -47,7 +47,7 @@ export const event: DiscordEvent<"messageCreate"> = {
                 }
             });
 
-            globalUser = await client.database.globalUser.findUnique({ where: { id: member.user.id } });
+            globalUser = await client.database.globalUser.findUnique({ where: { id: message.author.id }, include: { profile: true } });
         }
 
         if (!guild) {
@@ -72,6 +72,10 @@ export const event: DiscordEvent<"messageCreate"> = {
                 data: { guildId: message.guild.id }
             });
 
+            await client.database.social.create({
+                data: { guildId: message.guild.id }
+            });
+
             guild = await client.database.guild.findUnique({ where: { id: message.guild.id } });
         }
 
@@ -88,25 +92,30 @@ export const event: DiscordEvent<"messageCreate"> = {
                 }
             });
 
-            guildUser = await client.database.guildUser.findUnique({ where: { globalUserId_guildId: { globalUserId: member.user.id, guildId: message.guild.id } } });
+            guildUser = await client.database.guildUser.findUnique({ where: { globalUserId_guildId: { globalUserId: message.author.id, guildId: message.guild.id } }, include: { mute: true } });
         }
 
         if (typeof loadingMessage != null) {
             loadingMessage?.delete();
         }
 
-        if (PermLevel[command?.permLevel as permissionLevel] >= PermLevel[guildUser?.permissionLevel as permissionLevel]) {
-            message.channel.send(`You don't have permission to use this command. Permission level \`${command?.permLevel}\` is required.`)
-            return;
-        }
+        if (command) {
+            if (PermLevel[guildUser?.permissionLevel as permissionLevel] === 0) {
+                message.reply(`You need to use \`${guild?.prefix}verify\` to prove you're not a robot before you can use any commands.`);
+                return;
+            }
 
-        if (
-            command
-            &&
-            member.permissions.has(command.permissions)
-            &&
-            PermLevel[command?.permLevel as permissionLevel] <= PermLevel[guildUser?.permissionLevel as permissionLevel]
-        )
-            command.run(client, message, args, { discord: { global: message.author, guild: member }, database: { global: globalUser, guild: guildUser } }, prefix);
+            if (PermLevel[command?.permLevel as permissionLevel] > PermLevel[guildUser?.permissionLevel as permissionLevel]) {
+                message.channel.send(`You don't have permission to use this command. Permission level \`${command?.permLevel}\` is required.`);
+                return;
+            }
+
+            if (
+                member.permissions.has(command.permissions)
+                &&
+                PermLevel[command?.permLevel as permissionLevel] <= PermLevel[guildUser?.permissionLevel as permissionLevel]
+            )
+                command.run(client, message, args, { discord: { global: message.author, guild: member }, database: { global: globalUser, guild: guildUser } }, prefix);
+        }
     },
 };

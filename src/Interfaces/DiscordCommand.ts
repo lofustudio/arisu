@@ -1,9 +1,24 @@
-import { GlobalUser, GuildUser, permissionLevel } from "@prisma/client";
+import { GlobalUser, GuildUser, Mute, permissionLevel, Profile } from "@prisma/client";
 import type { GuildMember, Message, PermissionResolvable, User } from "discord.js";
 import type Client from "../Modules/Client";
 
 interface Run {
-    (client: Client, message: Message, args: string[], member: { discord: { global: User, guild: GuildMember }, database: { global: GlobalUser | null, guild: GuildUser | null } }, prefix: string): unknown;
+    (
+        client: Client,
+        message: Message,
+        args: string[],
+        member: {
+            discord: {
+                global: User,
+                guild: GuildMember
+            },
+            database: {
+                global: (GlobalUser & { profile: Profile | null }) | null,
+                guild: (GuildUser & { mute: Mute | null }) | null
+            }
+        },
+        prefix: string
+    ): unknown;
 }
 
 export interface DiscordCommand {

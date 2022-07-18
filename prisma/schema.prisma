@@ -13,7 +13,7 @@ datasource db {
 // === Bot ===
 
 model Bot {
-  id     String @id @default("")
+  id     String @id
   prefix String @default(">")
   port   Int    @default(3000)
   status Json   @default("{ \"type\": \"WATCHING\", \"message\": \"The Cookie Jar\", \"twitch\": \"lofustudio\" }")

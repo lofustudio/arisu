@@ -37,6 +37,15 @@ export const event: DiscordEvent<"messageCreate"> = {
         let guildUser = await client.database.guildUser.findUnique({ where: { globalUserId_guildId: { globalUserId: message.author.id, guildId: message.guild.id } }, include: { mute: true } });
         let guild = await client.database.guild.findUnique({ where: { id: message.guild.id } });
 
+        const botData = await client.database.bot.findUnique({ where: { id: client.user?.id } });
+        if (!botData) {
+            await client.database.bot.create({
+                data: {
+                    id: client.user?.id as string
+                }
+            });
+        }
+
         // Check if member has guildUser and globalUser
         let loadingMessage: Message | null = null;
         if (!globalUser) {

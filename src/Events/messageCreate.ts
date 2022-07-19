@@ -10,11 +10,12 @@ export const event: DiscordEvent<"messageCreate"> = {
         const botPrefix = await client.database.bot.findFirst({ where: { id: message.guild?.id } }).then((data) => data?.prefix);
         const userPrefix = await client.database.globalUser.findFirst({ where: { id: message.author.id } }).then((data) => data?.prefix);
         const prefix = userPrefix ?? guildPrefix ?? botPrefix ?? ">"
+        // TODO: Check if the prefix has words, if so add a space between the prefix and commands to make it look pretty
 
         // Check if the message is a mention of the bot
         const mention = /^<@!?(\d{17,19})>/.exec(message.content)
         if (mention && mention[1] === client.user?.id) {
-            message.reply("My prefix is `" + prefix + "`!");
+            message.reply(`I'm currently listening for \`${prefix}\`.`);
         }
 
         // Check if the message was send by a bot, is not from a server, and make sure it starts with the prefix before we continue.

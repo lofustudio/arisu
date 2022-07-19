@@ -36,6 +36,37 @@ export const command: DiscordCommand = {
             owner.length >= 1 ? embed.addField("Owner", owner) : null;
 
             message.channel.send({ embeds: [embed] });
+        } else {
+            const commands = client.commands
+                .filter(commands => commands.visable === true)
+                .filter(commands => PermLevel[commands?.permLevel as permissionLevel] <= PermLevel[member.database.guild?.permissionLevel as permissionLevel])
+                .filter(command => command.name === args[0]);
+
+            if (commands.size > 1) {
+                let num = 0;
+                const embed = new MessageEmbed()
+                    .setTitle("Which command would you like to view?")
+                    .setDescription(commands.map((command) => `${num++}. \`${command.name} [${command.module}]\``).join("\n"));
+
+                message.channel.send({ embeds: [embed] });
+            } else {
+                console.log(command)
+                console.log(prefix)
+                const embed = new MessageEmbed()
+                    .setTitle(command.name)
+                    .setFields([
+                        { name: "Description", value: command.description },
+                        { name: "Module", value: command.module },
+                        { name: "Usage", value: `${prefix}${command.name} ${command.usage}` },
+                        { name: "Permission Lvl", value: `${command.permLevel}` },
+                    ]);
+
+                command.permissions.length >= 1 ? embed.addField("Permissions", command.permissions.length > 1 ? command.permissions.join(", ") : command.permissions[0].toString()) : null;
+                command.aliases.length >= 1 ? embed.addField("Alias(s)", command.aliases.length > 1 ? command.aliases.join(", ") : command.aliases[0]) : null;
+
+
+                message.channel.send({ embeds: [embed] });
+            }
         }
     }
 }

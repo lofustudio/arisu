@@ -4,7 +4,7 @@ import Log from "../../Interfaces/Log";
 export const command: DiscordCommand = {
     name: "logs",
     description: "Display all logs.",
-    module: "Moderation",
+    module: "Owner",
     aliases: [],
     usage: "[module]",
     permissions: ["ADMINISTRATOR", "VIEW_AUDIT_LOG"],

@@ -111,8 +111,13 @@ export const event: DiscordEvent<"messageCreate"> = {
 
         if (command) {
             if (PermLevel[guildUser?.permissionLevel as permissionLevel] === 0) {
-                message.reply(`You need to use \`${guild?.prefix}verify\` to prove you're not a robot before you can use any commands.`);
-                return;
+                if (command.name === "verify") {
+                    command.run(client, message, args, { discord: { global: message.author, guild: member }, database: { global: globalUser, guild: guildUser } }, prefix);
+                    return;
+                } else {
+                    message.reply(`You need to use \`${guild?.prefix}verify\` to prove you're not a robot before you can use any commands.`);
+                    return;
+                }
             }
 
             if (PermLevel[command?.permLevel as permissionLevel] > PermLevel[guildUser?.permissionLevel as permissionLevel]) {

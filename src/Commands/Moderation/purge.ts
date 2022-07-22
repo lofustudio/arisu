@@ -8,7 +8,7 @@ export const command: DiscordCommand = {
     aliases: [],
     permissions: ["MANAGE_MESSAGES"],
     permLevel: "MODERATOR",
-    usage: "<amount> [user]",
+    usage: "<amount> [user] -f",
     visable: true,
     run: async (client, message, args, member, prefix) => {
         if (!args[0])
@@ -24,12 +24,12 @@ export const command: DiscordCommand = {
             // me more smh - ty
 
             let loadingMessage = await message.channel.send(`Please wait...`);
-            const messages = await (await message.channel.messages.fetch({ limit: amount, before: loadingMessage.id })).filter(messages => !messages.pinned);
+            const messages = await (await message.channel.messages.fetch({ limit: amount, before: message.id })).filter(messages => !messages.pinned);
 
             if (args[1]) {
                 const user = message.guild?.members.cache.get(extractID(args[1]) as string);
                 if (!user) return loadingMessage.edit("I couldn't find that user.");
-                message.delete();
+
                 messages.filter(messages => messages.author.id === user?.id).map(message => {
                     if (message.deletable) {
                         message.delete();
@@ -38,7 +38,6 @@ export const command: DiscordCommand = {
 
                 return loadingMessage.edit(`I have deleted ${amount} messages that was sent by ${user?.user.tag}.`);
             } else {
-                message.delete();
                 messages.map(message => {
                     if (message.deletable) {
                         message.delete();

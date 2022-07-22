@@ -34,6 +34,7 @@
     "@remix-run/server-runtime": "^1.6.3",
     "@tailwindcss/typography": "^0.5.2",
     "axios": "^0.27.2",
+    "canvas": "^2.9.3",
     "clsx": "^1.1.1",
     "compression": "^1.7.4",
     "concurrently": "^7.2.2",

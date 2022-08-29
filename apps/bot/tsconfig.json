@@ -1,5 +1,5 @@
 {
-    "extends": "tsconfig/node16.json",
+    "extends": "@arisu/tsconfig/node16.json",
     "include": [
         "**/*.ts",
         "**/*.js"

@@ -17,7 +17,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "eslint-config-custom": "*",
+    "@arisu/eslint": "*",
     "prettier": "latest",
     "turbo": "latest"
   },

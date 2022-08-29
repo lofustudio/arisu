@@ -1,4 +1,4 @@
-import type { DiscordCommand } from "../../Interfaces/DiscordCommand";
+import type { DiscordCommand } from "../../Interfaces";
 import extractID from "../../Utils/extractID";
 
 export const command: DiscordCommand = {

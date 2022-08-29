@@ -1,5 +1,5 @@
 import type { DiscordCommand } from "../../Interfaces";
-import Log from "../../Interfaces/Log";
+import Log from "../../Interfaces/Core/Log";
 
 export const command: DiscordCommand = {
     name: "logs",

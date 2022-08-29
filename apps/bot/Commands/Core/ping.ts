@@ -1,4 +1,4 @@
-import type { DiscordCommand } from "../../Interfaces/DiscordCommand";
+import type { DiscordCommand } from "../../Interfaces/Core/DiscordCommand";
 
 export const command: DiscordCommand = {
     name: "ping",

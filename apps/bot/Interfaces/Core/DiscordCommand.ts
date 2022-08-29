@@ -1,6 +1,6 @@
 import { GlobalUser, GuildUser, Mute, permissionLevel, Profile } from "@prisma/client";
 import type { GuildMember, Message, PermissionResolvable, User } from "discord.js";
-import type Client from "../Modules/Client";
+import type Client from "../../Modules/Client";
 
 interface Run {
     (

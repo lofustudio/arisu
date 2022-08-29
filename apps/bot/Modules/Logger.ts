@@ -65,7 +65,7 @@ export class Logger {
                 message: message,
             },
         });
-        this.log(chalk.magenta("debug") + " - " + message);
+        if (process.env.DEBUG === "1") this.log(chalk.magenta("debug") + " - " + message);
     }
 
     async trace(message: string) {
@@ -75,6 +75,6 @@ export class Logger {
                 message: message,
             },
         });
-        this.log(chalk.magenta("trace") + " - " + message);
+        if (process.env.DEBUG === "1") this.log(chalk.magenta("trace") + " - " + message);
     }
 }

@@ -1,9 +1,9 @@
 
-import type { DiscordEvent } from "../Interfaces/DiscordEvent";
+import type { DiscordEvent } from "../Interfaces";
 
 export const event: DiscordEvent<"ready"> = {
     name: "ready",
-    run: (client) => {
-        console.log("Ready!")
+    run: async (client) => {
+        await client.log.init.info("Bot is ready.");
     },
 };

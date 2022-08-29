@@ -20,20 +20,20 @@ export const command: DiscordCommand = {
 
             // ew
             const core = AllCommands.filter(x => x.module === "Core").map((x) => '`' + x.name + '`').join(", ");
-            core.length >= 1 ? embed.addField("Core", core) : null;
+            core.length >= 1 ? embed.addFields({ name: "Core", value: core }) : null;
             const mod = AllCommands.filter(x => x.module === "Moderation").map((x) => '`' + x.name + '`').join(", ");
-            mod.length >= 1 ? embed.addField("Moderation", mod) : null;
+            mod.length >= 1 ? embed.addFields({ name: "Moderation", value: mod }) : null;
             const utils = AllCommands.filter(x => x.module === "Utilities").map((x) => '`' + x.name + '`').join(", ");
-            utils.length >= 1 ? embed.addField("Utilities", utils) : null;
+            utils.length >= 1 ? embed.addFields({ name: "Utilities", value: utils }) : null;
             const eco = AllCommands.filter(x => x.module === "Economy").map((x) => '`' + x.name + '`').join(", ");
-            eco.length >= 1 ? embed.addField("Economy", eco) : null;
+            eco.length >= 1 ? embed.addFields({ name: "Economy", value: eco }) : null;
             const music = AllCommands.filter(x => x.module === "Music").map((x) => '`' + x.name + '`').join(", ");
-            music.length >= 1 ? embed.addField("Music", music) : null;
+            music.length >= 1 ? embed.addFields({ name: "Music", value: music }) : null;
             const social = AllCommands.filter(x => x.module === "Social").map((x) => '`' + x.name + '`').join(", ");
-            social.length >= 1 ? embed.addField("Social", social) : null;
+            social.length >= 1 ? embed.addFields({ name: "Social", value: social }) : null;
 
             const owner = AllCommands.filter(x => x.module === "Owner").map((x) => '`' + x.name + '`').join(", ");
-            owner.length >= 1 ? embed.addField("Owner", owner) : null;
+            owner.length >= 1 ? embed.addFields({ name: "Owner", value: owner }) : null;
 
             message.channel.send({ embeds: [embed] });
         } else {
@@ -61,8 +61,8 @@ export const command: DiscordCommand = {
                         { name: "Permission Lvl", value: `${command.permLevel}` },
                     ]);
 
-                command.permissions.length >= 1 ? embed.addField("Permissions", command.permissions.length > 1 ? command.permissions.join(", ") : command.permissions[0].toString()) : null;
-                command.aliases.length >= 1 ? embed.addField("Alias(s)", command.aliases.length > 1 ? command.aliases.join(", ") : command.aliases[0]) : null;
+                command.permissions.length >= 1 ? embed.addFields({ name: "Permissions", value: command.permissions.length > 1 ? command.permissions.join(", ") : command.permissions[0].toString() }) : null;
+                command.aliases.length >= 1 ? embed.addFields({ name: "Alias(s)", value: command.aliases.length > 1 ? command.aliases.join(", ") : command.aliases[0] }) : null;
 
 
                 message.channel.send({ embeds: [embed] });

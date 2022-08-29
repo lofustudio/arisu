@@ -54,7 +54,7 @@ export const command: DiscordCommand = {
         let reason = args.slice(1).length >= 1 ? args[args.length - 1] === "-s" ? args.slice(1, args.length - 1).join(" ") : args.slice(1).join(" ") : "No reason specified.";
         if (args[args.length - 1] !== "-s") {
             target.send(`You have been banned from ${message.guild?.name}.\nReason: ${reason}`).catch((err) => {
-                client.log.command.warn("Unable to DM a user being banned.");
+                client.log.command.warn("Unable to DM the user being banned.");
             });
         }
 

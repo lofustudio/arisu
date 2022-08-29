@@ -3,13 +3,13 @@ import type { DiscordCommand, DiscordEvent } from "../Interfaces";
 import path from "path";
 import { readdirSync } from "fs";
 import { Logger } from "./Logger";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@arisu/database";
 
 class Cookie extends Client {
     public commands: Collection<string, DiscordCommand> = new Collection();
     public aliases: Collection<string, DiscordCommand> = new Collection();
     public events: Collection<string, DiscordEvent<never>> = new Collection();
-    public database: PrismaClient = new PrismaClient();
+    public database = prisma;
     public log: {
         init: Logger,
         bot: Logger,
@@ -27,7 +27,7 @@ class Cookie extends Client {
             await this.database.logs.deleteMany();
         }
 
-        this.log.init.info("Starting Cookie...");
+        await this.log.init.info("Booting up...");
 
         const eventPath = path.join(__dirname, "..", "Events");
         readdirSync(eventPath).forEach((file) => {
@@ -57,7 +57,9 @@ class Cookie extends Client {
             }
         });
 
-        this.login(process.env.TOKEN);
+        await this.login(process.env.TOKEN).then(() => {
+            this.log.init.info("Connected to Discord.")
+        });
     }
 }
 

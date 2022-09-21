@@ -8,7 +8,8 @@ export const command: DiscordCommand = {
     visable: true,
     permissions: [],
     permLevel: "MEMBER",
-    usage: "",
+    usage: "ping",
+    example: "ping",
     run: (client, message) => {
         message.channel.send(`Pong! \`${client.ws.ping}\`ms`);
     },

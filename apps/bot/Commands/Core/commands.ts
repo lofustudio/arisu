@@ -6,6 +6,7 @@ export const command: DiscordCommand = {
     name: "commands",
     description: "Display all avalible commands.",
     aliases: ["cmds"],
+    example: "commands",
     module: "Core",
     permissions: [],
     permLevel: "MEMBER",

@@ -7,6 +7,7 @@ export const command: DiscordCommand = {
     module: "Moderation",
     aliases: [],
     usage: "<mention | id> [reason]",
+    example: "unban @tyger#0001 my bad",
     visable: true,
     permissions: ["ADMINISTRATOR", "BAN_MEMBERS"],
     permLevel: "ADMIN",

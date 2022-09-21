@@ -8,6 +8,7 @@ export const command: DiscordCommand = {
     aliases: [],
     visable: false,
     usage: "<command>",
+    example: "eval message.channel.send('among us')",
     permissions: [],
     permLevel: "MEMBER",
     run: async (client, message, args, member) => {

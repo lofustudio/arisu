@@ -7,6 +7,7 @@ export const command: DiscordCommand = {
     aliases: [],
     module: "Core",
     usage: "[newPrefix || typeOfPrefix]",
+    example: "prefix !",
     visable: true,
     permissions: [],
     permLevel: "MEMBER",

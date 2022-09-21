@@ -28,6 +28,7 @@ export interface DiscordCommand {
     aliases: string[];
     visable: boolean;
     usage: string;
+    example: string;
     permissions: PermissionResolvable[];
     permLevel: permissionLevel;
     run: Run;

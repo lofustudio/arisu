@@ -7,6 +7,7 @@ export const command: DiscordCommand = {
     module: "Owner",
     aliases: [],
     usage: "[module]",
+    example: "logs init",
     permissions: ["ADMINISTRATOR", "VIEW_AUDIT_LOG"],
     permLevel: "OWNER",
     visable: true,

@@ -9,6 +9,7 @@ export const command: DiscordCommand = {
     aliases: [],
     permissions: [],
     usage: "[option] [...optionQueries]",
+    example: "profile color #f1e4f1",
     visable: true,
     permLevel: "MEMBER",
     run: async (client, message, args, member, prefix) => {
@@ -17,17 +18,18 @@ export const command: DiscordCommand = {
             const currencyData = guildData?.economy?.currency as unknown as CurrencyJSON;
             const embed = new MessageEmbed()
                 .setAuthor({ iconURL: message.author.displayAvatarURL({ dynamic: true, size: 512 }), name: `${message.author.tag}'s Profile` })
-            // Add Pixel data here for tyger's valley https://tygr.dev/discord
+            // TODO: Add Pixel data here for tyger's valley https://tygr.dev/discord
             if (member.database.global?.profile?.bio && member.database.global?.profile?.bio.length >= 1) {
                 embed.setDescription(`${member.database.global?.profile?.bio}`);
             }
             if (guildData?.social?.enabled === true) {
-                embed.addField("XP", member.database.guild?.xp.toString() as string, true)
-                embed.addField("Level", member.database.guild?.level.toString() as string, true)
+                embed.addFields({ name: "XP", value: member.database.guild?.xp.toString() as string, inline: true })
+                embed.addFields({ name: "Level", value: member.database.guild?.level.toString() as string, inline: true })
+                embed.addFields({ name: "Perm", value: member.database.guild?.permissionLevel.toString() as string, inline: true })
             }
 
             if (guildData?.economy?.enabled === true) {
-                embed.addField(`${currencyData?.symbol} ${currencyData?.name}'s`, `${member.database.guild?.balance.toString() as string}`)
+                embed.addFields({ name: `${currencyData?.symbol} ${currencyData?.name}'s`, value: `${member.database.guild?.balance.toString() as string}` })
             }
 
             message.channel.send({ embeds: [embed] });

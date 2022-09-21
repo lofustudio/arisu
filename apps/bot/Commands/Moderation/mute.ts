@@ -13,6 +13,7 @@ export const command: DiscordCommand = {
     permissions: ["ADMINISTRATOR", "KICK_MEMBERS"],
     permLevel: "MODERATOR",
     usage: "<user> <time> [reason] (-s)",
+    example: "mute @tyger#0001 1w loud",
     run: async (client, message, args, member) => {
         const modModule = await client.database.moderation.findUnique({ where: { guildId: message.guild?.id } });
         if (modModule?.enabled === false) return message.channel.send("The `Moderation` module isn't enabled. Please enable the module and try again.");

@@ -7,6 +7,7 @@ export const command: DiscordCommand = {
     module: "Core",
     aliases: [],
     usage: "",
+    example: "verify",
     visable: false,
     permissions: [],
     permLevel: "NOT_VERIFIED",

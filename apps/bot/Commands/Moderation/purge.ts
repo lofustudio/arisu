@@ -8,7 +8,8 @@ export const command: DiscordCommand = {
     aliases: [],
     permissions: ["MANAGE_MESSAGES"],
     permLevel: "MODERATOR",
-    usage: "<amount> [user] -f",
+    usage: "<amount> [user] [reason] (-f = force)",
+    example: "purge 50 -f",
     visable: true,
     run: async (client, message, args, member, prefix) => {
         if (!args[0])

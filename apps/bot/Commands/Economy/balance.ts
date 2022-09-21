@@ -1,4 +1,4 @@
-import type { DiscordCommand } from "../../Interfaces";
+import type { CurrencyJSON, DiscordCommand } from "../../Interfaces";
 import extractID from "../../Utils/extractID";
 
 export const command: DiscordCommand = {
@@ -7,10 +7,13 @@ export const command: DiscordCommand = {
     module: "Economy",
     aliases: ["money", "bal"],
     usage: "[mention | id]",
+    example: "bal @tyger#0001",
     visable: true,
     permissions: [],
     permLevel: "MEMBER",
     run: async (client, message, args) => {
+        const eco = await client.database.economy.findUnique({ where: { guildId: message.guild?.id } });
+        const currency = eco?.currency as unknown as CurrencyJSON;
         if (args[0]) {
             if (!message.guild) return;
             const targetId = extractID(args[0]);
@@ -30,8 +33,7 @@ export const command: DiscordCommand = {
                 return
             }
 
-            // TODO: make a column to store money in
-            message.reply(`${"Get username"} has ${"TODO"} ${"Cookies."}`)
+            message.reply(`${message.guild.members.cache.get(targetId)?.user.tag} has ${target.balance} ${currency.name}s.`)
         } else {
             const user = await client.database.guildUser.findUnique({
                 where: {
@@ -40,9 +42,9 @@ export const command: DiscordCommand = {
                         guildId: message.guild!.id
                     }
                 }
-            })
+            });
 
-            message.reply(`You have ${"TODO"} ${"Cookies."}`)
+            message.reply(`You have ${user?.balance} ${currency.name}s.`)
         }
     },
 };

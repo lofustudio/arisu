@@ -10,6 +10,7 @@ export const command: DiscordCommand = {
     module: "Moderation",
     aliases: [],
     usage: "<mention | id> [reason] [-s]",
+    example: "kick @tyger#0001 you smell",
     visable: true,
     permissions: ["ADMINISTRATOR", "KICK_MEMBERS"],
     permLevel: "MODERATOR",

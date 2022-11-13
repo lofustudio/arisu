@@ -2,34 +2,28 @@
   "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
     "build": {
-      "dependsOn": [
-        "format",
-        "lint",
-        "^build"
-      ],
-      "outputs": [
-        "dist/**",
-        ".next/**"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
     },
-    "lint": {
-      "dependsOn": [],
-      "env": [
-        "NODE_ENV"
-      ]
+    "db:migrate:deploy": {
+      "outputs": []
     },
-    "format": {
+    "db:push": {
+      "outputs": []
+    },
+    "db:seed": {
       "outputs": []
     },
     "dev": {
       "cache": false
+    },
+    "generate": {
+      "dependsOn": ["^generate"]
+    },
+    "lint": {
+      "outputs": []
     }
   },
-  "globalDependencies": [
-    ".env",
-    ".env.example"
-  ],
-  "globalEnv": [
-    "TOKEN"
-  ]
+  "globalDependencies": [".env.*"],
+  "globalEnv": ["NODE_ENV"]
 }

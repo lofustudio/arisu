@@ -1,1 +1,1 @@
-module.exports = require("@arisu/eslint");
+module.exports = require("@arisu/config/eslint-preset");

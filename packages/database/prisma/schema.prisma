@@ -2,12 +2,14 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider             = "postgresql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 // === Bot ===
@@ -33,7 +35,6 @@ model Guild {
   moderation Moderation?
   economy    Economy?
   social     Social?
-  backup     Backup?
   mutes      Mute[]
 
   guildUser GuildUser[]
@@ -76,6 +77,7 @@ model GuildUser {
   balance         Int             @default(0)
 
   mute Mute?
+
   @@id([globalUserId, guildId])
 }
 
@@ -111,102 +113,6 @@ model Social {
   guild   Guild   @relation(fields: [guildId], references: [id], onDelete: Cascade)
   guildId String  @id
   enabled Boolean @default(true)
-}
-
-model Backup {
-  guild                       Guild     @relation(fields: [id], references: [id])
-  id                          String    @id
-  enabled                     Boolean   @default(true)
-  name                        String
-  icon                        String?
-  splash                      String?
-  discoverySplash             String?
-  afkChannelId                String?
-  afkTimeout                  Int
-  widgetEnabled               Boolean   @default(false)
-  widgetChannelId             String?
-  verificationLevel           Int
-  defaultMessageNotifications Int
-  explicitContentFilter       Int
-  roles                       Role[]
-  emojis                      Emoji[]
-  features                    String[]
-  mfaLevel                    Int
-  systemChannelId             String?
-  systemChannelFlags          Int
-  rulesChannelId              String?
-  description                 String?
-  preferredLocale             String    @default("en-US")
-  publicUpdatesChannelId      String?
-  stickers                    Sticker[]
-  premiumProgressBarEnabled   Boolean
-
-  Channel Channel[]
-}
-
-model Role {
-  id           String  @id
-  guild        Backup  @relation(fields: [guildId], references: [id], onDelete: Cascade)
-  guildId      String
-  name         String
-  color        Int
-  hoist        Boolean
-  icon         String?
-  unicodeEmoji String?
-  position     Int
-  permissions  String
-  managed      Boolean
-  mentionable  Boolean
-
-  emojis EmojisOnRoles[]
-}
-
-model Emoji {
-  id      String          @id
-  guild   Backup          @relation(fields: [guildId], references: [id], onDelete: Cascade)
-  guildId String
-  roles   EmojisOnRoles[]
-  image   String
-}
-
-model EmojisOnRoles {
-  emoji   Emoji  @relation(fields: [emojiId], references: [id], onDelete: Cascade)
-  emojiId String
-  role    Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  // * Deleting the role would remove the role restriction, which is not accurate to what Discord does.
-  roleId  String
-
-  @@id([emojiId, roleId])
-}
-
-model Sticker {
-  id          String @id
-  guild       Backup @relation(fields: [guildId], references: [id], onDelete: Cascade)
-  guildId     String
-  name        String
-  description String
-  tags        String
-  file        String
-}
-
-model Channel {
-  id                   String   @id
-  guild                Backup   @relation(fields: [guildId], references: [id], onDelete: Cascade)
-  guildId              String
-  type                 Int
-  position             Int
-  permissionOverwrites Json
-  name                 String
-  topic                String?
-  nsfw                 Boolean?
-  bitrate              Int?
-  userLimit            Int?
-  rateLimitPerUser     Int?
-  parent               Channel? @relation("Categories", fields: [parentId], references: [id], onDelete: SetNull)
-  parentId             String?
-  rtcRegion            String?
-
-  children Channel[] @relation("Categories")
 }
 
 model Logs {

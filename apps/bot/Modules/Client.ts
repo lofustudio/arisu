@@ -23,10 +23,6 @@ class Cookie extends Client {
         };
 
     public async init() {
-        if (await this.database.logs.findMany().then(logs => logs.length >= 1)) {
-            await this.database.logs.deleteMany();
-        }
-
         await this.log.init.info("Booting up...");
 
         const eventPath = path.join(__dirname, "..", "Events");

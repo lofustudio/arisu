@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "clean": "rimraf .next .turbo",
+    "clear": "yarn run clean && rimraf node_modules",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

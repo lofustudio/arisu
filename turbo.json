@@ -2,8 +2,16 @@
   "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**"
+      ]
+    },
+    "clean": {
+      "cache": false
     },
     "db:migrate:deploy": {
       "outputs": []
@@ -18,12 +26,18 @@
       "cache": false
     },
     "generate": {
-      "dependsOn": ["^generate"]
+      "dependsOn": [
+        "^generate"
+      ]
     },
     "lint": {
       "outputs": []
     }
   },
-  "globalDependencies": [".env.*"],
-  "globalEnv": ["NODE_ENV"]
+  "globalDependencies": [
+    ".env.*"
+  ],
+  "globalEnv": [
+    "NODE_ENV"
+  ]
 }

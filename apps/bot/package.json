@@ -5,6 +5,8 @@
     "license": "MIT",
     "scripts": {
         "build": "rimraf ./build && tsc -p .",
+        "clean": "rimraf dist .turbo",
+        "clear": "yarn run clean && rimraf node_modules",
         "dev": "tsnd --respawn --transpile-only --poll .",
         "start": "node ./build/index.js"
     },

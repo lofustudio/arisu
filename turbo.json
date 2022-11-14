@@ -23,6 +23,9 @@
       "outputs": []
     },
     "dev": {
+      "dependsOn": [
+        "generate"
+      ],
       "cache": false
     },
     "generate": {

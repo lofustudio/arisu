@@ -20,7 +20,7 @@ The structure of the repo is as follows:
 
 ## Running Locally
 
-As previosuly mentioned, Arisu uses [pnpm](https://pnpm.io/installation) for it's package manager so you'll need to make sure you have it installed.
+Arisu uses [pnpm](https://pnpm.io/installation) for it's package manager so you'll need to make sure you have it installed.
 Additionally, [NodeJS](https://nodejs.org/en) version 16 or higher is required.
 
 Here are some command to help you setup the workspace on your local machine:

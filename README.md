@@ -1,6 +1,7 @@
 # Arisu
 
-The only Discord bot you'll need. Developed by [tygerxqt](https://github.com/tygerxqt) and [NyanSpaghetti](https://github.com/NyanSpaghetti).
+An all-in-one, easy to host, multi-purpose Discord bot.  
+Developed by [tygerxqt](https://github.com/tygerxqt) and [NyanSpaghetti](https://github.com/NyanSpaghetti).
 
 ## What's in the box?
 

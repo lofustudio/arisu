@@ -1,16 +1,12 @@
-import { DiscordCommand, DiscordEvent, PermLevel } from "../Interfaces";
+import { DiscordCommand, DiscordEvent } from "@/Interfaces";
 import { Message } from "discord.js";
-import { permissionLevel } from "@prisma/client";
 
 export const event: DiscordEvent<"messageCreate"> = {
     name: "messageCreate",
     run: async (client, message: Message) => {
+        console.log(message)
         if (!message) return;
-        const guildPrefix = await client.database.guild.findFirst().then((data) => data?.prefix);
-        const botPrefix = await client.database.bot.findFirst({ where: { id: message.guild?.id } }).then((data) => data?.prefix);
-        const userPrefix = await client.database.globalUser.findFirst({ where: { id: message.author.id } }).then((data) => data?.prefix);
-        const prefix = userPrefix ?? guildPrefix ?? botPrefix ?? ">"
-        // TODO: Check if the prefix has words, if so add a space between the prefix and commands to make it look pretty
+        const prefix = ">";
 
         // Check if the message is a mention of the bot
         const mention = /^<@!?(\d{17,19})>/.exec(message.content)
@@ -33,104 +29,9 @@ export const event: DiscordEvent<"messageCreate"> = {
 
         // Run command
         const command: DiscordCommand | undefined = client.commands.get(cmd) || client.aliases.get(cmd);
-        const member = await message.guild.members.fetch({ user: message.author });
-        let globalUser = await client.database.globalUser.findUnique({ where: { id: message.author.id }, include: { profile: true } });
-        let guildUser = await client.database.guildUser.findUnique({ where: { globalUserId_guildId: { globalUserId: message.author.id, guildId: message.guild.id } }, include: { mute: true } });
-        let guild = await client.database.guild.findUnique({ where: { id: message.guild.id } });
-
-        const botData = await client.database.bot.findUnique({ where: { id: client.user?.id } });
-        if (!botData) {
-            await client.database.bot.create({
-                data: {
-                    id: client.user?.id as string
-                }
-            });
-        }
-
-        // Check if member has guildUser and globalUser
-        let loadingMessage: Message | null = null;
-        if (!globalUser) {
-            loadingMessage = await message.channel.send("Creating User...");
-            await client.database.globalUser.create({
-                data: {
-                    id: member.user.id,
-                }
-            });
-
-            globalUser = await client.database.globalUser.findUnique({ where: { id: message.author.id }, include: { profile: true } });
-        }
-
-        if (!guild) {
-            if (loadingMessage) {
-                loadingMessage.edit("Creating server config...");
-            } else {
-                loadingMessage = await message.channel.send("Creating server config...");
-            }
-
-            // Create the guild modal.
-            await client.database.guild.create({
-                data: {
-                    id: message.guild.id,
-                }
-            });
-
-            await client.database.moderation.create({
-                data: { guildId: message.guild.id }
-            });
-
-            await client.database.economy.create({
-                data: { guildId: message.guild.id }
-            });
-
-            await client.database.social.create({
-                data: { guildId: message.guild.id }
-            });
-
-            guild = await client.database.guild.findUnique({ where: { id: message.guild.id } });
-        }
-
-        if (!guildUser) {
-            if (loadingMessage) {
-                loadingMessage.edit("Creating your profile...");
-            } else {
-                loadingMessage = await message.channel.send("Creating your profile...");
-            }
-            await client.database.guildUser.create({
-                data: {
-                    globalUserId: member.user.id,
-                    guildId: message.guild.id
-                }
-            });
-
-            guildUser = await client.database.guildUser.findUnique({ where: { globalUserId_guildId: { globalUserId: message.author.id, guildId: message.guild.id } }, include: { mute: true } });
-        }
-
-        if (typeof loadingMessage != null) {
-            loadingMessage?.delete();
-        }
 
         if (command) {
-            if (PermLevel[guildUser?.permissionLevel as permissionLevel] === 0) {
-                if (command.name === "verify") {
-                    command.run(client, message, args, { discord: { global: message.author, guild: member }, database: { global: globalUser, guild: guildUser } }, prefix);
-                    return;
-                } else {
-                    message.reply(`You need to use \`${guild?.prefix}verify\` to prove you're not a robot before you can use any commands.`);
-                    return;
-                }
-            }
-
-            if (PermLevel[command?.permLevel as permissionLevel] > PermLevel[guildUser?.permissionLevel as permissionLevel]) {
-                message.channel.send(`You don't have permission to use this command. Permission level \`${command?.permLevel}\` is required.`);
-                return;
-            }
-
-            if (
-                member.permissions.has(command.permissions)
-                &&
-                PermLevel[command?.permLevel as permissionLevel] <= PermLevel[guildUser?.permissionLevel as permissionLevel]
-            )
-                command.run(client, message, args, { discord: { global: message.author, guild: member }, database: { global: globalUser, guild: guildUser } }, prefix);
+            command.run(client, message, args);
         }
     },
 };

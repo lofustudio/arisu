@@ -1,4 +1,4 @@
-import type { DiscordCommand } from "../../Interfaces/Core/DiscordCommand";
+import type { DiscordCommand } from "@/Interfaces/Core/DiscordCommand";
 
 export const command: DiscordCommand = {
     name: "ping",
@@ -7,10 +7,10 @@ export const command: DiscordCommand = {
     aliases: [],
     visable: true,
     permissions: [],
-    permLevel: "MEMBER",
+    permLevel: 1,
     usage: "ping",
     example: "ping",
-    run: (client, message) => {
-        message.channel.send(`Pong! \`${client.ws.ping}\`ms`);
+    run: async (client, message) => {
+        await message.channel.send(`Pong! \`${client.ws.ping}\`ms`);
     },
 };

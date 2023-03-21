@@ -1,28 +1,24 @@
 {
   "name": "dash",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
-    "clean": "rimraf .next .turbo",
-    "clear": "yarn run clean && rimraf node_modules",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "eslint": "^8.27.0",
-    "eslint-config-next": "^13.0.3",
-    "next": "^13.0.3",
-    "next-themes": "^0.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "next": "^13.1.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@types/react": "18.0.25",
-    "autoprefixer": "^10.4.13",
-    "postcss": "^8.4.19",
-    "tailwindcss": "^3.2.4"
+    "@babel/core": "^7.0.0",
+    "@arisu/tsconfig": "workspace:*",
+    "@types/node": "^17.0.12",
+    "@types/react": "^18.0.22",
+    "@types/react-dom": "^18.0.7",
+    "typescript": "^4.5.3"
   }
 }

@@ -1,11 +1,10 @@
 {
   "name": "@arisu/tsconfig",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
-  "main": "index.js",
   "files": [
     "base.json",
     "nextjs.json",
-    "node16.json"
+    "react-library.json"
   ]
 }

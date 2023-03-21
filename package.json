@@ -1,33 +1,23 @@
 {
+  "name": "arisu",
+  "version": "0.0.1",
   "private": true,
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
-  "prisma": {
-    "schema": "packages/database/prisma/schema.prisma"
-  },
   "scripts": {
     "build": "turbo run build",
-    "clean": "turbo run clean",
-    "clear": "turbo run clean && rimraf node_modules",
-    "db:migrate:deploy": "turbo run db:migrate:deploy",
-    "db:push": "turbo run db:push",
-    "dev": "turbo run dev --parallel",
-    "dev:bot": "turbo run dev --filter=bot",
-    "dev:dash": "turbo run dev --filter=dash",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "generate": "turbo run generate",
+    "dev": "turbo run dev",
     "lint": "turbo run lint"
   },
   "devDependencies": {
-    "tsx": "^3.7.1",
-    "turbo": "^1.6.3"
+    "prettier": "latest",
+    "turbo": "latest"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=14.0.0"
   },
-  "dependencies": {
-    "rimraf": "^3.0.2"
-  }
+  "dependencies": {},
+  "packageManager": "pnpm@7.30.0"
 }

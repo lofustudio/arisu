@@ -1,5 +1,8 @@
 {
-  "$schema": "https://turborepo.org/schema.json",
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [
+    "**/.env.*local"
+  ],
   "pipeline": {
     "build": {
       "dependsOn": [
@@ -7,19 +10,11 @@
       ],
       "outputs": [
         "dist/**",
-        ".next/**"
+        ".next/**",
+        "!.next/cache/**"
       ]
     },
-    "clean": {
-      "cache": false
-    },
-    "db:migrate:deploy": {
-      "outputs": []
-    },
-    "db:push": {
-      "outputs": []
-    },
-    "db:seed": {
+    "lint": {
       "outputs": []
     },
     "dev": {
@@ -32,15 +27,6 @@
       "dependsOn": [
         "^generate"
       ]
-    },
-    "lint": {
-      "outputs": []
     }
-  },
-  "globalDependencies": [
-    ".env.*"
-  ],
-  "globalEnv": [
-    "NODE_ENV"
-  ]
+  }
 }

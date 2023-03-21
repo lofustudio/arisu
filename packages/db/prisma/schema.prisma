@@ -1,0 +1,112 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider     = "sqlite"
+    url          = "file:./database.db"
+    relationMode = "foreignKeys"
+}
+
+// === Bot ===
+
+model Bot {
+    id            String @id
+    prefix        String @default(">")
+    port          Int    @default(3000)
+    statusType    String @default("WATCHING")
+    statusMessage String @default("The Cookie Jar")
+    statusTwitch  String @default("lofustudio")
+}
+
+// === Guild ===
+
+model Guild {
+    id         String      @id
+    prefix     String      @default(">")
+    moderation Moderation?
+    economy    Economy?
+    social     Social?
+    mutes      Mute[]
+
+    guildUser GuildUser[]
+}
+
+// === Users ===
+
+model GlobalUser {
+    id        String      @id
+    guildUser GuildUser[]
+    prefix    String      @default(">")
+    owner     Boolean     @default(false)
+    profile   Profile?
+}
+
+model Profile {
+    id         String     @id
+    bio        String     @default("")
+    banner     String     @default("")
+    birthday   String     @default("")
+    GlobalUser GlobalUser @relation(fields: [id], references: [id])
+}
+
+model GuildUser {
+    globalUser      GlobalUser @relation(fields: [globalUserId], references: [id], onDelete: Cascade)
+    guild           Guild      @relation(fields: [guildId], references: [id], onDelete: Cascade)
+    globalUserId    String
+    guildId         String
+    permissionLevel Int        @default(0)
+    xp              Int        @default(0)
+    level           Int        @default(1)
+    balance         Int        @default(0)
+
+    mute Mute?
+
+    @@id([globalUserId, guildId])
+}
+
+model Mute {
+    guildUser             GuildUser @relation(fields: [guildUserGlobalUserId, guildId], references: [globalUserId, guildId])
+    Guild                 Guild     @relation(fields: [guildId], references: [id])
+    guildUserGlobalUserId String
+    guildId               String
+    mutedAt               DateTime  @default(now())
+    mutedUntil            DateTime
+    mutedBy               String
+
+    @@id([guildUserGlobalUserId, guildId])
+}
+
+// === Modules ===
+
+model Moderation {
+    guild        Guild   @relation(fields: [guildId], references: [id], onDelete: Cascade)
+    guildId      String  @id
+    enabled      Boolean @default(true)
+    muteRole     String? @default("")
+    muteDuration String? @default("30m")
+}
+
+model Economy {
+    guild          Guild   @relation(fields: [guildId], references: [id], onDelete: Cascade)
+    guildId        String  @id
+    enabled        Boolean @default(true)
+    currencyName   String  @default("Cookie")
+    currencySymbol String  @default("🍪")
+}
+
+model Social {
+    guild   Guild   @relation(fields: [guildId], references: [id], onDelete: Cascade)
+    guildId String  @id
+    enabled Boolean @default(true)
+}
+
+model Logs {
+    id        Int      @id @default(autoincrement())
+    module    String
+    message   String
+    timestamp DateTime @default(now())
+}

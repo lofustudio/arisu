@@ -1,7 +1,7 @@
 {
-  "name": "bot",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@arisu/bot",
+  "version": "0.0.1",
+  "description": "The Discord Bot.",
   "license": "MIT",
   "author": {
     "name": "lofustudio",
